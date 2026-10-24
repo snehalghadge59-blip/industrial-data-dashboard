@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MediFinder — Website QR Scanner &amp; Mobile Access Standee</title>
+    <meta name="description" content="Scan this QR code with your phone camera to instantly open MediFinder on your mobile device. Find 24x7 pharmacies, Jan Aushadhi generic stores, and medicine availability.">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --primary: #0a3663;
+            --primary-light: #165b99;
+            --primary-dark: #06203d;
+            --accent-teal: #0284c7;
+            --accent-cyan: #38bdf8;
+            --success: #059669;
+            --success-light: #d1fae5;
+            --bg-page: #0b1329;
+            --bg-card: #ffffff;
+            --text-dark: #0f172a;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --radius-md: 16px;
+            --radius-lg: 24px;
+            --radius-full: 9999px;
+            --shadow-card: 0 20px 45px rgba(0, 0, 0, 0.25);
+            --shadow-glow: 0 0 35px rgba(2, 132, 199, 0.35);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', system-ui, -apple-system, sans-serif;
+        }
+
+        body {
+            background: radial-gradient(circle at 50% 20%, #0f274a 0%, #081124 100%);
+            color: #f8fafc;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: flex-start;
+            padding: 30px 16px 60px;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        /* Ambient Glow Elements */
+        .ambient-glow {
+            position: absolute;
+            border-radius: 50%;
+            filter: blur(100px);
+            z-index: 0;
+            pointer-events: none;
+            opacity: 0.45;
+        }
+        .glow-1 {
+            width: 450px;
+            height: 450px;
+            background: #0284c7;
+            top: -100px;
+            left: -100px;
+        }
+        .glow-2 {
+            width: 400px;
+            height: 400px;
+            background: #059669;
+            bottom: 50px;
+            right: -100px;
+        }
+
+        /* Top Nav */
+        .top-navbar {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 900px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 30px;
+            padding: 12px 20px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--radius-full);
+        }
+
+        .brand-link {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #ffffff;
+        }
+
+        .brand-logo-icon {
+            width: 38px;
+            height: 38px;
+            background: linear-gradient(135deg, #0a3663, #0284c7);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #ffffff;
+            font-size: 1.2rem;
+            box-shadow: 0 4px 12px rgba(2, 132, 199, 0.4);
+        }
+
+        .brand-title {
+            font-weight: 800;
+            font-size: 1.25rem;
+            letter-spacing: -0.5px;
+        }
+
+        .brand-title span {
+            color: var(--accent-cyan);
+        }
+
+        .nav-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            padding: 9px 18px;
+            border-radius: var(--radius-full);
+            font-size: 0.88rem;
+            font-weight: 600;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .btn-ghost {
+            background: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+        }
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-1px);
+        }
+
+        /* Container Layout */
+        .main-container {
+            position: relative;
+            z-index: 10;
+            width: 100%;
+            max-width: 900px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            align-items: start;
+        }
+
+        @media (max-width: 820px) {
+            .main-container {
+                grid-template-columns: 1fr;
+                gap: 24px;
+            }
+        }
+
+        /* ============================================================ */
+        /* SCANNER STANDEE CARD (WHAT USERS SCAN) */
+        /* ============================================================ */
+        .standee-card {
+            background: #ffffff;
+            color: var(--text-dark);
+            border-radius: var(--radius-lg);
+            padding: 32px 28px;
+            box-shadow: var(--shadow-card), var(--shadow-glow);
+            text-align: center;
+            position: relative;
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease;
+        }
+
+        .standee-card:hover {
+            transform: translateY(-4px);
+        }
+
+        .standee-header-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #e0f2fe;
+            color: #0369a1;
+            padding: 6px 14px;
+            border-radius: var(--radius-full);
+            font-size: 0.76rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            margin-bottom: 14px;
+        }
+
+        .standee-title {
+            font-size: 1.45rem;
+            font-weight: 800;
+            color: #0a3663;
+            letter-spacing: -0.4px;
+            line-height: 1.25;
+            margin-bottom: 6px;
+        }
+
+        .standee-subtitle {
+            font-size: 0.86rem;
+            color: var(--text-muted);
+            margin-bottom: 22px;
+            line-height: 1.4;
+        }
+
+        /* QR Frame Box */
+        .qr-frame-wrapper {
+            position: relative;
+            padding: 16px;
+            background: #f8fafc;
+            border-radius: 20px;
+            border: 2px dashed #cbd5e1;
+            margin-bottom: 20px;
+            box-shadow: inset 0 2px 8px rgba(0, 0, 0, 0.03);
+            display: inline-flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .qr-corner {
+            position: absolute;
+            width: 18px;
+            height: 18px;
+            border-color: #0284c7;
+            border-style: solid;
+        }
+        .qr-corner.top-left { top: 8px; left: 8px; border-width: 3px 0 0 3px; border-top-left-radius: 6px; }
+        .qr-corner.top-right { top: 8px; right: 8px; border-width: 3px 3px 0 0; border-top-right-radius: 6px; }
+        .qr-corner.bottom-left { bottom: 8px; left: 8px; border-width: 0 0 3px 3px; border-bottom-left-radius: 6px; }
+        .qr-corner.bottom-right { bottom: 8px; right: 8px; border-width: 0 3px 3px 0; border-bottom-right-radius: 6px; }
+
+        #qrOutput {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-width: 230px;
+            min-height: 230px;
+        }
+
+        #qrOutput img, #qrOutput canvas {
+            display: block !important;
+            margin: 0 auto;
+            border-radius: 8px;
+        }
+
+        .scan-instruction-pill {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: #f1f5f9;
+            padding: 8px 16px;
+            border-radius: var(--radius-full);
+            font-size: 0.82rem;
+            font-weight: 600;
+            color: #334155;
+            margin-bottom: 16px;
+        }
+
+        .scan-instruction-pill i {
+            color: #0284c7;
+        }
+
+        /* Highlights inside standee */
+        .features-pill-row {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            justify-content: center;
+            margin-bottom: 18px;
+        }
+
+        .feature-tag {
+            font-size: 0.72rem;
+            font-weight: 700;
+            padding: 4px 10px;
+            border-radius: var(--radius-full);
+            background: #f0fdf4;
+            color: #15803d;
+            border: 1px solid #bbf7d0;
+            display: inline-flex;
+            align-items: center;
+            gap: 4px;
+        }
+
+        .feature-tag.tag-emergency {
+            background: #fef2f2;
+            color: #b91c1c;
+            border-color: #fecaca;
+        }
+
+        .feature-tag.tag-generic {
+            background: #eff6ff;
+            color: #1d4ed8;
+            border-color: #bfdbfe;
+        }
+
+        /* URL display pill */
+        .standee-url-preview {
+            width: 100%;
+            background: #f8fafc;
+            border: 1px solid #e2e8f0;
+            border-radius: 12px;
+            padding: 10px 14px;
+            font-size: 0.78rem;
+            color: #0284c7;
+            font-weight: 600;
+            word-break: break-all;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 8px;
+        }
+
+        /* ============================================================ */
+        /* CONTROL & CUSTOMIZATION PANEL */
+        /* ============================================================ */
+        .control-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .panel-card {
+            background: rgba(15, 23, 42, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.12);
+            border-radius: var(--radius-lg);
+            padding: 24px;
+        }
+
+        .panel-card-title {
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #ffffff;
+        }
+
+        .panel-card-title i {
+            color: var(--accent-cyan);
+        }
+
+        .panel-card-desc {
+            font-size: 0.84rem;
+            color: #94a3b8;
+            margin-bottom: 18px;
+            line-height: 1.45;
+        }
+
+        /* Form elements */
+        .form-group {
+            margin-bottom: 16px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #cbd5e1;
+            margin-bottom: 6px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-select, .form-input {
+            width: 100%;
+            background: rgba(30, 41, 59, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 12px;
+            padding: 12px 14px;
+            color: #ffffff;
+            font-size: 0.9rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .form-select:focus, .form-input:focus {
+            border-color: var(--accent-cyan);
+            box-shadow: 0 0 0 3px rgba(56, 189, 248, 0.2);
+        }
+
+        .input-hint {
+            display: block;
+            margin-top: 6px;
+            font-size: 0.75rem;
+            color: #64748b;
+        }
+
+        /* Button Grid */
+        .btn-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+            margin-top: 8px;
+        }
+
+        .btn-action-primary {
+            background: linear-gradient(135deg, #0284c7, #0a3663);
+            color: #ffffff;
+            border: none;
+            padding: 14px 16px;
+            border-radius: 14px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+            box-shadow: 0 4px 16px rgba(2, 132, 199, 0.35);
+        }
+
+        .btn-action-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(2, 132, 199, 0.5);
+        }
+
+        .btn-action-secondary {
+            background: rgba(255, 255, 255, 0.08);
+            color: #f1f5f9;
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            padding: 14px 16px;
+            border-radius: 14px;
+            font-size: 0.92rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            transition: all 0.2s ease;
+        }
+
+        .btn-action-secondary:hover {
+            background: rgba(255, 255, 255, 0.16);
+            transform: translateY(-2px);
+        }
+
+        /* Step Guide */
+        .how-it-works-list {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 14px;
+        }
+
+        .step-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            font-size: 0.85rem;
+            line-height: 1.45;
+            color: #cbd5e1;
+        }
+
+        .step-num {
+            width: 26px;
+            height: 26px;
+            border-radius: 50%;
+            background: rgba(56, 189, 248, 0.15);
+            color: var(--accent-cyan);
+            font-weight: 800;
+            font-size: 0.8rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-shrink: 0;
+            border: 1px solid rgba(56, 189, 248, 0.3);
+        }
+
+        /* Toast notification */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            left: 50%;
+            transform: translateX(-50%) translateY(100px);
+            background: #0f172a;
+            color: #ffffff;
+            border: 1px solid #38bdf8;
+            padding: 12px 24px;
+            border-radius: var(--radius-full);
+            font-size: 0.88rem;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            z-index: 9999;
+        }
+
+        .toast.show {
+            transform: translateX(-50%) translateY(0);
+            opacity: 1;
+        }
+
+        /* ============================================================ */
+        /* PRINT STYLES FOR OFFICIAL CLINIC/PHARMACY STANDEE */
+        /* ============================================================ */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+                padding: 0 !important;
+            }
+            .ambient-glow, .top-navbar, .control-panel, .toast, .btn-grid {
+                display: none !important;
+            }
+            .main-container {
+                display: block !important;
+                max-width: 100% !important;
+            }
+            .standee-card {
+                box-shadow: none !important;
+                border: 2px solid #0a3663 !important;
+                padding: 40px !important;
+                margin: 0 auto !important;
+                max-width: 550px !important;
+            }
+            #qrOutput {
+                min-width: 300px;
+                min-height: 300px;
+            }
+            #qrOutput canvas, #qrOutput img {
+                width: 280px !important;
+                height: 280px !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Ambient glowing backgrounds -->
+    <div class="ambient-glow glow-1"></div>
+    <div class="ambient-glow glow-2"></div>
+
+    <!-- Navigation Bar -->
+    <nav class="top-navbar">
+        <a href="index.html" class="brand-link">
+            <div class="brand-logo-icon">
+                <i class="fas fa-plus"></i>
+            </div>
+            <div class="brand-title">
+                Medi<span>Finder</span>
+            </div>
+        </a>
+        <div style="display:flex; align-items:center; gap:10px;">
+            <a href="index.html" class="nav-btn btn-ghost">
+                <i class="fas fa-arrow-left"></i> <span>Open Website</span>
+            </a>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <main class="main-container">
+        
+        <!-- ======================================================== -->
+        <!-- LEFT: THE WEBSITE SCANNER STANDEE -->
+        <!-- ======================================================== -->
+        <section class="standee-card" id="printableStandee">
+            <div class="standee-header-badge">
+                <i class="fas fa-qrcode"></i> Official Mobile Scanner
+            </div>
+
+            <h1 class="standee-title">Scan to Open MediFinder</h1>
+            <p class="standee-subtitle">
+                Point your phone camera at this QR code to access 24x7 emergency pharmacies, Jan Aushadhi generic medicines, and stock availability instantly.
+            </p>
+
+            <!-- QR Frame -->
+            <div class="qr-frame-wrapper">
+                <div class="qr-corner top-left"></div>
+                <div class="qr-corner top-right"></div>
+                <div class="qr-corner bottom-left"></div>
+                <div class="qr-corner bottom-right"></div>
+                
+                <div id="qrOutput">
+                    <!-- QR Code canvas generated by JavaScript -->
+                </div>
+            </div>
+
+            <div class="scan-instruction-pill">
+                <i class="fas fa-camera"></i>
+                <span>Use Phone Camera or Google Lens</span>
+            </div>
+
+            <div class="features-pill-row">
+                <span class="feature-tag tag-emergency">
+                    <i class="fas fa-truck-medical"></i> 24x7 Chemists
+                </span>
+                <span class="feature-tag tag-generic">
+                    <i class="fas fa-pills"></i> Jan Aushadhi
+                </span>
+                <span class="feature-tag">
+                    <i class="fas fa-shield-halved"></i> No App Required
+                </span>
+            </div>
+
+            <div class="standee-url-preview">
+                <span id="standeeUrlLabel" style="overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">Loading URL...</span>
+                <button type="button" onclick="copyCurrentLink()" style="background:none; border:none; color:#0284c7; cursor:pointer; font-size:0.9rem;" title="Copy Link">
+                    <i class="fas fa-copy"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- ======================================================== -->
+        <!-- RIGHT: CUSTOMIZER, DOWNLOAD & INSTRUCTIONS -->
+        <!-- ======================================================== -->
+        <section class="control-panel">
+            
+            <!-- Quick Actions Panel -->
+            <div class="panel-card">
+                <h2 class="panel-card-title">
+                    <i class="fas fa-bolt"></i> Scanner Quick Actions
+                </h2>
+                <p class="panel-card-desc">
+                    Print or save this scanner card for hospital counters, pharmacy reception desk, college notices, or social media sharing.
+                </p>
+
+                <div class="btn-grid">
+                    <button type="button" class="btn-action-primary" onclick="downloadScannerImage()">
+                        <i class="fas fa-download"></i> Save as Image
+                    </button>
+                    <button type="button" class="btn-action-secondary" onclick="window.print()">
+                        <i class="fas fa-print"></i> Print Standee
+                    </button>
+                </div>
+                <div class="btn-grid" style="margin-top: 10px;">
+                    <button type="button" class="btn-action-secondary" onclick="copyCurrentLink()">
+                        <i class="fas fa-link"></i> Copy Link
+                    </button>
+                    <a href="index.html" class="btn-action-secondary" style="text-decoration:none;">
+                        <i class="fas fa-arrow-up-right-from-square"></i> Open Site
+                    </a>
+                </div>
+            </div>
+
+            <!-- Scanner Target Customizer -->
+            <div class="panel-card">
+                <h2 class="panel-card-title">
+                    <i class="fas fa-sliders"></i> Scanner Destination
+                </h2>
+                <p class="panel-card-desc">
+                    Customize which section of MediFinder opens when someone scans this code.
+                </p>
+
+                <div class="form-group">
+                    <label class="form-label">Quick Environment Presets:</label>
+                    <div style="display:flex; gap:8px; flex-wrap:wrap; margin-bottom:12px;">
+                        <button type="button" class="btn-action-secondary" style="padding:7px 12px; font-size:0.78rem;" onclick="setPresetUrl('wifi')">
+                            <i class="fas fa-wifi" style="color:#10b981;"></i> Wi-Fi (192.168.0.102:8080)
+                        </button>
+                        <button type="button" class="btn-action-secondary" style="padding:7px 12px; font-size:0.78rem;" onclick="setPresetUrl('localhost')">
+                            <i class="fas fa-laptop" style="color:#38bdf8;"></i> Localhost (8080)
+                        </button>
+                        <button type="button" class="btn-action-secondary" style="padding:7px 12px; font-size:0.78rem;" onclick="setPresetUrl('github')">
+                            <i class="fab fa-github" style="color:#f59e0b;"></i> GitHub Pages
+                        </button>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label class="form-label">Pre-filtered Target Section:</label>
+                    <select id="targetSelector" class="form-select" onchange="onTargetSelectChange()">
+                        <option value="home">🏠 Full MediFinder Homepage</option>
+                        <option value="generic">💊 Jan Aushadhi &amp; Generic Stores Only</option>
+                        <option value="24h">🚨 24x7 Emergency Pharmacies Only</option>
+                        <option value="student">🎓 PCCOE Student Verified Stores</option>
+                        <option value="custom">⚙️ Custom URL</option>
+                    </select>
+                </div>
+
+                <div class="form-group" id="customUrlGroup">
+                    <label class="form-label">Target URL Encoded in Scanner:</label>
+                    <input type="text" id="targetUrlInput" class="form-input" placeholder="http://192.168.0.102:8080/index.html">
+                    <small class="input-hint" id="networkHint" style="color:#38bdf8;">
+                        ⚡ <strong>Local Python Server is RUNNING on port 8080!</strong> Any phone connected to your Wi-Fi can scan this QR code to open the site right now.
+                    </small>
+                </div>
+            </div>
+
+            <!-- Notice: Why Google Search looks different -->
+            <div class="panel-card" style="border-left: 4px solid #f59e0b;">
+                <h2 class="panel-card-title" style="font-size:1.02rem; color:#fef3c7;">
+                    <i class="fas fa-circle-question" style="color:#f59e0b;"></i> How Phone Scanning Works
+                </h2>
+                <p class="panel-card-desc" style="margin-bottom:0; font-size:0.82rem; line-height:1.5;">
+                    If you drop the QR image into <strong>Google Image Search on a PC</strong>, Google does a web search for similar images.
+                    <br><br>
+                    To open the website directly:
+                    <br>
+                    📱 <strong>Use your Phone Camera:</strong> Simply point your smartphone camera at the QR code on your laptop screen. A clickable link banner will immediately pop up! Tap it to open the site.
+                </p>
+            </div>
+
+            <!-- Instructions -->
+            <div class="panel-card">
+                <h2 class="panel-card-title">
+                    <i class="fas fa-mobile-screen-button"></i> How Visitors Use This Scanner
+                </h2>
+                <ul class="how-it-works-list">
+                    <li class="step-item">
+                        <span class="step-num">1</span>
+                        <div><strong>Open Camera:</strong> Open the built-in Camera app on iPhone or Android (or Google Lens).</div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-num">2</span>
+                        <div><strong>Point at QR Code:</strong> Hold phone 6–12 inches away from this screen.</div>
+                    </li>
+                    <li class="step-item">
+                        <span class="step-num">3</span>
+                        <div><strong>Tap Link:</strong> Tap the yellow URL pop-up banner to launch MediFinder directly on your phone!</div>
+                    </li>
+                </ul>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- Feedback Toast -->
+    <div class="toast" id="toastNotice">
+        <i class="fas fa-check-circle" style="color:#38bdf8;"></i>
+        <span id="toastMessage">Scanner URL copied to clipboard!</span>
+    </div>
+
+    <!-- QRCode Library -->
+    <script src="qrcode.min.js"></script>
+    <script>
+        let qrCodeInstance = null;
+        const LOCAL_WIFI_URL = 'http://192.168.0.102:8080/index.html';
+        const GITHUB_URL = 'https://snehalghadge59-blip.github.io/industrial-data-dashboard/index.html';
+
+        // Base domain resolution
+        function getBaseWebsiteUrl() {
+            const loc = window.location;
+            // If opened via file:/// protocol, default to local Wi-Fi IP so phones can connect immediately
+            if (loc.protocol === 'file:') {
+                return LOCAL_WIFI_URL;
+            }
+            
+            // If on localhost or server, point to index.html in the same directory
+            let path = loc.pathname;
+            if (path.endsWith('scanner.html')) {
+                path = path.replace('scanner.html', 'index.html');
+            } else if (path.endsWith('/')) {
+                path = path + 'index.html';
+            } else if (!path.endsWith('index.html')) {
+                const parts = path.split('/');
+                parts.pop();
+                path = parts.join('/') + '/index.html';
+            }
+            return `${loc.protocol}//${loc.host}${path}`;
+        }
+
+        function setPresetUrl(type) {
+            let url = LOCAL_WIFI_URL;
+            if (type === 'wifi') {
+                url = LOCAL_WIFI_URL;
+            } else if (type === 'localhost') {
+                url = 'http://localhost:8080/index.html';
+            } else if (type === 'github') {
+                url = GITHUB_URL;
+            }
+
+            const input = document.getElementById('targetUrlInput');
+            if (input) input.value = url;
+            renderQrCode(url);
+            showToast(`Encoded: ${url}`);
+        }
+
+        function initScannerPage() {
+            const defaultUrl = getBaseWebsiteUrl();
+            const input = document.getElementById('targetUrlInput');
+            if (input) {
+                input.value = defaultUrl;
+            }
+
+            // Detect if localhost for Wi-Fi tip
+            const isLocal = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+            const hint = document.getElementById('networkHint');
+            if (hint && isLocal) {
+                hint.style.color = '#38bdf8';
+            }
+
+            renderQrCode(defaultUrl);
+
+            // Listen for direct typing in URL input
+            if (input) {
+                input.addEventListener('input', () => {
+                    const select = document.getElementById('targetSelector');
+                    if (select) select.value = 'custom';
+                    renderQrCode(input.value.trim());
+                });
+            }
+        }
+
+        function onTargetSelectChange() {
+            const select = document.getElementById('targetSelector');
+            const input = document.getElementById('targetUrlInput');
+            const baseUrl = getBaseWebsiteUrl();
+            let finalUrl = baseUrl;
+
+            switch(select.value) {
+                case 'home':
+                    finalUrl = baseUrl;
+                    break;
+                case 'generic':
+                    finalUrl = baseUrl + '?filter=generic';
+                    break;
+                case '24h':
+                    finalUrl = baseUrl + '?filter=24h';
+                    break;
+                case 'student':
+                    finalUrl = baseUrl + '?filter=student';
+                    break;
+                case 'custom':
+                    // keep current input value
+                    finalUrl = input.value;
+                    break;
+            }
+
+            input.value = finalUrl;
+            renderQrCode(finalUrl);
+        }
+
+        function renderQrCode(urlToEncode) {
+            const targetUrl = (urlToEncode || '').trim() || getBaseWebsiteUrl();
+            const qrContainer = document.getElementById('qrOutput');
+            const previewLabel = document.getElementById('standeeUrlLabel');
+            
+            if (previewLabel) {
+                previewLabel.textContent = targetUrl;
+                previewLabel.title = targetUrl;
+            }
+
+            if (!qrContainer) return;
+
+            // Clear previous QR
+            qrContainer.innerHTML = '';
+
+            try {
+                qrCodeInstance = new QRCode(qrContainer, {
+                    text: targetUrl,
+                    width: 230,
+                    height: 230,
+                    colorDark: "#06203d",
+                    colorLight: "#ffffff",
+                    correctLevel: QRCode.CorrectLevel.H
+                });
+            } catch (err) {
+                console.error("QR Code generation error:", err);
+            }
+        }
+
+        function copyCurrentLink() {
+            const input = document.getElementById('targetUrlInput');
+            const textToCopy = input ? input.value : window.location.href;
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    showToast("Website link copied! Anyone scanning or clicking will open MediFinder.");
+                });
+            } else {
+                if (input) {
+                    input.select();
+                    document.execCommand('copy');
+                    showToast("Website link copied!");
+                }
+            }
+        }
+
+        function downloadScannerImage() {
+            const qrContainer = document.getElementById('qrOutput');
+            const img = qrContainer.querySelector('img');
+            const canvas = qrContainer.querySelector('canvas');
+
+            let dataUrl = null;
+            if (canvas) {
+                dataUrl = canvas.toDataURL("image/png");
+            } else if (img && img.src) {
+                dataUrl = img.src;
+            }
+
+            if (!dataUrl) {
+                showToast("Generating image, please try again in a second...");
+                return;
+            }
+
+            // Create a branded canvas with banner, title, and QR code for high quality poster
+            const exportCanvas = document.createElement('canvas');
+            exportCanvas.width = 700;
+            exportCanvas.height = 900;
+            const ctx = exportCanvas.getContext('2d');
+
+            // Card background
+            ctx.fillStyle = "#ffffff";
+            ctx.roundRect ? ctx.roundRect(0, 0, 700, 900, 36) : ctx.rect(0, 0, 700, 900);
+            ctx.fill();
+
+            // Gradient header
+            const grad = ctx.createLinearGradient(0, 0, 700, 180);
+            grad.addColorStop(0, '#0a3663');
+            grad.addColorStop(1, '#0284c7');
+            ctx.fillStyle = grad;
+            ctx.fillRect(0, 0, 700, 180);
+
+            // Header text
+            ctx.fillStyle = '#ffffff';
+            ctx.font = 'bold 38px "Plus Jakarta Sans", sans-serif';
+            ctx.textAlign = 'center';
+            ctx.fillText('MediFinder Mobile Access', 350, 75);
+
+            ctx.fillStyle = '#bae6fd';
+            ctx.font = '20px "Plus Jakarta Sans", sans-serif';
+            ctx.fillText('24x7 Emergency Chemists & Jan Aushadhi Medicines', 350, 120);
+
+            // Subtitle
+            ctx.fillStyle = '#0f172a';
+            ctx.font = 'bold 28px "Plus Jakarta Sans", sans-serif';
+            ctx.fillText('Scan with Your Phone Camera to Open', 350, 240);
+
+            ctx.fillStyle = '#64748b';
+            ctx.font = '18px "Plus Jakarta Sans", sans-serif';
+            ctx.fillText('No App Download Required • Works on iPhone & Android', 350, 275);
+
+            // Draw QR code image in the center
+            const qrImg = new Image();
+            qrImg.onload = function() {
+                // Border box for QR
+                ctx.fillStyle = "#f8fafc";
+                ctx.strokeStyle = "#e2e8f0";
+                ctx.lineWidth = 4;
+                ctx.fillRect(150, 310, 400, 400);
+                ctx.strokeRect(150, 310, 400, 400);
+
+                ctx.drawImage(qrImg, 175, 335, 350, 350);
+
+                // Footer URL
+                const input = document.getElementById('targetUrlInput');
+                const url = input ? input.value : '';
+                ctx.fillStyle = '#0284c7';
+                ctx.font = 'bold 18px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText(url, 350, 770);
+
+                ctx.fillStyle = '#94a3b8';
+                ctx.font = '16px "Plus Jakarta Sans", sans-serif';
+                ctx.fillText('Smart India Hackathon • PCCOE Student Community Project', 350, 830);
+
+                // Download link
+                const link = document.createElement('a');
+                link.download = 'medifinder-website-scanner.png';
+                link.href = exportCanvas.toDataURL('image/png');
+                link.click();
+
+                showToast("MediFinder Scanner image downloaded!");
+            };
+            qrImg.src = dataUrl;
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toastNotice');
+            const text = document.getElementById('toastMessage');
+            if (!toast || !text) return;
+            text.textContent = message;
+            toast.classList.add('show');
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Initialize when DOM is ready
+        document.addEventListener('DOMContentLoaded', initScannerPage);
+    </script>
+</body>
+</html>
