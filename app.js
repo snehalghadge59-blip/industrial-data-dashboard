@@ -529,6 +529,16 @@ try {
     };
 } catch (e) {}
 
+const CLOUD_COUNTER_KEY = 'medifinder_pccoe_snehal_2026';
+const CLOUD_COUNTER_HIT = `https://countapi.mileshilliard.com/api/v1/hit/${CLOUD_COUNTER_KEY}`;
+const CLOUD_COUNTER_GET = `https://countapi.mileshilliard.com/api/v1/get/${CLOUD_COUNTER_KEY}`;
+
+function isLocalEnvironment() {
+    return window.location.hostname === 'localhost' || 
+           window.location.hostname === '127.0.0.1' || 
+           window.location.port === '8080';
+}
+
 function initVisitorCounter() {
     let saved = localStorage.getItem(VISITOR_STORAGE_KEY);
     let count = parseInt(saved, 10);
@@ -537,37 +547,58 @@ function initVisitorCounter() {
     }
     totalVisitorCount = count;
 
-    // Determine if this browser session is new
+    // Determine if this browser session / tab open is new
     const isNewSession = !sessionStorage.getItem(VISITOR_SESSION_KEY);
-    const endpoint = isNewSession ? `/api/visitor-count/open?sid=${clientSessionId}` : `/api/visitor-count?sid=${clientSessionId}`;
 
-    fetch(endpoint, { cache: 'no-store' })
+    // If running on local python server, use local API
+    if (isLocalEnvironment()) {
+        const localEndpoint = isNewSession ? `/api/visitor-count/open?sid=${clientSessionId}` : `/api/visitor-count?sid=${clientSessionId}`;
+        fetch(localEndpoint, { cache: 'no-store' })
+            .then(res => {
+                if (!res.ok) throw new Error('Local API unavailable');
+                return res.json();
+            })
+            .then(data => {
+                if (data && data.totalVisitors) {
+                    handleVisitorCountSuccess(data.totalVisitors, data.activeNow || 1, isNewSession);
+                }
+            })
+            .catch(() => {
+                // Fallback to global cloud counter
+                syncWithCloudCounter(isNewSession);
+            });
+    } else {
+        // Public website (GitHub Pages / Mobile browsers anywhere) -> use Cloud Counter
+        syncWithCloudCounter(isNewSession);
+    }
+
+    // Start Real-Time Live Sync Polling every 4 seconds
+    if (realTimePollTimer) clearInterval(realTimePollTimer);
+    realTimePollTimer = setInterval(pollRealtimeVisitorCount, 4000);
+
+    // Initial roll-up presentation
+    if (navVisitorCountEl && !navVisitorCountEl.innerText) {
+        animateCounterRollUp(navVisitorCountEl, totalVisitorCount - 1, totalVisitorCount, 1000);
+    }
+}
+
+function syncWithCloudCounter(isNewSession) {
+    const targetUrl = isNewSession ? CLOUD_COUNTER_HIT : CLOUD_COUNTER_GET;
+    fetch(targetUrl, { cache: 'no-store' })
         .then(res => {
-            if (!res.ok) throw new Error('API unavailable');
+            if (!res.ok) throw new Error('Cloud counter status ' + res.status);
             return res.json();
         })
         .then(data => {
-            if (data && data.totalVisitors) {
-                const oldCount = totalVisitorCount;
-                totalVisitorCount = data.totalVisitors;
-                currentActiveUsers = data.activeNow || 1;
-                localStorage.setItem(VISITOR_STORAGE_KEY, totalVisitorCount.toString());
-
-                if (isNewSession) {
-                    sessionStorage.setItem(VISITOR_SESSION_KEY, 'true');
-                    animateCounterRollUp(navVisitorCountEl, oldCount, totalVisitorCount, 1200);
-                    showToast(`👋 Welcome! You are person #${totalVisitorCount.toLocaleString()} to open MediFinder`, 'info');
-                    if (visitorBroadcast) {
-                        visitorBroadcast.postMessage({ type: 'NEW_VISITOR', total: totalVisitorCount, active: currentActiveUsers });
-                    }
-                } else {
-                    if (navVisitorCountEl) navVisitorCountEl.innerText = totalVisitorCount.toLocaleString();
-                }
-                updateActiveUsersBadge(currentActiveUsers);
+            const countVal = (data && (typeof data.value === 'number')) ? data.value : parseInt(data.value, 10);
+            if (!isNaN(countVal) && countVal > 0) {
+                // Ensure count is at least base count
+                const finalCount = Math.max(BASE_VISITOR_COUNT, countVal);
+                handleVisitorCountSuccess(finalCount, currentActiveUsers, isNewSession);
             }
         })
         .catch(() => {
-            // Offline / Static hosting fallback (e.g. GitHub Pages)
+            // Offline fallback
             if (isNewSession) {
                 sessionStorage.setItem(VISITOR_SESSION_KEY, 'true');
                 totalVisitorCount += 1;
@@ -579,27 +610,54 @@ function initVisitorCounter() {
             }
             updateActiveUsersBadge(1);
         });
+}
 
-    // Start Real-Time Live Sync Polling every 3.5 seconds
-    if (realTimePollTimer) clearInterval(realTimePollTimer);
-    realTimePollTimer = setInterval(pollRealtimeVisitorCount, 3500);
+function handleVisitorCountSuccess(newTotal, activeCount, isNewSession) {
+    const oldCount = totalVisitorCount;
+    totalVisitorCount = newTotal;
+    currentActiveUsers = activeCount || 1;
+    localStorage.setItem(VISITOR_STORAGE_KEY, totalVisitorCount.toString());
 
-    // Initial roll-up presentation
-    if (navVisitorCountEl && !navVisitorCountEl.innerText) {
-        animateCounterRollUp(navVisitorCountEl, totalVisitorCount - 1, totalVisitorCount, 1000);
+    if (isNewSession) {
+        sessionStorage.setItem(VISITOR_SESSION_KEY, 'true');
+        animateCounterRollUp(navVisitorCountEl, Math.max(0, oldCount), totalVisitorCount, 1200);
+        showToast(`👋 Welcome! You are person #${totalVisitorCount.toLocaleString()} to open MediFinder`, 'info');
+        if (visitorBroadcast) {
+            visitorBroadcast.postMessage({ type: 'NEW_VISITOR', total: totalVisitorCount, active: currentActiveUsers });
+        }
+    } else {
+        if (navVisitorCountEl) navVisitorCountEl.innerText = totalVisitorCount.toLocaleString();
     }
+    updateActiveUsersBadge(currentActiveUsers);
 }
 
 function pollRealtimeVisitorCount() {
-    fetch(`/api/visitor-count?sid=${clientSessionId}`, { cache: 'no-store' })
+    if (isLocalEnvironment()) {
+        fetch(`/api/visitor-count?sid=${clientSessionId}`, { cache: 'no-store' })
+            .then(res => res.json())
+            .then(data => {
+                if (data && data.totalVisitors) {
+                    onRealtimeCountUpdated(data.totalVisitors, data.activeNow || 1, false);
+                }
+            })
+            .catch(() => {
+                pollCloudCounter();
+            });
+    } else {
+        pollCloudCounter();
+    }
+}
+
+function pollCloudCounter() {
+    fetch(CLOUD_COUNTER_GET, { cache: 'no-store' })
         .then(res => res.json())
         .then(data => {
-            if (data && data.totalVisitors) {
-                onRealtimeCountUpdated(data.totalVisitors, data.activeNow || 1, false);
+            const countVal = (data && (typeof data.value === 'number')) ? data.value : parseInt(data.value, 10);
+            if (!isNaN(countVal) && countVal > 0) {
+                onRealtimeCountUpdated(countVal, currentActiveUsers, false);
             }
         })
         .catch(() => {
-            // If server not reachable, maintain real-time simulated heartbeats
             updateActiveUsersBadge(currentActiveUsers);
         });
 }
