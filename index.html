@@ -1,1082 +1,1116 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediFinder — PCCOE Student Innovation | Healthcare Technology</title>
-    
-    <meta name="description" content="Locate all independent pharmacies, 24/7 chemists, and Jan Aushadhi generic drug stores near PCCOE, Akurdi, Chikhali Pradhikaran, Nigdi, and Ravet. Built for PCCOE Student Innovation | Healthcare Technology.">
+    <title>MedNexa — PCCOE Student Innovation | Healthcare Technology</title>
+
+    <meta name="description"
+        content="Locate all independent pharmacies, 24/7 chemists, and Jan Aushadhi generic drug stores near PCCOE, Akurdi, Chikhali Pradhikaran, Nigdi, and Ravet. Built for PCCOE Student Innovation | Healthcare Technology.">
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet">
 
     <!-- FontAwesome 6 Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <!-- Leaflet.js Interactive Map CSS (cdnjs with unpkg fallback) -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css" onerror="this.onerror=null;this.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"
+        onerror="this.onerror=null;this.href='https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';" />
 
     <!-- App Styles -->
     <link rel="stylesheet" href="styles.css">
 </head>
+
 <body>
 
-<div class="app-wrapper">
+    <div class="app-wrapper">
 
-    <!-- ============================================================ -->
-    <!-- 1. TOP NAVBAR -->
-    <!-- ============================================================ -->
-    <nav class="top-navbar">
-        <a href="#" class="brand">
-            <div class="brand-icon">
-                <i class="fas fa-hand-holding-medical"></i>
-            </div>
-            <div class="brand-text">
-                <h1>MediFinder</h1>
-                <span id="brandTagline">PCCOE Student Innovation | Healthcare Technology</span>
-            </div>
-        </a>
-
-        <div class="nav-actions">
-            <!-- Language Switcher -->
-            <div class="lang-switcher">
-                <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
-                <button class="lang-btn" data-lang="mr" onclick="setLanguage('mr')">मराठी</button>
-                <button class="lang-btn" data-lang="hi" onclick="setLanguage('hi')">हिंदी</button>
-            </div>
-
-            <!-- Dynamic Real-Time Website Visitor Count Box -->
-            <div class="nav-visitor-pill" id="navVisitorPill" onclick="showVisitorInfoToast()" title="Dynamic Real-Time Live Counter • Total persons who opened MediFinder">
-                <span class="pulse-dot-green"></span>
-                <i class="fas fa-users-viewfinder"></i>
-                <span class="visitor-count-text">
-                    <strong id="navVisitorCount">1</strong> <span id="navVisitorSubtext">Visitors</span>
-                </span>
-                <span class="live-active-tag" id="liveActiveBadge" title="People active on website right now">
-                    <span class="live-dot-mini"></span><span id="activeCountText">1 active</span>
-                </span>
-            </div>
-
-            <!-- Website Features & Options Guide -->
-            <button class="btn-nav btn-guide" onclick="openModal('guideModal')" title="Features & Options Guide">
-                <i class="fas fa-book-open"></i> <span id="btnGuideText">Website Guide</span>
-            </button>
-
-            <!-- AI Prescription Scanner -->
-            <button class="btn-nav btn-scanner" onclick="openModal('scannerModal')">
-                <i class="fas fa-camera"></i> <span id="btnScannerText">AI Prescription Matcher</span>
-            </button>
-
-            <!-- Admin Review Portal -->
-            <button class="btn-nav btn-admin" onclick="openModal('adminModal')">
-                <i class="fas fa-user-shield" style="color: var(--primary);"></i> <span id="btnAdminText">Admin Portal</span>
-            </button>
-
-            <!-- Generic Savings Matrix -->
-            <button class="btn-nav btn-savings-modal" onclick="openModal('savingsModal')">
-                <i class="fas fa-tags"></i> Generic Price Matcher
-            </button>
-
-            <!-- Medical Stores Visited by Students -->
-            <button class="btn-nav btn-visited-stores" id="btnVisitedStores" onclick="filterStudentVisitedStores()" title="Medical Stores Visited by PCCOE Students">
-                <i class="fas fa-user-graduate"></i> <span id="btnVisitedText">Stores Visited by Students</span>
-                <span class="visited-count-badge">24</span>
-            </button>
-
-            <button class="btn-nav btn-nav-ghost" onclick="openModal('consentModal')">
-                <i class="fas fa-file-signature" style="color: var(--accent-teal);"></i> <span id="btnConsentText">Consent</span>
-            </button>
-
-            <button class="btn-nav btn-nav-primary" onclick="openModal('addStoreModal')">
-                <i class="fas fa-plus-circle"></i> <span id="btnAddStoreText">Add Store</span>
-            </button>
-
-            <!-- Simple User Login -->
-            <div id="navAuthContainer">
-                <button class="btn-nav btn-auth" id="btnNavAuth" onclick="openAuthModal('signin')">
-                    <i class="fas fa-user"></i> <span id="btnAuthText">Log In</span>
-                </button>
-            </div>
-        </div>
-    </nav>
-
-    <!-- ============================================================ -->
-    <!-- 2. HERO BANNER -->
-    <!-- ============================================================ -->
-    <section class="hero-banner">
-        <div class="hero-tag">
-            <i class="fas fa-award"></i> <span id="heroTagText">PCCOE Student Innovation | Healthcare Technology</span>
-        </div>
-        <h2 class="hero-title" id="heroTitleText">All Independent Pharmacies &amp; Jan Aushadhi Hubs</h2>
-        <p class="hero-desc" id="heroDescText">
-            Complete database of standalone medical stores across <strong>PCCOE, Akurdi, Chikhali Pradhikaran, Nigdi, Ravet, Vallabh Nagar, Chinchwad, Pimpri, Bhosari, Moshi, Wakad, Punawale &amp; Pimple Saudagar</strong>. Helping citizens find non-hospital pharmacies and save up to 85% on generic medicines.
-        </p>
-
-        <div class="hero-pills">
-            <div class="hero-pill"><i class="fas fa-building-circle-xmark"></i> <span id="pillNonHospital">Non-Hospital Independent Stores</span></div>
-            <div class="hero-pill"><i class="fas fa-pills"></i> <span id="pillSavings">Jan Aushadhi (PMBJP) Price Subsidies</span></div>
-            <div class="hero-pill"><i class="fas fa-truck-fast"></i> <span id="pillDelivery">Home Delivery Options</span></div>
-            <div class="hero-pill"><i class="fas fa-moon"></i> <span id="pillEmergency">24x7 Night Emergency Chemists</span></div>
-        </div>
-
-        <div style="margin-top: 14px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
-            <button type="button" class="hero-qr-btn" onclick="openMobileQrModal('generate')" title="Scan QR Code to Open on Phone">
-                <i class="fas fa-mobile-screen-button"></i> <span>Open on Mobile (Scan QR Code)</span>
-            </button>
-            <a href="scanner.html" target="_blank" class="hero-qr-btn" style="text-decoration:none; background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.25);" title="Open Official QR Standee / Poster">
-                <i class="fas fa-qrcode"></i> <span>Website Scanner Standee</span>
+        <!-- ============================================================ -->
+        <!-- 1. TOP NAVBAR -->
+        <!-- ============================================================ -->
+        <nav class="top-navbar">
+            <a href="#" class="brand">
+                <div class="brand-icon">
+                    <i class="fas fa-hand-holding-medical"></i>
+                </div>
+                <div class="brand-text">
+                    <h1>MedNexa</h1>
+                    <span id="brandTagline">PCCOE Student Innovation | Healthcare Technology</span>
+                </div>
             </a>
-        </div>
-    </section>
 
-    <!-- ============================================================ -->
-    <!-- 3. LIVE STATS COUNTER -->
-    <!-- ============================================================ -->
-    <section class="stats-grid">
-        <div class="stat-card">
-            <div class="stat-icon blue"><i class="fas fa-store"></i></div>
-            <div class="stat-info">
-                <h3 id="statTotal">38</h3>
-                <p id="statVerifiedLabel">Verified Pharmacies</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon green"><i class="fas fa-capsules"></i></div>
-            <div class="stat-info">
-                <h3 id="statGeneric">10</h3>
-                <p id="statGenericLabel">Jan Aushadhi Generic Hubs</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon red"><i class="fas fa-clock"></i></div>
-            <div class="stat-info">
-                <h3 id="stat24h">12</h3>
-                <p id="statEmergencyLabel">24x7 Open Night Chemists</p>
-            </div>
-        </div>
-        <div class="stat-card">
-            <div class="stat-icon amber"><i class="fas fa-route"></i></div>
-            <div class="stat-info">
-                <h3 id="statDistance">0.4 km</h3>
-                <p id="statDistanceLabel">Nearest Distance (GPS)</p>
-            </div>
-        </div>
-    </section>
+            <div class="nav-actions">
+                <!-- Language Switcher -->
+                <div class="lang-switcher">
+                    <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+                    <button class="lang-btn" data-lang="mr" onclick="setLanguage('mr')">मराठी</button>
+                    <button class="lang-btn" data-lang="hi" onclick="setLanguage('hi')">हिंदी</button>
+                </div>
 
-    <!-- ============================================================ -->
-    <!-- 4. INTERACTIVE MAP -->
-    <!-- ============================================================ -->
-    <section class="map-section">
-        <div class="map-header">
-            <div class="map-header-title">
-                <i class="fas fa-map-location-dot" style="font-size: 1.4rem; color: var(--accent-teal);"></i>
-                <div>
-                    <h2 id="mapTitleText">Interactive Map of PCMC Pharmacies</h2>
-                    <p id="mapDescText">Pins color-coded: Green = Jan Aushadhi/Generic | Blue = Allopathy | Pink = Ayurvedic | Amber = Homeopathy</p>
+                <!-- Dynamic Real-Time Website Visitor Count Box -->
+                <div class="nav-visitor-pill" id="navVisitorPill" onclick="showVisitorInfoToast()"
+                    title="Dynamic Real-Time Live Counter • Total persons who opened MedNexa">
+                    <span class="pulse-dot-green"></span>
+                    <i class="fas fa-users-viewfinder"></i>
+                    <span class="visitor-count-text">
+                        <strong id="navVisitorCount">1</strong> <span id="navVisitorSubtext">Visitors</span>
+                    </span>
+                    <span class="live-active-tag" id="liveActiveBadge" title="People active on website right now">
+                        <span class="live-dot-mini"></span><span id="activeCountText">1 active</span>
+                    </span>
+                </div>
+
+                <!-- Website Features & Options Guide -->
+                <button class="btn-nav btn-guide" onclick="openModal('guideModal')" title="Features & Options Guide">
+                    <i class="fas fa-book-open"></i> <span id="btnGuideText">Website Guide</span>
+                </button>
+
+                <!-- AI Prescription Scanner -->
+                <button class="btn-nav btn-scanner" onclick="openModal('scannerModal')">
+                    <i class="fas fa-camera"></i> <span id="btnScannerText">AI Prescription Matcher</span>
+                </button>
+
+                <!-- Admin Review Portal -->
+                <button class="btn-nav btn-admin" onclick="openModal('adminModal')">
+                    <i class="fas fa-user-shield" style="color: var(--primary);"></i> <span id="btnAdminText">Admin
+                        Portal</span>
+                </button>
+
+                <!-- Generic Savings Matrix -->
+                <button class="btn-nav btn-savings-modal" onclick="openModal('savingsModal')">
+                    <i class="fas fa-tags"></i> Generic Price Matcher
+                </button>
+
+                <!-- Medical Stores Visited by Students -->
+                <button class="btn-nav btn-visited-stores" id="btnVisitedStores" onclick="filterStudentVisitedStores()"
+                    title="Medical Stores Visited by PCCOE Students">
+                    <i class="fas fa-user-graduate"></i> <span id="btnVisitedText">Stores Visited by Students</span>
+                    <span class="visited-count-badge">24</span>
+                </button>
+
+                <button class="btn-nav btn-nav-ghost" onclick="openModal('consentModal')">
+                    <i class="fas fa-file-signature" style="color: var(--accent-teal);"></i> <span
+                        id="btnConsentText">Consent</span>
+                </button>
+
+                <button class="btn-nav btn-nav-primary" onclick="openModal('addStoreModal')">
+                    <i class="fas fa-plus-circle"></i> <span id="btnAddStoreText">Add Store</span>
+                </button>
+
+                <!-- Simple User Login -->
+                <div id="navAuthContainer">
+                    <button class="btn-nav btn-auth" id="btnNavAuth" onclick="openAuthModal('signin')">
+                        <i class="fas fa-user"></i> <span id="btnAuthText">Log In</span>
+                    </button>
                 </div>
             </div>
-            <div class="map-actions">
-                <div class="map-view-switch" role="group" aria-label="Map Tile Style">
-                    <button type="button" class="map-view-btn active" id="btnDetailedLayer" onclick="switchMapLayer('detailed')" title="High-Speed Detailed Street Map">
-                        <i class="fas fa-road"></i> <span>Street Map</span>
-                    </button>
-                    <button type="button" class="map-view-btn" id="btnStreetLayer" onclick="switchMapLayer('street')" title="OpenStreetMap Standard View">
-                        <i class="fas fa-map"></i> <span>OpenStreetMap</span>
-                    </button>
-                    <button type="button" class="map-view-btn" id="btnSatelliteLayer" onclick="switchMapLayer('satellite')" title="Satellite Aerial Imagery">
-                        <i class="fas fa-satellite"></i> <span>Satellite</span>
-                    </button>
-                    <button type="button" class="map-view-btn" id="btnTopoLayer" onclick="switchMapLayer('topo')" title="Topographic Terrain & Streets">
-                        <i class="fas fa-mountain-sun"></i> <span>Topographic</span>
-                    </button>
-                </div>
-                <button class="btn-gps" id="gpsLocateBtn" onclick="locateUser()">
-                    <i class="fas fa-location-crosshairs"></i> <span id="gpsLocateBtnText">Find Nearest to Me (GPS)</span>
-                </button>
+        </nav>
+
+        <!-- ============================================================ -->
+        <!-- 2. HERO BANNER -->
+        <!-- ============================================================ -->
+        <section class="hero-banner">
+            <div class="hero-tag">
+                <i class="fas fa-award"></i> <span id="heroTagText">PCCOE Student Innovation | Healthcare
+                    Technology</span>
             </div>
-        </div>
-
-        <div id="map"></div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- 5. SEARCH & FILTER CONTROLS -->
-    <!-- ============================================================ -->
-    <section class="controls-bar">
-        <div class="search-input-wrapper">
-            <i class="fas fa-magnifying-glass search-icon"></i>
-            <input type="text" id="searchInput" class="search-input" placeholder="Search by Pharmacy Name, Area, Street, or Medicine Name..." />
-            <button id="searchClear" class="search-clear"><i class="fas fa-times-circle"></i></button>
-        </div>
-
-        <!-- Ministry of Ayush (ayush.gov.in) Official Link Bar -->
-        <div class="ayush-quicklink-bar" id="ayushQuicklinkBar">
-            <div class="ayush-tag-left">
-                <span class="ayush-emblem">🇮🇳</span>
-                <span class="ayush-badge">Ministry of Ayush</span>
-                <span class="ayush-desc">Government of India Apex Portal for Ayurveda, Yoga, Naturopathy, Unani, Siddha, Sowa-Rigpa &amp; Homoeopathy standards:</span>
-            </div>
-            <a href="https://ayush.gov.in" target="_blank" rel="noopener noreferrer" class="ayush-link-btn" title="Open official Ministry of Ayush Website (ayush.gov.in)">
-                <i class="fas fa-landmark"></i>
-                <span class="ayush-url-text">ayush.gov.in</span>
-                <i class="fas fa-arrow-up-right-from-square" style="font-size:0.75rem;"></i>
-            </a>
-        </div>
-
-        <div class="filter-row">
-            <div class="pill-group">
-                <button class="filter-pill active" data-filter="all">
-                    <i class="fas fa-layer-group"></i> <span>All Stores</span>
-                </button>
-                <button class="filter-pill" data-filter="student-visited" id="pillStudentVisited" style="border-color: #f59e0b; color: #b45309; background: #fffbeb;">
-                    <i class="fas fa-user-graduate" style="color: #d97706;"></i> <span>Visited by Students (24)</span>
-                </button>
-                <button class="filter-pill" data-filter="generic">
-                    <i class="fas fa-pills"></i> <span>Jan Aushadhi (Generic)</span>
-                </button>
-                <button class="filter-pill" data-filter="24h">
-                    <i class="fas fa-clock"></i> <span>24x7 Emergency</span>
-                </button>
-                <button class="filter-pill" data-filter="allopathy">
-                    <i class="fas fa-prescription-bottle-alt"></i> <span>Allopathy</span>
-                </button>
-                <button class="filter-pill" data-filter="ayurvedic">
-                    <i class="fas fa-leaf"></i> <span>Ayurvedic</span>
-                </button>
-                <button class="filter-pill" data-filter="homeopathy">
-                    <i class="fas fa-flask"></i> <span>Homeopathy</span>
-                </button>
-            </div>
-
-            <div>
-                <select id="areaSelect" class="area-select">
-                    <option value="all">📍 All Localities (12 Areas)</option>
-                    <option value="Akurdi">Akurdi (Near PCCOE &amp; Station)</option>
-                    <option value="Chikhali Pradhikaran">Chikhali Pradhikaran &amp; Spine Rd</option>
-                    <option value="Nigdi">Nigdi &amp; Pradhikaran (Sec 24, 25, 26)</option>
-                    <option value="Ravet">Ravet &amp; Walhekarwadi</option>
-                    <option value="Vallabh Nagar">Vallabh Nagar (Near ST Stand &amp; Pimpri)</option>
-                    <option value="Chinchwad">Chinchwad (Station, Gaon &amp; Thergaon)</option>
-                    <option value="Pimpri">Pimpri (Camp, Market &amp; Finolex)</option>
-                    <option value="Bhosari">Bhosari (MIDC, Landewadi &amp; Highway)</option>
-                    <option value="Moshi">Moshi (Spine Road &amp; Toll Plaza)</option>
-                    <option value="Wakad">Wakad (Dange Chowk &amp; Datta Mandir)</option>
-                    <option value="Punawale">Punawale &amp; Tathawade (JSPM / Highway)</option>
-                    <option value="Pimple Saudagar">Pimple Saudagar &amp; Sangvi</option>
-                </select>
-            </div>
-        </div>
-    </section>
-
-    <!-- ============================================================ -->
-    <!-- 6. PHARMACY CARDS DIRECTORY -->
-    <!-- ============================================================ -->
-    <div class="results-header">
-        <div class="results-count" id="resultsCount">Showing <span>31</span> Verified Medical Stores</div>
-    </div>
-
-    <div class="cards-grid" id="cardsGrid">
-        <!-- Rendered dynamically by app.js -->
-    </div>
-
-    <!-- ============================================================ -->
-    <!-- 7. FOOTER -->
-    <!-- ============================================================ -->
-    <footer class="footer">
-        <p><strong>MediFinder</strong> — PCCOE Student Innovation | Healthcare Technology</p>
-        <div class="footer-tags">
-            <span><i class="fas fa-map-pin"></i> Akurdi &amp; PCCOE</span>
-            <span><i class="fas fa-map-pin"></i> Chikhali Pradhikaran</span>
-            <span><i class="fas fa-map-pin"></i> Nigdi Pradhikaran</span>
-            <span><i class="fas fa-map-pin"></i> Ravet &amp; Walhekarwadi</span>
-            <span><i class="fas fa-map-pin"></i> Vallabh Nagar &amp; Pimpri</span>
-            <span><i class="fas fa-map-pin"></i> Chinchwad</span>
-            <span><i class="fas fa-map-pin"></i> Bhosari</span>
-            <span><i class="fas fa-map-pin"></i> Moshi</span>
-            <span><i class="fas fa-map-pin"></i> Wakad</span>
-            <span><i class="fas fa-map-pin"></i> Punawale &amp; Tathawade</span>
-            <span><i class="fas fa-map-pin"></i> Pimple Saudagar</span>
-        </div>
-        <div style="margin-top: 14px;">
-            <button type="button" class="btn-guide-footer" onclick="openModal('guideModal')">
-                <i class="fas fa-book-open"></i> Need Help? View All Website Options &amp; User Manual
-            </button>
-        </div>
-    </footer>
-
-</div>
-
-<!-- ============================================================ -->
-<!-- MODAL: ADD MEDICAL STORE -->
-<!-- ============================================================ -->
-<div class="modal-overlay" id="addStoreModal">
-    <div class="modal-window">
-        <div class="modal-header">
-            <h3><i class="fas fa-plus-circle" style="color: var(--accent-teal);"></i> Add New Medical Store</h3>
-            <button class="modal-close" onclick="closeModal('addStoreModal')">&times;</button>
-        </div>
-        <form id="addStoreForm">
-            <div class="modal-body">
-                <div class="form-grid">
-                    <div>
-                        <div class="form-group">
-                            <label for="storeName">Shop Name *</label>
-                            <input type="text" id="storeName" placeholder="e.g. Sanjeevani Medical" required>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="storeType">Store Category *</label>
-                            <select id="storeType" required>
-                                <option value="Allopathy">Allopathy</option>
-                                <option value="Generic" selected>Generic (Jan Aushadhi)</option>
-                                <option value="Ayurvedic">Ayurvedic</option>
-                                <option value="Homeopathy">Homeopathy</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="storeArea">Locality / Area *</label>
-                            <select id="storeArea" required>
-                                <option value="Akurdi">Akurdi (Near PCCOE)</option>
-                                <option value="Chikhali Pradhikaran">Chikhali Pradhikaran</option>
-                                <option value="Nigdi">Nigdi Pradhikaran</option>
-                                <option value="Ravet">Ravet &amp; Walhekarwadi</option>
-                                <option value="Vallabh Nagar">Vallabh Nagar (Pimpri)</option>
-                                <option value="Chinchwad">Chinchwad</option>
-                                <option value="Pimpri">Pimpri</option>
-                                <option value="Bhosari">Bhosari</option>
-                                <option value="Moshi">Moshi</option>
-                                <option value="Wakad">Wakad</option>
-                                <option value="Punawale">Punawale &amp; Tathawade</option>
-                                <option value="Pimple Saudagar">Pimple Saudagar</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="storePhone">Contact Phone Number</label>
-                            <input type="tel" id="storePhone" placeholder="e.g. 020-27495511">
-                        </div>
-                    </div>
-                    <div class="full-col">
-                        <div class="form-group">
-                            <label for="storeAddress">Complete Address *</label>
-                            <input type="text" id="storeAddress" placeholder="e.g. Shop No. 12, Sector 19, Spine Road, Pune" required>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="storeLat">Latitude (Click Map to auto-fill)</label>
-                            <input type="number" step="0.000001" id="storeLat" value="18.652000">
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="storeLng">Longitude (Click Map to auto-fill)</label>
-                            <input type="number" step="0.000001" id="storeLng" value="73.765000">
-                        </div>
-                    </div>
-                    <div class="full-col">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="store24h">
-                            <span><strong>Is this pharmacy open 24 hours (24x7 Night Emergency)?</strong></span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-secondary" onclick="closeModal('addStoreModal')">Cancel</button>
-                <button type="submit" class="btn-primary"><i class="fas fa-check"></i> Save Store to Database</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- ============================================================ -->
-<!-- MODAL: SHOPKEEPER CONSENT & VERIFICATION -->
-<!-- ============================================================ -->
-<div class="modal-overlay" id="consentModal">
-    <div class="modal-window">
-        <div class="modal-header">
-            <h3><i class="fas fa-file-signature" style="color: var(--accent-teal);"></i> Shopkeeper Consent Form</h3>
-            <button class="modal-close" onclick="closeModal('consentModal')">&times;</button>
-        </div>
-        <form id="consentForm">
-            <div class="modal-body">
-                <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:16px;">
-                    Register your independent medical store for listing and verification on MediFinder. Verified stores get higher priority during user searches.
-                </p>
-                <div class="form-grid">
-                    <div>
-                        <div class="form-group">
-                            <label for="consentShopName">Pharmacy Name *</label>
-                            <input type="text" id="consentShopName" placeholder="e.g. Hi-Care Chemist" required>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="consentOwnerName">Owner / Pharmacist Name *</label>
-                            <input type="text" id="consentOwnerName" placeholder="e.g. Rajesh Patil" required>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="consentShopType">Pharmacy Category *</label>
-                            <select id="consentShopType" required>
-                                <option value="Allopathy">Allopathy</option>
-                                <option value="Generic">Generic (Jan Aushadhi)</option>
-                                <option value="Ayurvedic">Ayurvedic</option>
-                                <option value="Homeopathy">Homeopathy</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="form-group">
-                            <label for="consentPhone">Official Contact Phone *</label>
-                            <input type="tel" id="consentPhone" placeholder="e.g. 9876543210" required>
-                        </div>
-                    </div>
-                    <div class="full-col">
-                        <div class="form-group">
-                            <label for="consentAddress">Pharmacy Full Address *</label>
-                            <input type="text" id="consentAddress" placeholder="e.g. Sector 26, Near PCCOE Campus, Akurdi" required>
-                        </div>
-                    </div>
-                    <div class="full-col">
-                        <label class="checkbox-label">
-                            <input type="checkbox" id="consentAgreement" required>
-                            <span>I confirm that this is an independent pharmacy (not attached to a private hospital) and I consent to display our contact and opening hours on MediFinder.</span>
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-secondary" onclick="closeModal('consentModal')">Cancel</button>
-                <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Submit Consent</button>
-            </div>
-        </form>
-    </div>
-</div>
-
-<!-- ============================================================ -->
-<!-- MODAL: GENERIC MEDICINE PRICE COMPARATOR (SIH KILLER FEATURE) -->
-<!-- ============================================================ -->
-<div class="modal-overlay" id="savingsModal">
-    <div class="modal-window" style="max-width: 750px;">
-        <div class="modal-header">
-            <h3><i class="fas fa-tags" style="color: var(--success);"></i> Generic Medicine Price Comparison Matrix</h3>
-            <button class="modal-close" onclick="closeModal('savingsModal')">&times;</button>
-        </div>
-        <div class="modal-body">
-            <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
-                Generic medicines contain the <strong>exact same active pharmaceutical ingredient (API)</strong> as costly branded medicines. See how much patients save at Jan Aushadhi stores:
+            <h2 class="hero-title" id="heroTitleText">All Independent Pharmacies &amp; Jan Aushadhi Hubs</h2>
+            <p class="hero-desc" id="heroDescText">
+                Complete database of standalone medical stores across <strong>PCCOE, Akurdi, Chikhali Pradhikaran,
+                    Nigdi, Ravet, Vallabh Nagar, Chinchwad, Pimpri, Bhosari, Moshi, Wakad, Punawale &amp; Pimple
+                    Saudagar</strong>. Helping citizens find non-hospital pharmacies and save up to 85% on generic
+                medicines.
             </p>
-            <table class="med-table">
-                <thead>
-                    <tr>
-                        <th>Branded Medicine</th>
-                        <th>Generic Substitute</th>
-                        <th>Price (Brand vs Generic)</th>
-                        <th>Savings</th>
-                    </tr>
-                </thead>
-                <tbody id="medicineTableBody">
-                    <!-- Populated dynamically by app.js -->
-                </tbody>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn-secondary" onclick="closeModal('savingsModal')">Close</button>
-            <button type="button" class="btn-primary" onclick="closeModal('savingsModal'); document.querySelector('[data-filter=generic]').click();">
-                <i class="fas fa-pills"></i> Show Generic Stores Nearby
-            </button>
-        </div>
-    </div>
-</div>
 
-<!-- ============================================================ -->
-<!-- MODAL: MOBILE QR & IN-APP SCANNER HUB -->
-<!-- ============================================================ -->
-<div class="modal-overlay" id="mobileQrModal">
-    <div class="modal-window qr-modal-window">
-        <div class="modal-header">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <div class="qr-modal-icon">
-                    <i class="fas fa-qrcode"></i>
-                </div>
-                <div>
-                    <h3 style="margin:0; font-size:1.15rem; color:var(--text-main);">Mobile QR &amp; Scanner Hub</h3>
-                    <p style="margin:0; font-size:0.78rem; color:var(--text-muted);">Instant mobile handoff &amp; verified pharmacy scanner</p>
+            <div class="hero-pills">
+                <div class="hero-pill"><i class="fas fa-building-circle-xmark"></i> <span
+                        id="pillNonHospital">Non-Hospital Independent Stores</span></div>
+                <div class="hero-pill"><i class="fas fa-pills"></i> <span id="pillSavings">Jan Aushadhi (PMBJP) Price
+                        Subsidies</span></div>
+                <div class="hero-pill"><i class="fas fa-truck-fast"></i> <span id="pillDelivery">Home Delivery
+                        Options</span></div>
+                <div class="hero-pill"><i class="fas fa-moon"></i> <span id="pillEmergency">24x7 Night Emergency
+                        Chemists</span></div>
+            </div>
+
+            <div style="margin-top: 14px; display: flex; gap: 10px; justify-content: center; flex-wrap: wrap;">
+                <a href="scanner.html" target="_blank" class="hero-qr-btn"
+                    style="text-decoration:none;"
+                    title="Open Official QR Standee / Poster">
+                    <i class="fas fa-qrcode"></i> <span>Website Scanner Standee</span>
+                </a>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- 3. LIVE STATS COUNTER -->
+        <!-- ============================================================ -->
+        <section class="stats-grid">
+            <div class="stat-card">
+                <div class="stat-icon blue"><i class="fas fa-store"></i></div>
+                <div class="stat-info">
+                    <h3 id="statTotal">38</h3>
+                    <p id="statVerifiedLabel">Verified Pharmacies</p>
                 </div>
             </div>
-            <button class="modal-close" onclick="closeQrModal()">&times;</button>
+            <div class="stat-card">
+                <div class="stat-icon green"><i class="fas fa-capsules"></i></div>
+                <div class="stat-info">
+                    <h3 id="statGeneric">10</h3>
+                    <p id="statGenericLabel">Jan Aushadhi Generic Hubs</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon red"><i class="fas fa-clock"></i></div>
+                <div class="stat-info">
+                    <h3 id="stat24h">12</h3>
+                    <p id="statEmergencyLabel">24x7 Open Night Chemists</p>
+                </div>
+            </div>
+            <div class="stat-card">
+                <div class="stat-icon amber"><i class="fas fa-route"></i></div>
+                <div class="stat-info">
+                    <h3 id="statDistance">0.4 km</h3>
+                    <p id="statDistanceLabel">Nearest Distance (GPS)</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- 4. INTERACTIVE MAP -->
+        <!-- ============================================================ -->
+        <section class="map-section">
+            <div class="map-header">
+                <div class="map-header-title">
+                    <i class="fas fa-map-location-dot" style="font-size: 1.4rem; color: var(--accent-teal);"></i>
+                    <div>
+                        <h2 id="mapTitleText">Interactive Map of PCMC Pharmacies</h2>
+                        <p id="mapDescText">Pins color-coded: Green = Jan Aushadhi/Generic | Blue = Allopathy | Pink =
+                            Ayurvedic | Amber = Homeopathy</p>
+                    </div>
+                </div>
+                <div class="map-actions">
+                    <div class="map-view-switch" role="group" aria-label="Map Tile Style">
+                        <button type="button" class="map-view-btn active" id="btnDetailedLayer"
+                            onclick="switchMapLayer('detailed')" title="High-Speed Detailed Street Map">
+                            <i class="fas fa-road"></i> <span>Street Map</span>
+                        </button>
+                        <button type="button" class="map-view-btn" id="btnStreetLayer"
+                            onclick="switchMapLayer('street')" title="OpenStreetMap Standard View">
+                            <i class="fas fa-map"></i> <span>OpenStreetMap</span>
+                        </button>
+                        <button type="button" class="map-view-btn" id="btnSatelliteLayer"
+                            onclick="switchMapLayer('satellite')" title="Satellite Aerial Imagery">
+                            <i class="fas fa-satellite"></i> <span>Satellite</span>
+                        </button>
+                        <button type="button" class="map-view-btn" id="btnTopoLayer" onclick="switchMapLayer('topo')"
+                            title="Topographic Terrain & Streets">
+                            <i class="fas fa-mountain-sun"></i> <span>Topographic</span>
+                        </button>
+                    </div>
+                    <button class="btn-gps" id="gpsLocateBtn" onclick="locateUser()">
+                        <i class="fas fa-location-crosshairs"></i> <span id="gpsLocateBtnText">Find Nearest to Me
+                            (GPS)</span>
+                    </button>
+                </div>
+            </div>
+
+            <div id="map"></div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- 5. SEARCH & FILTER CONTROLS -->
+        <!-- ============================================================ -->
+        <section class="controls-bar">
+            <div class="search-input-wrapper">
+                <i class="fas fa-magnifying-glass search-icon"></i>
+                <input type="text" id="searchInput" class="search-input"
+                    placeholder="Search by Pharmacy Name, Area, Street, or Medicine Name..." />
+                <button id="searchClear" class="search-clear"><i class="fas fa-times-circle"></i></button>
+            </div>
+
+            <!-- Ministry of Ayush (ayush.gov.in) Official Link Bar -->
+            <div class="ayush-quicklink-bar" id="ayushQuicklinkBar">
+                <div class="ayush-tag-left">
+                    <span class="ayush-emblem">🇮🇳</span>
+                    <span class="ayush-badge">Ministry of Ayush</span>
+                    <span class="ayush-desc">Government of India Apex Portal for Ayurveda, Yoga, Naturopathy, Unani,
+                        Siddha, Sowa-Rigpa &amp; Homoeopathy standards:</span>
+                </div>
+                <a href="https://ayush.gov.in" target="_blank" rel="noopener noreferrer" class="ayush-link-btn"
+                    title="Open official Ministry of Ayush Website (ayush.gov.in)">
+                    <i class="fas fa-landmark"></i>
+                    <span class="ayush-url-text">ayush.gov.in</span>
+                    <i class="fas fa-arrow-up-right-from-square" style="font-size:0.75rem;"></i>
+                </a>
+            </div>
+
+            <div class="filter-row">
+                <div class="pill-group">
+                    <button class="filter-pill active" data-filter="all">
+                        <i class="fas fa-layer-group"></i> <span>All Stores</span>
+                    </button>
+                    <button class="filter-pill" data-filter="student-visited" id="pillStudentVisited"
+                        style="border-color: #f59e0b; color: #b45309; background: #fffbeb;">
+                        <i class="fas fa-user-graduate" style="color: #d97706;"></i> <span>Visited by Students
+                            (24)</span>
+                    </button>
+                    <button class="filter-pill" data-filter="generic">
+                        <i class="fas fa-pills"></i> <span>Jan Aushadhi (Generic)</span>
+                    </button>
+                    <button class="filter-pill" data-filter="24h">
+                        <i class="fas fa-clock"></i> <span>24x7 Emergency</span>
+                    </button>
+                    <button class="filter-pill" data-filter="allopathy">
+                        <i class="fas fa-prescription-bottle-alt"></i> <span>Allopathy</span>
+                    </button>
+                    <button class="filter-pill" data-filter="ayurvedic">
+                        <i class="fas fa-leaf"></i> <span>Ayurvedic</span>
+                    </button>
+                    <button class="filter-pill" data-filter="homeopathy">
+                        <i class="fas fa-flask"></i> <span>Homeopathy</span>
+                    </button>
+                </div>
+
+                <div>
+                    <select id="areaSelect" class="area-select">
+                        <option value="all">📍 All Localities (12 Areas)</option>
+                        <option value="Akurdi">Akurdi (Near PCCOE &amp; Station)</option>
+                        <option value="Chikhali Pradhikaran">Chikhali Pradhikaran &amp; Spine Rd</option>
+                        <option value="Nigdi">Nigdi &amp; Pradhikaran (Sec 24, 25, 26)</option>
+                        <option value="Ravet">Ravet &amp; Walhekarwadi</option>
+                        <option value="Vallabh Nagar">Vallabh Nagar (Near ST Stand &amp; Pimpri)</option>
+                        <option value="Chinchwad">Chinchwad (Station, Gaon &amp; Thergaon)</option>
+                        <option value="Pimpri">Pimpri (Camp, Market &amp; Finolex)</option>
+                        <option value="Bhosari">Bhosari (MIDC, Landewadi &amp; Highway)</option>
+                        <option value="Moshi">Moshi (Spine Road &amp; Toll Plaza)</option>
+                        <option value="Wakad">Wakad (Dange Chowk &amp; Datta Mandir)</option>
+                        <option value="Punawale">Punawale &amp; Tathawade (JSPM / Highway)</option>
+                        <option value="Pimple Saudagar">Pimple Saudagar &amp; Sangvi</option>
+                    </select>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
+        <!-- 6. PHARMACY CARDS DIRECTORY -->
+        <!-- ============================================================ -->
+        <div class="results-header">
+            <div class="results-count" id="resultsCount">Showing <span>31</span> Verified Medical Stores</div>
         </div>
 
-        <!-- Navigation Tabs -->
-        <div class="qr-nav-tabs">
-            <button class="qr-tab-btn active" id="tabBtnGenerate" onclick="switchQrModalTab('generate')">
-                <i class="fas fa-mobile-screen"></i> <span>Open on Mobile</span>
-            </button>
-            <button class="qr-tab-btn" id="tabBtnScan" onclick="switchQrModalTab('scan')">
-                <i class="fas fa-camera"></i> <span>Scan QR / Barcode</span>
-            </button>
+        <div class="cards-grid" id="cardsGrid">
+            <!-- Rendered dynamically by app.js -->
         </div>
 
-        <div class="modal-body qr-modal-body" style="padding:18px 22px;">
-            <!-- TAB 1: GENERATE / SCAN TO OPEN ON MOBILE -->
-            <div id="qrTabGenerate" class="qr-tab-content active">
-                <div class="qr-preview-wrapper">
-                    <div class="qr-card">
-                        <div class="qr-code-box" id="qrCanvasContainer">
-                            <div class="qr-loading-spinner" id="qrLoading">
-                                <i class="fas fa-spinner fa-spin"></i>
-                                <span>Generating QR Code...</span>
+        <!-- ============================================================ -->
+        <!-- 7. FOOTER -->
+        <!-- ============================================================ -->
+        <footer class="footer">
+            <p><strong>MedNexa</strong> — PCCOE Student Innovation | Healthcare Technology</p>
+            <div class="footer-tags">
+                <span><i class="fas fa-map-pin"></i> Akurdi &amp; PCCOE</span>
+                <span><i class="fas fa-map-pin"></i> Chikhali Pradhikaran</span>
+                <span><i class="fas fa-map-pin"></i> Nigdi Pradhikaran</span>
+                <span><i class="fas fa-map-pin"></i> Ravet &amp; Walhekarwadi</span>
+                <span><i class="fas fa-map-pin"></i> Vallabh Nagar &amp; Pimpri</span>
+                <span><i class="fas fa-map-pin"></i> Chinchwad</span>
+                <span><i class="fas fa-map-pin"></i> Bhosari</span>
+                <span><i class="fas fa-map-pin"></i> Moshi</span>
+                <span><i class="fas fa-map-pin"></i> Wakad</span>
+                <span><i class="fas fa-map-pin"></i> Punawale &amp; Tathawade</span>
+                <span><i class="fas fa-map-pin"></i> Pimple Saudagar</span>
+            </div>
+            <div style="margin-top: 14px;">
+                <button type="button" class="btn-guide-footer" onclick="openModal('guideModal')">
+                    <i class="fas fa-book-open"></i> Need Help? View All Website Options &amp; User Manual
+                </button>
+            </div>
+        </footer>
+
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL: ADD MEDICAL STORE -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="addStoreModal">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3><i class="fas fa-plus-circle" style="color: var(--accent-teal);"></i> Add New Medical Store</h3>
+                <button class="modal-close" onclick="closeModal('addStoreModal')">&times;</button>
+            </div>
+            <form id="addStoreForm">
+                <div class="modal-body">
+                    <div class="form-grid">
+                        <div>
+                            <div class="form-group">
+                                <label for="storeName">Shop Name *</label>
+                                <input type="text" id="storeName" placeholder="e.g. Sanjeevani Medical" required>
                             </div>
                         </div>
-                        <div class="qr-badge">
-                            <i class="fas fa-hand-holding-medical"></i> MediFinder Mobile Access
+                        <div>
+                            <div class="form-group">
+                                <label for="storeType">Store Category *</label>
+                                <select id="storeType" required>
+                                    <option value="Allopathy">Allopathy</option>
+                                    <option value="Generic" selected>Generic (Jan Aushadhi)</option>
+                                    <option value="Ayurvedic">Ayurvedic</option>
+                                    <option value="Homeopathy">Homeopathy</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="storeArea">Locality / Area *</label>
+                                <select id="storeArea" required>
+                                    <option value="Akurdi">Akurdi (Near PCCOE)</option>
+                                    <option value="Chikhali Pradhikaran">Chikhali Pradhikaran</option>
+                                    <option value="Nigdi">Nigdi Pradhikaran</option>
+                                    <option value="Ravet">Ravet &amp; Walhekarwadi</option>
+                                    <option value="Vallabh Nagar">Vallabh Nagar (Pimpri)</option>
+                                    <option value="Chinchwad">Chinchwad</option>
+                                    <option value="Pimpri">Pimpri</option>
+                                    <option value="Bhosari">Bhosari</option>
+                                    <option value="Moshi">Moshi</option>
+                                    <option value="Wakad">Wakad</option>
+                                    <option value="Punawale">Punawale &amp; Tathawade</option>
+                                    <option value="Pimple Saudagar">Pimple Saudagar</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="storePhone">Contact Phone Number</label>
+                                <input type="tel" id="storePhone" placeholder="e.g. 020-27495511">
+                            </div>
+                        </div>
+                        <div class="full-col">
+                            <div class="form-group">
+                                <label for="storeAddress">Complete Address *</label>
+                                <input type="text" id="storeAddress"
+                                    placeholder="e.g. Shop No. 12, Sector 19, Spine Road, Pune" required>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="storeLat">Latitude (Click Map to auto-fill)</label>
+                                <input type="number" step="0.000001" id="storeLat" value="18.652000">
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="storeLng">Longitude (Click Map to auto-fill)</label>
+                                <input type="number" step="0.000001" id="storeLng" value="73.765000">
+                            </div>
+                        </div>
+                        <div class="full-col">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="store24h">
+                                <span><strong>Is this pharmacy open 24 hours (24x7 Night Emergency)?</strong></span>
+                            </label>
                         </div>
                     </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('addStoreModal')">Cancel</button>
+                    <button type="submit" class="btn-primary"><i class="fas fa-check"></i> Save Store to
+                        Database</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-                    <div class="qr-info-pane">
-                        <h4 id="qrTargetHeading">Scan to Open MediFinder on Your Phone</h4>
-                        <p class="qr-instruction-text" id="qrTargetSub">
-                            Point your smartphone camera or Google Lens at this QR code to instantly launch MediFinder on your mobile browser.
-                        </p>
+    <!-- ============================================================ -->
+    <!-- MODAL: SHOPKEEPER CONSENT & VERIFICATION -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="consentModal">
+        <div class="modal-window">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-signature" style="color: var(--accent-teal);"></i> Shopkeeper Consent Form
+                </h3>
+                <button class="modal-close" onclick="closeModal('consentModal')">&times;</button>
+            </div>
+            <form id="consentForm">
+                <div class="modal-body">
+                    <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:16px;">
+                        Register your independent medical store for listing and verification on MedNexa. Verified
+                        stores get higher priority during user searches.
+                    </p>
+                    <div class="form-grid">
+                        <div>
+                            <div class="form-group">
+                                <label for="consentShopName">Pharmacy Name *</label>
+                                <input type="text" id="consentShopName" placeholder="e.g. Hi-Care Chemist" required>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="consentOwnerName">Owner / Pharmacist Name *</label>
+                                <input type="text" id="consentOwnerName" placeholder="e.g. Rajesh Patil" required>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="consentShopType">Pharmacy Category *</label>
+                                <select id="consentShopType" required>
+                                    <option value="Allopathy">Allopathy</option>
+                                    <option value="Generic">Generic (Jan Aushadhi)</option>
+                                    <option value="Ayurvedic">Ayurvedic</option>
+                                    <option value="Homeopathy">Homeopathy</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="consentPhone">Official Contact Phone *</label>
+                                <input type="tel" id="consentPhone" placeholder="e.g. 9876543210" required>
+                            </div>
+                        </div>
+                        <div class="full-col">
+                            <div class="form-group">
+                                <label for="consentAddress">Pharmacy Full Address *</label>
+                                <input type="text" id="consentAddress"
+                                    placeholder="e.g. Sector 26, Near PCCOE Campus, Akurdi" required>
+                            </div>
+                        </div>
+                        <div class="full-col">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="consentAgreement" required>
+                                <span>I confirm that this is an independent pharmacy (not attached to a private
+                                    hospital) and I consent to display our contact and opening hours on
+                                    MedNexa.</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn-secondary" onclick="closeModal('consentModal')">Cancel</button>
+                    <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Submit Consent</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
-                        <!-- Share / Target Mode Switcher -->
-                        <div class="qr-target-options">
-                            <label class="qr-input-label">Select Destination to Share:</label>
-                            <select id="qrTargetSelect" class="qr-select" onchange="onQrTargetChange()">
-                                <option value="current">📱 Full Website (Current Page)</option>
-                                <option value="generic">💊 Jan Aushadhi Generic Stores (Filtered)</option>
-                                <option value="24h">🚨 24x7 Emergency Chemists (Filtered)</option>
-                                <option value="student">🎓 Stores Visited by PCCOE Students</option>
-                                <optgroup label="Direct to Specific Pharmacy" id="qrPharmacyOptGroup">
-                                    <!-- Populated dynamically -->
-                                </optgroup>
-                            </select>
+    <!-- ============================================================ -->
+    <!-- MODAL: GENERIC MEDICINE PRICE COMPARATOR (SIH KILLER FEATURE) -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="savingsModal">
+        <div class="modal-window" style="max-width: 750px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-tags" style="color: var(--success);"></i> Generic Medicine Price Comparison Matrix
+                </h3>
+                <button class="modal-close" onclick="closeModal('savingsModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:0.88rem; color:var(--text-muted); margin-bottom:12px;">
+                    Generic medicines contain the <strong>exact same active pharmaceutical ingredient (API)</strong> as
+                    costly branded medicines. See how much patients save at Jan Aushadhi stores:
+                </p>
+                <table class="med-table">
+                    <thead>
+                        <tr>
+                            <th>Branded Medicine</th>
+                            <th>Generic Substitute</th>
+                            <th>Price (Brand vs Generic)</th>
+                            <th>Savings</th>
+                        </tr>
+                    </thead>
+                    <tbody id="medicineTableBody">
+                        <!-- Populated dynamically by app.js -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('savingsModal')">Close</button>
+                <button type="button" class="btn-primary"
+                    onclick="closeModal('savingsModal'); document.querySelector('[data-filter=generic]').click();">
+                    <i class="fas fa-pills"></i> Show Generic Stores Nearby
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL: MOBILE QR & IN-APP SCANNER HUB -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="mobileQrModal">
+        <div class="modal-window qr-modal-window">
+            <div class="modal-header">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div class="qr-modal-icon">
+                        <i class="fas fa-qrcode"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin:0; font-size:1.15rem; color:var(--text-main);">QR &amp; Barcode Scanner
+                        </h3>
+                        <p style="margin:0; font-size:0.78rem; color:var(--text-muted);">Verified pharmacy &amp;
+                            prescription code scanner</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeQrModal()">&times;</button>
+            </div>
+
+            <div class="modal-body qr-modal-body" style="padding:18px 22px;">
+                <!-- IN-APP SCANNER (CAMERA & IMAGE UPLOAD) -->
+                <div id="qrTabScan" class="qr-tab-content active">
+                    <div class="scanner-container">
+                        <!-- Scanner Mode Switch: Camera vs Upload -->
+                        <div class="scanner-mode-switch">
+                            <button class="scanner-mode-btn active" id="btnModeCamera"
+                                onclick="switchScannerMode('camera')">
+                                <i class="fas fa-video"></i> Live Camera
+                            </button>
+                            <button class="scanner-mode-btn" id="btnModeFile" onclick="switchScannerMode('file')">
+                                <i class="fas fa-image"></i> Upload Image / Screenshot
+                            </button>
                         </div>
 
-                        <!-- URL Preview & Custom IP Override for Wi-Fi testing -->
-                        <div class="qr-url-box">
-                            <span class="qr-url-label">Encoded Mobile Link:</span>
-                            <div class="qr-url-row">
-                                <input type="text" id="qrUrlInput" class="qr-url-input" readonly>
-                                <button type="button" class="btn-qr-action" onclick="copyQrUrl()" title="Copy Mobile Link">
-                                    <i class="fas fa-copy"></i>
+                        <!-- Live Camera View -->
+                        <div id="cameraViewArea" class="camera-view-area">
+                            <div id="qrReader" class="qr-reader-viewport"></div>
+
+                            <!-- Viewfinder Overlays -->
+                            <div class="scanner-reticle" id="scannerReticle">
+                                <div class="reticle-corner tl"></div>
+                                <div class="reticle-corner tr"></div>
+                                <div class="reticle-corner bl"></div>
+                                <div class="reticle-corner br"></div>
+                                <div class="scanner-laser-line"></div>
+                            </div>
+
+                            <!-- Camera Control Bar -->
+                            <div class="camera-controls">
+                                <button type="button" class="btn-cam-ctrl" id="btnToggleCam"
+                                    onclick="toggleScannerCamera()">
+                                    <i class="fas fa-play"></i> <span>Start Camera</span>
+                                </button>
+                                <button type="button" class="btn-cam-ctrl" id="btnSwitchCam"
+                                    onclick="switchCameraFacing()" style="display:none;">
+                                    <i class="fas fa-camera-rotate"></i> <span>Flip Camera</span>
                                 </button>
                             </div>
-                            <small class="qr-url-hint" id="qrLocalhostHint" style="display:none;">
-                                💡 Tip: To test over local Wi-Fi from your smartphone, enter your PC's IP address (e.g. <code>192.168.1.5:8000</code>).
-                            </small>
+                            <p class="scanner-tip">
+                                Position any MedNexa QR, Pharmacy QR, or prescription code inside the frame.
+                            </p>
                         </div>
 
-                        <!-- Action Buttons -->
-                        <div class="qr-action-buttons">
-                            <button type="button" class="btn-primary qr-btn-main" onclick="downloadQrCode()">
-                                <i class="fas fa-download"></i> Download QR Image
-                            </button>
-                            <a href="scanner.html" target="_blank" class="btn-secondary qr-btn-sub" style="text-decoration:none; display:inline-flex; align-items:center; justify-content:center; gap:6px;">
-                                <i class="fas fa-print"></i> Open Standee / Poster
-                            </a>
-                            <button type="button" class="btn-secondary qr-btn-sub" onclick="shareQrUrl()">
-                                <i class="fas fa-share-nodes"></i> Share Link
-                            </button>
+                        <!-- File Upload Mode -->
+                        <div id="fileViewArea" class="file-view-area" style="display:none;">
+                            <label class="qr-dropzone" for="qrImageInput">
+                                <i class="fas fa-cloud-arrow-up"></i>
+                                <div id="qrDropzoneText">
+                                    <strong>Select or Drag &amp; Drop QR Code Image</strong>
+                                    <p>Supports PNG, JPG, WebP, or screenshots from mobile gallery</p>
+                                </div>
+                                <input type="file" id="qrImageInput" accept="image/*" style="display:none;"
+                                    onchange="handleQrFileSelected(event)">
+                            </label>
+                        </div>
+
+                        <!-- Scan Results Card -->
+                        <div id="qrScanResult" class="scan-result-card" style="display:none;">
+                            <div class="result-header">
+                                <div class="result-badge" id="resultTypeBadge">
+                                    <i class="fas fa-check-circle"></i> QR Code Decoded
+                                </div>
+                                <span class="result-time" id="resultTimestamp">Just now</span>
+                            </div>
+                            <div class="result-content" id="resultDecodedText"></div>
+                            <div class="result-actions" id="resultActions">
+                                <!-- Populated with action buttons -->
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <!-- TAB 2: IN-APP SCANNER (CAMERA & IMAGE UPLOAD) -->
-            <div id="qrTabScan" class="qr-tab-content">
-                <div class="scanner-container">
-                    <!-- Scanner Mode Switch: Camera vs Upload -->
-                    <div class="scanner-mode-switch">
-                        <button class="scanner-mode-btn active" id="btnModeCamera" onclick="switchScannerMode('camera')">
-                            <i class="fas fa-video"></i> Live Camera
-                        </button>
-                        <button class="scanner-mode-btn" id="btnModeFile" onclick="switchScannerMode('file')">
-                            <i class="fas fa-image"></i> Upload Image / Screenshot
-                        </button>
-                    </div>
-
-                    <!-- Live Camera View -->
-                    <div id="cameraViewArea" class="camera-view-area">
-                        <div id="qrReader" class="qr-reader-viewport"></div>
-
-                        <!-- Viewfinder Overlays -->
-                        <div class="scanner-reticle" id="scannerReticle">
-                            <div class="reticle-corner tl"></div>
-                            <div class="reticle-corner tr"></div>
-                            <div class="reticle-corner bl"></div>
-                            <div class="reticle-corner br"></div>
-                            <div class="scanner-laser-line"></div>
-                        </div>
-
-                        <!-- Camera Control Bar -->
-                        <div class="camera-controls">
-                            <button type="button" class="btn-cam-ctrl" id="btnToggleCam" onclick="toggleScannerCamera()">
-                                <i class="fas fa-play"></i> <span>Start Camera</span>
-                            </button>
-                            <button type="button" class="btn-cam-ctrl" id="btnSwitchCam" onclick="switchCameraFacing()" style="display:none;">
-                                <i class="fas fa-camera-rotate"></i> <span>Flip Camera</span>
-                            </button>
-                        </div>
-                        <p class="scanner-tip">
-                            Position any MediFinder QR, Pharmacy QR, or prescription code inside the frame.
-                        </p>
-                    </div>
-
-                    <!-- File Upload Mode -->
-                    <div id="fileViewArea" class="file-view-area" style="display:none;">
-                        <label class="qr-dropzone" for="qrImageInput">
-                            <i class="fas fa-cloud-arrow-up"></i>
-                            <div id="qrDropzoneText">
-                                <strong>Select or Drag &amp; Drop QR Code Image</strong>
-                                <p>Supports PNG, JPG, WebP, or screenshots from mobile gallery</p>
-                            </div>
-                            <input type="file" id="qrImageInput" accept="image/*" style="display:none;" onchange="handleQrFileSelected(event)">
-                        </label>
-                    </div>
-
-                    <!-- Scan Results Card -->
-                    <div id="qrScanResult" class="scan-result-card" style="display:none;">
-                        <div class="result-header">
-                            <div class="result-badge" id="resultTypeBadge">
-                                <i class="fas fa-check-circle"></i> QR Code Decoded
-                            </div>
-                            <span class="result-time" id="resultTimestamp">Just now</span>
-                        </div>
-                        <div class="result-content" id="resultDecodedText"></div>
-                        <div class="result-actions" id="resultActions">
-                            <!-- Populated with action buttons -->
-                        </div>
-                    </div>
+            <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+                <div style="font-size:0.78rem; color:var(--text-light);">
+                    <i class="fas fa-shield-halved"></i> 100% Client-Side &amp; Private • No camera feeds or data
+                    uploaded to servers
                 </div>
+                <button type="button" class="btn-secondary" onclick="closeQrModal()">Close</button>
             </div>
-        </div>
-
-        <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
-            <div style="font-size:0.78rem; color:var(--text-light);">
-                <i class="fas fa-shield-halved"></i> 100% Client-Side &amp; Private • No camera feeds or data uploaded to servers
-            </div>
-            <button type="button" class="btn-secondary" onclick="closeQrModal()">Close</button>
         </div>
     </div>
-</div>
 
-<!-- ============================================================ -->
-<!-- MODAL: AI PRESCRIPTION SCANNER & SALT MATCHER (OCR) -->
-<!-- ============================================================ -->
-<div class="modal-overlay" id="scannerModal">
-    <div class="modal-window" style="max-width: 680px;">
-        <div class="modal-header">
-            <h3><i class="fas fa-camera-retro" style="color: #7c3aed;"></i> AI Prescription &amp; Salt Matcher</h3>
-            <button class="modal-close" onclick="closeModal('scannerModal')">&times;</button>
-        </div>
-        <div class="modal-body">
-            <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:14px;">
-                Upload your doctor's prescription slip or type a medicine brand name. Our AI extracts the active generic salt and shows where to buy it for 80% cheaper!
-            </p>
+    <!-- ============================================================ -->
+    <!-- MODAL: AI PRESCRIPTION SCANNER & SALT MATCHER (OCR) -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="scannerModal">
+        <div class="modal-window" style="max-width: 680px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-camera-retro" style="color: #7c3aed;"></i> AI Prescription &amp; Salt Matcher</h3>
+                <button class="modal-close" onclick="closeModal('scannerModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:14px;">
+                    Upload your doctor's prescription slip or type a medicine brand name. Our AI extracts the active
+                    generic salt and shows where to buy it for 80% cheaper!
+                </p>
 
-            <!-- Dropzone for upload -->
-            <label class="ocr-dropzone" for="prescriptionFile">
-                <i class="fas fa-file-arrow-up"></i>
-                <div id="ocrDropText">
-                    <strong>Click to Upload Prescription Slip (PNG / JPG)</strong><br>
-                    <span style="font-size:0.8rem; color:#64748b;">Or take a photo from your smartphone camera</span>
+                <!-- Dropzone for upload -->
+                <label class="ocr-dropzone" for="prescriptionFile">
+                    <i class="fas fa-file-arrow-up"></i>
+                    <div id="ocrDropText">
+                        <strong>Click to Upload Prescription Slip (PNG / JPG)</strong><br>
+                        <span style="font-size:0.8rem; color:#64748b;">Or take a photo from your smartphone
+                            camera</span>
+                    </div>
+                    <input type="file" id="prescriptionFile" accept="image/*" style="display:none;"
+                        onchange="handlePrescriptionUpload(event)">
+                </label>
+
+                <div style="margin: 16px 0; text-align: center; color: #94a3b8; font-weight: 700; font-size: 0.82rem;">
+                    — OR SEARCH BRANDED MEDICINE NAME DIRECTLY —
                 </div>
-                <input type="file" id="prescriptionFile" accept="image/*" style="display:none;" onchange="handlePrescriptionUpload(event)">
-            </label>
 
-            <div style="margin: 16px 0; text-align: center; color: #94a3b8; font-weight: 700; font-size: 0.82rem;">
-                — OR SEARCH BRANDED MEDICINE NAME DIRECTLY —
-            </div>
+                <div style="display:flex; gap:10px;">
+                    <input type="text" id="prescriptionInput" class="search-input" style="padding:10px 18px;"
+                        placeholder="e.g. Augmentin, Dolo 650, Pan-D, Telma 40, Glycomet..." />
+                    <button type="button" class="btn-primary" onclick="searchPrescriptionSalt()">
+                        <i class="fas fa-magnifying-glass"></i> Analyze Salt
+                    </button>
+                </div>
 
-            <div style="display:flex; gap:10px;">
-                <input type="text" id="prescriptionInput" class="search-input" style="padding:10px 18px;" placeholder="e.g. Augmentin, Dolo 650, Pan-D, Telma 40, Glycomet..." />
-                <button type="button" class="btn-primary" onclick="searchPrescriptionSalt()">
-                    <i class="fas fa-magnifying-glass"></i> Analyze Salt
-                </button>
-            </div>
-
-            <!-- OCR Match Result Card -->
-            <div id="ocrResultCard" class="ocr-match-card">
-                <!-- Populated dynamically by app.js -->
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn-secondary" onclick="closeModal('scannerModal')">Close</button>
-        </div>
-    </div>
-</div>
-
-<!-- ============================================================ -->
-<!-- MODAL: ADMIN / FDA VERIFICATION PORTAL -->
-<!-- ============================================================ -->
-<div class="modal-overlay" id="adminModal">
-    <div class="modal-window" style="max-width: 850px;">
-        <div class="modal-header">
-            <h3><i class="fas fa-user-shield" style="color: var(--primary);"></i> Pharmacist &amp; Store Verification Dashboard</h3>
-            <button class="modal-close" onclick="closeModal('adminModal')">&times;</button>
-        </div>
-        <div class="modal-body">
-            <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:12px;">
-                Official SIH Evaluator &amp; Drug Inspector Portal. Verify store authenticity using state FDA drug license records before granting public listing approval.
-            </p>
-
-            <table class="admin-table">
-                <thead>
-                    <tr>
-                        <th>Medical Store &amp; Address</th>
-                        <th>Pharmacist Contact</th>
-                        <th>Drug License No.</th>
-                        <th>Status</th>
-                        <th>Actions</th>
-                    </tr>
-                </thead>
-                <tbody id="adminTableBody">
+                <!-- OCR Match Result Card -->
+                <div id="ocrResultCard" class="ocr-match-card">
                     <!-- Populated dynamically by app.js -->
-                </tbody>
-            </table>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn-secondary" onclick="closeModal('adminModal')">Close Portal</button>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('scannerModal')">Close</button>
+            </div>
         </div>
     </div>
-</div>
 
-<!-- ============================================================ -->
-<!-- MODAL: WEBSITE FEATURES & OPTIONS GUIDE -->
-<!-- ============================================================ -->
-<div class="modal-overlay" id="guideModal">
-    <div class="modal-window" style="max-width: 960px;">
-        <div class="modal-header">
-            <h3><i class="fas fa-book-open-reader" style="color: #d97706;"></i> Website Features &amp; Options Directory</h3>
-            <button class="modal-close" onclick="closeModal('guideModal')">&times;</button>
+    <!-- ============================================================ -->
+    <!-- MODAL: ADMIN / FDA VERIFICATION PORTAL -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="adminModal">
+        <div class="modal-window" style="max-width: 850px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-user-shield" style="color: var(--primary);"></i> Pharmacist &amp; Store
+                    Verification Dashboard</h3>
+                <button class="modal-close" onclick="closeModal('adminModal')">&times;</button>
+            </div>
+            <div class="modal-body">
+                <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:12px;">
+                    Official SIH Evaluator &amp; Drug Inspector Portal. Verify store authenticity using state FDA drug
+                    license records before granting public listing approval.
+                </p>
+
+                <table class="admin-table">
+                    <thead>
+                        <tr>
+                            <th>Medical Store &amp; Address</th>
+                            <th>Pharmacist Contact</th>
+                            <th>Drug License No.</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="adminTableBody">
+                        <!-- Populated dynamically by app.js -->
+                    </tbody>
+                </table>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('adminModal')">Close Portal</button>
+            </div>
         </div>
-        <div class="modal-body" style="padding: 20px 24px;">
-            <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:18px;">
-                Complete user guide explaining all tools, databases, and options available on MediFinder. Click any button to test that feature right away!
-            </p>
+    </div>
 
-            <div class="guide-grid">
-                <!-- 1. Medical Stores Visited by Students -->
-                <div class="guide-card" style="border-top: 3px solid #0284c7;">
-                    <div class="guide-card-top">
-                        <div class="guide-icon blue">
-                            <i class="fas fa-user-graduate"></i>
-                        </div>
-                        <div class="guide-title-box">
-                            <h4>Stores Visited by Students</h4>
-                            <span class="guide-badge" style="background:#e0f2fe; color:#0369a1;">Field Verification Survey</span>
-                        </div>
-                    </div>
-                    <p class="guide-desc">
-                        Directory of 24 independent pharmacies and generic medicine hubs across <strong>Chinchwad, Sant Eknath Nagar / Vallabh Nagar, Akurdi Station, and Chikhali</strong> physically surveyed, geotagged, and verified on-ground by PCCOE engineering students.
-                    </p>
-                    <div class="guide-footer-action">
-                        <button type="button" class="btn-guide-action" onclick="closeModal('guideModal'); filterStudentVisitedStores();">
-                            <i class="fas fa-map-pin"></i> View 24 Student Visited Stores
-                        </button>
-                    </div>
-                </div>
+    <!-- ============================================================ -->
+    <!-- MODAL: WEBSITE FEATURES & OPTIONS GUIDE -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="guideModal">
+        <div class="modal-window" style="max-width: 960px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-book-open-reader" style="color: #d97706;"></i> Website Features &amp; Options
+                    Directory</h3>
+                <button class="modal-close" onclick="closeModal('guideModal')">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 20px 24px;">
+                <p style="font-size:0.92rem; color:var(--text-muted); margin-bottom:18px;">
+                    Complete user guide explaining all tools, databases, and options available on MedNexa. Click any
+                    button to test that feature right away!
+                </p>
 
-                <!-- 2. AI Prescription & Salt Matcher -->
-                <div class="guide-card">
-                    <div class="guide-card-top">
-                        <div class="guide-icon purple">
-                            <i class="fas fa-camera"></i>
+                <div class="guide-grid">
+                    <!-- 1. Medical Stores Visited by Students -->
+                    <div class="guide-card" style="border-top: 3px solid #0284c7;">
+                        <div class="guide-card-top">
+                            <div class="guide-icon blue">
+                                <i class="fas fa-user-graduate"></i>
+                            </div>
+                            <div class="guide-title-box">
+                                <h4>Stores Visited by Students</h4>
+                                <span class="guide-badge" style="background:#e0f2fe; color:#0369a1;">Field Verification
+                                    Survey</span>
+                            </div>
                         </div>
-                        <div class="guide-title-box">
-                            <h4>AI Prescription &amp; Salt Matcher</h4>
-                            <span class="guide-badge">OCR &amp; Salt Matching</span>
+                        <p class="guide-desc">
+                            Directory of 24 independent pharmacies and generic medicine hubs across <strong>Chinchwad,
+                                Sant Eknath Nagar / Vallabh Nagar, Akurdi Station, and Chikhali</strong> physically
+                            surveyed, geotagged, and verified on-ground by PCCOE engineering students.
+                        </p>
+                        <div class="guide-footer-action">
+                            <button type="button" class="btn-guide-action"
+                                onclick="closeModal('guideModal'); filterStudentVisitedStores();">
+                                <i class="fas fa-map-pin"></i> View 24 Student Visited Stores
+                            </button>
                         </div>
                     </div>
-                    <p class="guide-desc">
-                        Upload or photograph a doctor's prescription slip or search a brand name directly. Identifies the active generic chemical formulation ("salt") and reveals where to buy it for up to 85% cheaper.
-                    </p>
-                    <div class="guide-footer-action">
-                        <button type="button" class="btn-guide-action" onclick="closeModal('guideModal'); openModal('scannerModal');">
-                            <i class="fas fa-camera"></i> Try: Open AI Scanner
-                        </button>
-                    </div>
-                </div>
 
-                <!-- 3. Generic Price Matcher -->
-                <div class="guide-card">
-                    <div class="guide-card-top">
-                        <div class="guide-icon green">
-                            <i class="fas fa-tags"></i>
+                    <!-- 2. AI Prescription & Salt Matcher -->
+                    <div class="guide-card">
+                        <div class="guide-card-top">
+                            <div class="guide-icon purple">
+                                <i class="fas fa-camera"></i>
+                            </div>
+                            <div class="guide-title-box">
+                                <h4>AI Prescription &amp; Salt Matcher</h4>
+                                <span class="guide-badge">OCR &amp; Salt Matching</span>
+                            </div>
                         </div>
-                        <div class="guide-title-box">
-                            <h4>Generic Price Matcher</h4>
-                            <span class="guide-badge">Price Subsidy Matrix</span>
+                        <p class="guide-desc">
+                            Upload or photograph a doctor's prescription slip or search a brand name directly.
+                            Identifies the active generic chemical formulation ("salt") and reveals where to buy it for
+                            up to 85% cheaper.
+                        </p>
+                        <div class="guide-footer-action">
+                            <button type="button" class="btn-guide-action"
+                                onclick="closeModal('guideModal'); openModal('scannerModal');">
+                                <i class="fas fa-camera"></i> Try: Open AI Scanner
+                            </button>
                         </div>
                     </div>
-                    <p class="guide-desc">
-                        Side-by-side price comparison table contrasting commercial medicines (Augmentin, Pan-D, Telma 40, Dolo 650) with government Jan Aushadhi generic substitutes showing verified price savings.
-                    </p>
-                    <div class="guide-footer-action">
-                        <button type="button" class="btn-guide-action" onclick="closeModal('guideModal'); openModal('savingsModal');">
-                            <i class="fas fa-table-list"></i> Try: Open Price Matcher
-                        </button>
-                    </div>
-                </div>
 
-                <!-- 4. Shopkeeper Consent Form -->
-                <div class="guide-card">
-                    <div class="guide-card-top">
-                        <div class="guide-icon teal">
-                            <i class="fas fa-file-signature"></i>
+                    <!-- 3. Generic Price Matcher -->
+                    <div class="guide-card">
+                        <div class="guide-card-top">
+                            <div class="guide-icon green">
+                                <i class="fas fa-tags"></i>
+                            </div>
+                            <div class="guide-title-box">
+                                <h4>Generic Price Matcher</h4>
+                                <span class="guide-badge">Price Subsidy Matrix</span>
+                            </div>
                         </div>
-                        <div class="guide-title-box">
-                            <h4>Consent Option</h4>
-                            <span class="guide-badge">ABDM Pharmacist Portal</span>
+                        <p class="guide-desc">
+                            Side-by-side price comparison table contrasting commercial medicines (Augmentin, Pan-D,
+                            Telma 40, Dolo 650) with government Jan Aushadhi generic substitutes showing verified price
+                            savings.
+                        </p>
+                        <div class="guide-footer-action">
+                            <button type="button" class="btn-guide-action"
+                                onclick="closeModal('guideModal'); openModal('savingsModal');">
+                                <i class="fas fa-table-list"></i> Try: Open Price Matcher
+                            </button>
                         </div>
                     </div>
-                    <p class="guide-desc">
-                        Official registration gateway for independent retail pharmacists to submit store details and give formal consent for public listing under the Ayushman Bharat Digital Mission (ABDM).
-                    </p>
-                    <div class="guide-footer-action">
-                        <button type="button" class="btn-guide-action" onclick="closeModal('guideModal'); openModal('consentModal');">
-                            <i class="fas fa-pen-nib"></i> Try: Open Consent Form
-                        </button>
-                    </div>
-                </div>
 
-                <!-- 5. Add Medical Store -->
-                <div class="guide-card">
-                    <div class="guide-card-top">
-                        <div class="guide-icon amber">
-                            <i class="fas fa-plus-circle"></i>
+                    <!-- 4. Shopkeeper Consent Form -->
+                    <div class="guide-card">
+                        <div class="guide-card-top">
+                            <div class="guide-icon teal">
+                                <i class="fas fa-file-signature"></i>
+                            </div>
+                            <div class="guide-title-box">
+                                <h4>Consent Option</h4>
+                                <span class="guide-badge">ABDM Pharmacist Portal</span>
+                            </div>
                         </div>
-                        <div class="guide-title-box">
-                            <h4>Add Store Option</h4>
-                            <span class="guide-badge">GIS Crowdsourcing</span>
+                        <p class="guide-desc">
+                            Official registration gateway for independent retail pharmacists to submit store details and
+                            give formal consent for public listing under the Ayushman Bharat Digital Mission (ABDM).
+                        </p>
+                        <div class="guide-footer-action">
+                            <button type="button" class="btn-guide-action"
+                                onclick="closeModal('guideModal'); openModal('consentModal');">
+                                <i class="fas fa-pen-nib"></i> Try: Open Consent Form
+                            </button>
                         </div>
                     </div>
-                    <p class="guide-desc">
-                        Community &amp; volunteer registration tool allowing users or pharmacists to register a new medical store. Features a map coordinate picker where clicking anywhere on the map auto-fills exact latitude/longitude.
-                    </p>
-                    <div class="guide-footer-action">
-                        <button type="button" class="btn-guide-action" onclick="closeModal('guideModal'); openModal('addStoreModal');">
-                            <i class="fas fa-store"></i> Try: Open Add Store Form
-                        </button>
-                    </div>
-                </div>
 
-                <!-- 6. Admin Verification Portal -->
-                <div class="guide-card">
-                    <div class="guide-card-top">
-                        <div class="guide-icon red">
-                            <i class="fas fa-user-shield"></i>
+                    <!-- 5. Add Medical Store -->
+                    <div class="guide-card">
+                        <div class="guide-card-top">
+                            <div class="guide-icon amber">
+                                <i class="fas fa-plus-circle"></i>
+                            </div>
+                            <div class="guide-title-box">
+                                <h4>Add Store Option</h4>
+                                <span class="guide-badge">GIS Crowdsourcing</span>
+                            </div>
                         </div>
-                        <div class="guide-title-box">
-                            <h4>Admin Portal</h4>
-                            <span class="guide-badge">FDA Drug Inspector</span>
+                        <p class="guide-desc">
+                            Community &amp; volunteer registration tool allowing users or pharmacists to register a new
+                            medical store. Features a map coordinate picker where clicking anywhere on the map
+                            auto-fills exact latitude/longitude.
+                        </p>
+                        <div class="guide-footer-action">
+                            <button type="button" class="btn-guide-action"
+                                onclick="closeModal('guideModal'); openModal('addStoreModal');">
+                                <i class="fas fa-store"></i> Try: Open Add Store Form
+                            </button>
                         </div>
                     </div>
-                    <p class="guide-desc">
-                        Evaluator &amp; regulatory dashboard simulating government drug inspector workflow to verify state FDA drug licenses and approve or reject independent store applications before public display.
-                    </p>
-                    <div class="guide-footer-action">
-                        <button type="button" class="btn-guide-action" onclick="closeModal('guideModal'); openModal('adminModal');">
-                            <i class="fas fa-shield-halved"></i> Try: Open Admin Portal
-                        </button>
-                    </div>
-                </div>
 
-                <!-- 7. Interactive Multi-Layer Street Map -->
-                <div class="guide-card">
-                    <div class="guide-card-top">
-                        <div class="guide-icon cyan">
-                            <i class="fas fa-map-location-dot"></i>
+                    <!-- 6. Admin Verification Portal -->
+                    <div class="guide-card">
+                        <div class="guide-card-top">
+                            <div class="guide-icon red">
+                                <i class="fas fa-user-shield"></i>
+                            </div>
+                            <div class="guide-title-box">
+                                <h4>Admin Portal</h4>
+                                <span class="guide-badge">FDA Drug Inspector</span>
+                            </div>
                         </div>
-                        <div class="guide-title-box">
-                            <h4>Street Map &amp; Layer Switcher</h4>
-                            <span class="guide-badge">GIS Street Locator</span>
+                        <p class="guide-desc">
+                            Evaluator &amp; regulatory dashboard simulating government drug inspector workflow to verify
+                            state FDA drug licenses and approve or reject independent store applications before public
+                            display.
+                        </p>
+                        <div class="guide-footer-action">
+                            <button type="button" class="btn-guide-action"
+                                onclick="closeModal('guideModal'); openModal('adminModal');">
+                                <i class="fas fa-shield-halved"></i> Try: Open Admin Portal
+                            </button>
                         </div>
                     </div>
-                    <p class="guide-desc">
-                        Interactive map featuring 4 instantly switchable base layers (Detailed Street Map, OpenStreetMap, Satellite, and Topographic) with color-coded pins for Jan Aushadhi, Allopathy, Ayurvedic, and Homeopathy.
-                    </p>
-                    <div class="guide-footer-action">
-                        <button type="button" class="btn-guide-action" onclick="closeModal('guideModal'); document.querySelector('.map-section').scrollIntoView({behavior:'smooth'});">
-                            <i class="fas fa-map"></i> View Street Map
-                        </button>
-                    </div>
-                </div>
 
-                <!-- 8. GPS Find Nearest to Me -->
-                <div class="guide-card">
-                    <div class="guide-card-top">
-                        <div class="guide-icon emerald">
-                            <i class="fas fa-location-crosshairs"></i>
+                    <!-- 7. Interactive Multi-Layer Street Map -->
+                    <div class="guide-card">
+                        <div class="guide-card-top">
+                            <div class="guide-icon cyan">
+                                <i class="fas fa-map-location-dot"></i>
+                            </div>
+                            <div class="guide-title-box">
+                                <h4>Street Map &amp; Layer Switcher</h4>
+                                <span class="guide-badge">GIS Street Locator</span>
+                            </div>
                         </div>
-                        <div class="guide-title-box">
-                            <h4>Find Nearest to Me (GPS)</h4>
-                            <span class="guide-badge">Live Triangulation</span>
+                        <p class="guide-desc">
+                            Interactive map featuring 4 instantly switchable base layers (Detailed Street Map,
+                            OpenStreetMap, Satellite, and Topographic) with color-coded pins for Jan Aushadhi,
+                            Allopathy, Ayurvedic, and Homeopathy.
+                        </p>
+                        <div class="guide-footer-action">
+                            <button type="button" class="btn-guide-action"
+                                onclick="closeModal('guideModal'); document.querySelector('.map-section').scrollIntoView({behavior:'smooth'});">
+                                <i class="fas fa-map"></i> View Street Map
+                            </button>
                         </div>
                     </div>
-                    <p class="guide-desc">
-                        One-click live GPS location detector calculating real-world distances via the Haversine formula, automatically sorting all 73 pharmacies from closest to farthest from your live location.
-                    </p>
-                    <div class="guide-footer-action">
-                        <button type="button" class="btn-guide-action" onclick="closeModal('guideModal'); locateUser();">
-                            <i class="fas fa-crosshairs"></i> Find Nearest Chemist
-                        </button>
-                    </div>
-                </div>
 
-                <!-- 9. Ministry of Ayush Official Portal (ayush.gov.in) -->
-                <div class="guide-card" style="border-top: 3px solid #059669;">
-                    <div class="guide-card-top">
-                        <div class="guide-icon" style="background:#ecfdf5; color:#059669;">
-                            <i class="fas fa-leaf"></i>
+                    <!-- 8. GPS Find Nearest to Me -->
+                    <div class="guide-card">
+                        <div class="guide-card-top">
+                            <div class="guide-icon emerald">
+                                <i class="fas fa-location-crosshairs"></i>
+                            </div>
+                            <div class="guide-title-box">
+                                <h4>Find Nearest to Me (GPS)</h4>
+                                <span class="guide-badge">Live Triangulation</span>
+                            </div>
                         </div>
-                        <div class="guide-title-box">
-                            <h4>Ministry of Ayush (ayush.gov.in)</h4>
-                            <span class="guide-badge" style="background:#d1fae5; color:#065f46;">Govt. of India Official Portal</span>
+                        <p class="guide-desc">
+                            One-click live GPS location detector calculating real-world distances via the Haversine
+                            formula, automatically sorting all 73 pharmacies from closest to farthest from your live
+                            location.
+                        </p>
+                        <div class="guide-footer-action">
+                            <button type="button" class="btn-guide-action"
+                                onclick="closeModal('guideModal'); locateUser();">
+                                <i class="fas fa-crosshairs"></i> Find Nearest Chemist
+                            </button>
                         </div>
                     </div>
-                    <p class="guide-desc">
-                        Official national health portal of the <strong>Ministry of Ayush, Government of India</strong>, regulating traditional healthcare systems: <strong>Ayurveda, Yoga &amp; Naturopathy, Unani, Siddha, Sowa-Rigpa, and Homoeopathy</strong>. The portal provides pharmacopeial medicine standards, National Medicinal Plants Board (NMPB) guidelines, AYUSH clinical trial registries, and certified drug manufacturing licenses. MediFinder integrates with AYUSH standards to verify authentic local Ayurvedic and Homeopathy pharmacies across PCMC.
-                    </p>
-                    <div class="guide-footer-action" style="display:flex; gap:8px;">
-                        <a href="https://ayush.gov.in" target="_blank" rel="noopener noreferrer" class="btn-guide-action" style="background:#059669; color:#ffffff; border-color:#059669; text-decoration:none;">
-                            <i class="fas fa-arrow-up-right-from-square"></i> Visit ayush.gov.in
-                        </a>
-                        <button type="button" class="btn-guide-action" onclick="closeModal('guideModal'); document.querySelector('[data-filter=ayurvedic]').click();">
-                            <i class="fas fa-mortar-pestle"></i> View Ayush Stores
-                        </button>
+
+                    <!-- 9. Ministry of Ayush Official Portal (ayush.gov.in) -->
+                    <div class="guide-card" style="border-top: 3px solid #059669;">
+                        <div class="guide-card-top">
+                            <div class="guide-icon" style="background:#ecfdf5; color:#059669;">
+                                <i class="fas fa-leaf"></i>
+                            </div>
+                            <div class="guide-title-box">
+                                <h4>Ministry of Ayush (ayush.gov.in)</h4>
+                                <span class="guide-badge" style="background:#d1fae5; color:#065f46;">Govt. of India
+                                    Official Portal</span>
+                            </div>
+                        </div>
+                        <p class="guide-desc">
+                            Official national health portal of the <strong>Ministry of Ayush, Government of
+                                India</strong>, regulating traditional healthcare systems: <strong>Ayurveda, Yoga &amp;
+                                Naturopathy, Unani, Siddha, Sowa-Rigpa, and Homoeopathy</strong>. The portal provides
+                            pharmacopeial medicine standards, National Medicinal Plants Board (NMPB) guidelines, AYUSH
+                            clinical trial registries, and certified drug manufacturing licenses. MedNexa integrates
+                            with AYUSH standards to verify authentic local Ayurvedic and Homeopathy pharmacies across
+                            PCMC.
+                        </p>
+                        <div class="guide-footer-action" style="display:flex; gap:8px;">
+                            <a href="https://ayush.gov.in" target="_blank" rel="noopener noreferrer"
+                                class="btn-guide-action"
+                                style="background:#059669; color:#ffffff; border-color:#059669; text-decoration:none;">
+                                <i class="fas fa-arrow-up-right-from-square"></i> Visit ayush.gov.in
+                            </a>
+                            <button type="button" class="btn-guide-action"
+                                onclick="closeModal('guideModal'); document.querySelector('[data-filter=ayurvedic]').click();">
+                                <i class="fas fa-mortar-pestle"></i> View Ayush Stores
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="modal-footer">
-            <button type="button" class="btn-secondary" onclick="closeModal('guideModal')">Close Guide</button>
-        </div>
-    </div>
-</div>
-
-<!-- ============================================================ -->
-<!-- MODAL: SIMPLE USER LOGIN / SIGN UP -->
-<!-- ============================================================ -->
-<div class="modal-overlay" id="authModal">
-    <div class="modal-window" style="max-width: 420px; border-radius: 16px;">
-        <div class="modal-header" style="border-bottom: 1px solid var(--border); padding: 18px 24px 14px;">
-            <div style="display:flex; align-items:center; gap:10px;">
-                <div style="width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg, var(--primary), var(--accent-teal)); display:flex; align-items:center; justify-content:center; color:white; font-size:1.05rem;">
-                    <i class="fas fa-user"></i>
-                </div>
-                <div>
-                    <h3 id="authModalTitle" style="margin:0; font-size:1.15rem; font-weight:700;">User Login</h3>
-                    <span id="authModalSubtitle" style="font-size:0.78rem; color:var(--text-muted);">Enter your credentials to access MediFinder</span>
-                </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('guideModal')">Close Guide</button>
             </div>
-            <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
-        </div>
-
-        <div class="modal-body" style="padding: 20px 24px 24px;">
-            <!-- 1. SIMPLE LOGIN FORM -->
-            <form id="signInForm" onsubmit="handleSignInSubmit(event)">
-                <div class="form-group" style="margin-bottom:14px;">
-                    <label for="loginEmail" style="font-size:0.86rem; font-weight:600; margin-bottom:6px; display:block;">Email Address</label>
-                    <div class="input-icon-wrapper">
-                        <i class="fas fa-envelope input-icon"></i>
-                        <input type="email" id="loginEmail" class="form-control with-icon" placeholder="name@example.com" required autocomplete="email" />
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-bottom:16px;">
-                    <label for="loginPassword" style="font-size:0.86rem; font-weight:600; margin-bottom:6px; display:block;">Password</label>
-                    <div class="input-icon-wrapper">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input type="password" id="loginPassword" class="form-control with-icon with-eye" placeholder="Enter your password" required autocomplete="current-password" />
-                        <button type="button" class="eye-toggle-btn" onclick="togglePasswordVisibility('loginPassword', this)" title="Show/Hide Password">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-primary" style="width:100%; padding:11px; font-size:0.95rem; font-weight:700; border-radius:8px;">
-                    Log In
-                </button>
-
-                <div style="text-align:center; margin-top:16px; font-size:0.86rem; color:var(--text-muted);">
-                    Don't have an account? 
-                    <a href="javascript:void(0)" onclick="switchAuthTab('signup')" style="color:var(--accent-teal); font-weight:700; text-decoration:none;">Create Account</a>
-                </div>
-            </form>
-
-            <!-- 2. SIMPLE CREATE ACCOUNT FORM -->
-            <form id="signUpForm" style="display:none;" onsubmit="handleSignUpSubmit(event)">
-                <div class="form-group" style="margin-bottom:12px;">
-                    <label for="regFullName" style="font-size:0.86rem; font-weight:600; margin-bottom:6px; display:block;">Your Name</label>
-                    <div class="input-icon-wrapper">
-                        <i class="fas fa-user input-icon"></i>
-                        <input type="text" id="regFullName" class="form-control with-icon" placeholder="Enter your full name" required />
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-bottom:12px;">
-                    <label for="regEmail" style="font-size:0.86rem; font-weight:600; margin-bottom:6px; display:block;">Email Address</label>
-                    <div class="input-icon-wrapper">
-                        <i class="fas fa-envelope input-icon"></i>
-                        <input type="email" id="regEmail" class="form-control with-icon" placeholder="name@example.com" required autocomplete="email" />
-                    </div>
-                </div>
-
-                <div class="form-group" style="margin-bottom:16px;">
-                    <label for="regPassword" style="font-size:0.86rem; font-weight:600; margin-bottom:6px; display:block;">Password</label>
-                    <div class="input-icon-wrapper">
-                        <i class="fas fa-lock input-icon"></i>
-                        <input type="password" id="regPassword" class="form-control with-icon with-eye" placeholder="Create password (min 6 characters)" minlength="6" required autocomplete="new-password" />
-                        <button type="button" class="eye-toggle-btn" onclick="togglePasswordVisibility('regPassword', this)" title="Show/Hide Password">
-                            <i class="fas fa-eye"></i>
-                        </button>
-                    </div>
-                </div>
-
-                <button type="submit" class="btn-primary" style="width:100%; padding:11px; font-size:0.95rem; font-weight:700; border-radius:8px;">
-                    Create Account
-                </button>
-
-                <div style="text-align:center; margin-top:16px; font-size:0.86rem; color:var(--text-muted);">
-                    Already have an account? 
-                    <a href="javascript:void(0)" onclick="switchAuthTab('signin')" style="color:var(--accent-teal); font-weight:700; text-decoration:none;">Log In</a>
-                </div>
-            </form>
         </div>
     </div>
-</div>
 
-<!-- TOAST CONTAINER -->
-<div class="toast-container" id="toastContainer"></div>
+    <!-- ============================================================ -->
+    <!-- MODAL: SIMPLE USER LOGIN / SIGN UP -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="authModal">
+        <div class="modal-window" style="max-width: 420px; border-radius: 16px;">
+            <div class="modal-header" style="border-bottom: 1px solid var(--border); padding: 18px 24px 14px;">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div
+                        style="width:36px; height:36px; border-radius:50%; background:linear-gradient(135deg, var(--primary), var(--accent-teal)); display:flex; align-items:center; justify-content:center; color:white; font-size:1.05rem;">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <h3 id="authModalTitle" style="margin:0; font-size:1.15rem; font-weight:700;">User Login</h3>
+                        <span id="authModalSubtitle" style="font-size:0.78rem; color:var(--text-muted);">Enter your
+                            credentials to access MedNexa</span>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('authModal')">&times;</button>
+            </div>
 
-<!-- Leaflet.js Interactive Maps JS (cdnjs with unpkg fallback) -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
-<script>
-if (typeof L === 'undefined') {
-    document.write('<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>');
-}
-</script>
+            <div class="modal-body" style="padding: 20px 24px 24px;">
+                <!-- 1. SIMPLE LOGIN FORM -->
+                <form id="signInForm" onsubmit="handleSignInSubmit(event)">
+                    <div class="form-group" style="margin-bottom:14px;">
+                        <label for="loginEmail"
+                            style="font-size:0.86rem; font-weight:600; margin-bottom:6px; display:block;">Email
+                            Address</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="loginEmail" class="form-control with-icon"
+                                placeholder="name@example.com" required autocomplete="email" />
+                        </div>
+                    </div>
 
-<!-- Local QR Code Engine & Scanner Libraries (100% Offline Capable) -->
-<script src="qrcode.min.js"></script>
-<script src="html5-qrcode.min.js"></script>
+                    <div class="form-group" style="margin-bottom:16px;">
+                        <label for="loginPassword"
+                            style="font-size:0.86rem; font-weight:600; margin-bottom:6px; display:block;">Password</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="loginPassword" class="form-control with-icon with-eye"
+                                placeholder="Enter your password" required autocomplete="current-password" />
+                            <button type="button" class="eye-toggle-btn"
+                                onclick="togglePasswordVisibility('loginPassword', this)" title="Show/Hide Password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
 
-<!-- App Data, QR Hub & Logic -->
-<script src="data.js"></script>
-<script src="qr-hub.js"></script>
-<script src="app.js"></script>
+                    <button type="submit" class="btn-primary"
+                        style="width:100%; padding:11px; font-size:0.95rem; font-weight:700; border-radius:8px;">
+                        Log In
+                    </button>
+
+                    <div style="text-align:center; margin-top:16px; font-size:0.86rem; color:var(--text-muted);">
+                        Don't have an account?
+                        <a href="javascript:void(0)" onclick="switchAuthTab('signup')"
+                            style="color:var(--accent-teal); font-weight:700; text-decoration:none;">Create Account</a>
+                    </div>
+                </form>
+
+                <!-- 2. SIMPLE CREATE ACCOUNT FORM -->
+                <form id="signUpForm" style="display:none;" onsubmit="handleSignUpSubmit(event)">
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label for="regFullName"
+                            style="font-size:0.86rem; font-weight:600; margin-bottom:6px; display:block;">Your
+                            Name</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-user input-icon"></i>
+                            <input type="text" id="regFullName" class="form-control with-icon"
+                                placeholder="Enter your full name" required />
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:12px;">
+                        <label for="regEmail"
+                            style="font-size:0.86rem; font-weight:600; margin-bottom:6px; display:block;">Email
+                            Address</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-envelope input-icon"></i>
+                            <input type="email" id="regEmail" class="form-control with-icon"
+                                placeholder="name@example.com" required autocomplete="email" />
+                        </div>
+                    </div>
+
+                    <div class="form-group" style="margin-bottom:16px;">
+                        <label for="regPassword"
+                            style="font-size:0.86rem; font-weight:600; margin-bottom:6px; display:block;">Password</label>
+                        <div class="input-icon-wrapper">
+                            <i class="fas fa-lock input-icon"></i>
+                            <input type="password" id="regPassword" class="form-control with-icon with-eye"
+                                placeholder="Create password (min 6 characters)" minlength="6" required
+                                autocomplete="new-password" />
+                            <button type="button" class="eye-toggle-btn"
+                                onclick="togglePasswordVisibility('regPassword', this)" title="Show/Hide Password">
+                                <i class="fas fa-eye"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary"
+                        style="width:100%; padding:11px; font-size:0.95rem; font-weight:700; border-radius:8px;">
+                        Create Account
+                    </button>
+
+                    <div style="text-align:center; margin-top:16px; font-size:0.86rem; color:var(--text-muted);">
+                        Already have an account?
+                        <a href="javascript:void(0)" onclick="switchAuthTab('signin')"
+                            style="color:var(--accent-teal); font-weight:700; text-decoration:none;">Log In</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- TOAST CONTAINER -->
+    <div class="toast-container" id="toastContainer"></div>
+
+    <!-- Leaflet.js Interactive Maps JS (cdnjs with unpkg fallback) -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+    <script>
+        if (typeof L === 'undefined') {
+            document.write('<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"><\/script>');
+        }
+    </script>
+
+    <!-- Local QR Code Engine & Scanner Libraries (100% Offline Capable) -->
+    <script src="qrcode.min.js"></script>
+    <script src="html5-qrcode.min.js"></script>
+
+    <!-- App Data, QR Hub & Logic -->
+    <script src="data.js"></script>
+    <script src="qr-hub.js"></script>
+    <script src="app.js"></script>
 
 </body>
+
 </html>

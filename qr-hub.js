@@ -1,5 +1,5 @@
 /**
- * MEDIFINDER — MOBILE QR HUB & IN-APP SCANNER ENGINE
+ * MEDNEXA — MOBILE QR HUB & IN-APP SCANNER ENGINE
  * Comprehensive QR generator for mobile handoff and high-accuracy QR/Barcode scanner
  */
 
@@ -36,7 +36,7 @@ function initQrHub() {
     }
 }
 
-// Check if MediFinder was opened via a scanned store QR code (e.g. ?store=stu-chw-1 or #store-stu-chw-1)
+// Check if MedNexa was opened via a scanned store QR code (e.g. ?store=stu-chw-1 or #store-stu-chw-1)
 function checkScannedStoreDeepLink() {
     try {
         const urlParams = new URLSearchParams(window.location.search);
@@ -105,25 +105,13 @@ function populateQrPharmacyDropdown() {
 // ==========================================================================
 // 2. MODAL & TAB CONTROLS
 // ==========================================================================
-function openMobileQrModal(tab = 'generate', targetStoreId = null) {
+function openMobileQrModal(tab = 'scan', targetStoreId = null) {
     openModal('mobileQrModal');
-    populateQrPharmacyDropdown();
-
-    if (targetStoreId) {
-        const select = document.getElementById('qrTargetSelect');
-        if (select) {
-            select.value = `store:${targetStoreId}`;
-        }
-        onQrTargetChange();
-    } else {
-        updateGeneratedQrCode();
-    }
-
-    switchQrModalTab(tab);
+    switchQrModalTab('scan');
 }
 
 function openStoreQrModal(storeId) {
-    openMobileQrModal('generate', storeId);
+    openMobileQrModal('scan', storeId);
 }
 
 function closeQrModal() {
@@ -131,31 +119,23 @@ function closeQrModal() {
     closeModal('mobileQrModal');
 }
 
-function switchQrModalTab(tab) {
-    activeQrTab = tab;
+function switchQrModalTab(tab = 'scan') {
+    activeQrTab = 'scan';
     const btnGen = document.getElementById('tabBtnGenerate');
     const btnScan = document.getElementById('tabBtnScan');
     const tabGen = document.getElementById('qrTabGenerate');
     const tabScan = document.getElementById('qrTabScan');
 
-    if (tab === 'generate') {
-        btnGen.classList.add('active');
-        btnScan.classList.remove('active');
-        tabGen.classList.add('active');
-        tabScan.classList.remove('active');
-        stopCameraScanner();
-        updateGeneratedQrCode();
-    } else {
-        btnGen.classList.remove('active');
-        btnScan.classList.add('active');
-        tabGen.classList.remove('active');
-        tabScan.classList.add('active');
-        if (activeScannerInput === 'camera') {
-            // Give modal animation 150ms to settle before starting viewport
-            setTimeout(() => {
-                startCameraScanner();
-            }, 180);
-        }
+    if (btnGen) btnGen.classList.remove('active');
+    if (btnScan) btnScan.classList.add('active');
+    if (tabGen) tabGen.classList.remove('active');
+    if (tabScan) tabScan.classList.add('active');
+
+    if (activeScannerInput === 'camera') {
+        // Give modal animation 150ms to settle before starting viewport
+        setTimeout(() => {
+            startCameraScanner();
+        }, 180);
     }
 }
 
@@ -231,8 +211,8 @@ function onQrTargetChange() {
         headingEl.innerHTML = `Scan for <strong>Stores Visited by Students</strong>`;
         subEl.innerText = `Scan to view the 24 ground-verified medical stores surveyed by PCCOE students.`;
     } else {
-        headingEl.innerText = "Scan to Open MediFinder on Your Phone";
-        subEl.innerText = "Point your smartphone camera or Google Lens at this QR code to instantly launch MediFinder on your mobile browser.";
+        headingEl.innerText = "Scan to Open MedNexa on Your Phone";
+        subEl.innerText = "Point your smartphone camera or Google Lens at this QR code to instantly launch MedNexa on your mobile browser.";
     }
 
     updateGeneratedQrCode(targetUrl);
@@ -271,7 +251,7 @@ function renderFallbackQr(container, text) {
     const encoded = encodeURIComponent(text);
     const img = document.createElement('img');
     img.src = `https://api.qrserver.com/v1/create-qr-code/?size=220x220&data=${encoded}&color=0f172a&bgcolor=ffffff&qzone=2`;
-    img.alt = "MediFinder Mobile QR Code";
+    img.alt = "MedNexa Mobile QR Code";
     img.style.width = "220px";
     img.style.height = "220px";
     img.style.borderRadius = "8px";
@@ -323,15 +303,15 @@ function fallbackCopy(text) {
 function shareQrUrl() {
     const url = document.getElementById('qrUrlInput') ? document.getElementById('qrUrlInput').value : window.location.href;
     const select = document.getElementById('qrTargetSelect');
-    let title = "MediFinder — PCCOE Healthcare Website";
-    let text = "Explore independent pharmacies & Jan Aushadhi generic stores in PCMC on MediFinder:";
+    let title = "MedNexa — PCCOE Healthcare Website";
+    let text = "Explore independent pharmacies & Jan Aushadhi generic stores in PCMC on MedNexa:";
 
     if (select && select.value.startsWith('store:')) {
         const storeId = select.value.replace('store:', '');
         const store = (typeof allPharmacies !== 'undefined') ? allPharmacies.find(s => String(s.id) === String(storeId)) : null;
         if (store) {
-            title = `${store.name} — MediFinder Pharmacy`;
-            text = `View ${store.name} (${store.area}) on MediFinder with GPS navigation & contact details:`;
+            title = `${store.name} — MedNexa Pharmacy`;
+            text = `View ${store.name} (${store.area}) on MedNexa with GPS navigation & contact details:`;
         }
     }
 
@@ -389,7 +369,7 @@ function downloadQrCode() {
     ctx.fillStyle = '#ffffff';
     ctx.font = 'bold 16px "Plus Jakarta Sans", sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('MediFinder • PCCOE Healthcare', exportCanvas.width / 2, 30);
+    ctx.fillText('MedNexa • PCCOE Healthcare', exportCanvas.width / 2, 30);
 
     // Draw QR code centered
     ctx.drawImage(canvas, 50, 65, 220, 220);
@@ -418,7 +398,7 @@ function drawBrandedFrameText(ctx, canvas) {
     ctx.fillStyle = '#0f172a';
     ctx.font = 'bold 14px sans-serif';
     ctx.textAlign = 'center';
-    ctx.fillText('MediFinder • Scan with Smartphone', canvas.width / 2, 290);
+    ctx.fillText('MedNexa • Scan with Smartphone', canvas.width / 2, 290);
     ctx.fillStyle = '#64748b';
     ctx.font = '11px sans-serif';
     ctx.fillText('PCCOE Student Innovation | Healthcare Technology', canvas.width / 2, 315);
@@ -426,7 +406,7 @@ function drawBrandedFrameText(ctx, canvas) {
 
 function triggerCanvasDownload(canvas) {
     const link = document.createElement('a');
-    link.download = `medifinder_qr_${Date.now()}.png`;
+    link.download = `mednexa_qr_${Date.now()}.png`;
     link.href = canvas.toDataURL('image/png');
     link.click();
     if (typeof showToast === 'function') {
@@ -676,7 +656,7 @@ function displayScanResult(rawText) {
 
     const clean = (rawText || '').trim();
 
-    // Check if it is a MediFinder store URL / deep-link
+    // Check if it is a MedNexa store URL / deep-link
     let detectedStore = null;
     if (typeof allPharmacies !== 'undefined') {
         const storeParamMatch = clean.match(/[?&]store=([^&#]+)/);

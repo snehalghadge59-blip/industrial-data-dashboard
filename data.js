@@ -1,5 +1,5 @@
 /**
- * MEDIFINDER — EXHAUSTIVE PHARMACY & MEDICINE REGISTRY
+ * MEDNEXA — EXHAUSTIVE PHARMACY & MEDICINE REGISTRY
  * Covering: PCCOE Campus, Akurdi, Chikhali Pradhikaran, Nigdi, Ravet & Walhekarwadi.
  * Includes GPS coordinates, 24/7 emergency flags, phone numbers, and generic savings data.
  */

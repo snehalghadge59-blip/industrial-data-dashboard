@@ -1,5 +1,5 @@
 /**
- * MEDIFINDER — APP ENGINE & LOGIC
+ * MEDNEXA — APP ENGINE & LOGIC
  * High-Performance Client for SIH Hackathon Demo
  */
 
@@ -446,7 +446,7 @@ function renderCards(stores) {
             : '';
 
         const cleanPhone = store.phone ? store.phone.replace(/[^0-9]/g, '') : '';
-        const waText = encodeURIComponent(`Hello, I saw ${store.name} on MediFinder. Can you please confirm if you have medicine in stock?`);
+        const waText = encodeURIComponent(`Hello, I saw ${store.name} on MedNexa. Can you please confirm if you have medicine in stock?`);
         const waLink = cleanPhone ? `https://wa.me/91${cleanPhone}?text=${waText}` : '#';
 
         card.innerHTML = `
@@ -604,7 +604,7 @@ function syncWithCloudCounter(isNewSession) {
                 totalVisitorCount += 1;
                 localStorage.setItem(VISITOR_STORAGE_KEY, totalVisitorCount.toString());
                 animateCounterRollUp(navVisitorCountEl, totalVisitorCount - 1, totalVisitorCount, 1200);
-                showToast(`👋 Welcome! You are person #${totalVisitorCount.toLocaleString()} to open MediFinder`, 'info');
+                showToast(`👋 Welcome! You are person #${totalVisitorCount.toLocaleString()} to open MedNexa`, 'info');
             } else {
                 if (navVisitorCountEl) navVisitorCountEl.innerText = totalVisitorCount.toLocaleString();
             }
@@ -621,7 +621,7 @@ function handleVisitorCountSuccess(newTotal, activeCount, isNewSession) {
     if (isNewSession) {
         sessionStorage.setItem(VISITOR_SESSION_KEY, 'true');
         animateCounterRollUp(navVisitorCountEl, Math.max(0, oldCount), totalVisitorCount, 1200);
-        showToast(`👋 Welcome! You are person #${totalVisitorCount.toLocaleString()} to open MediFinder`, 'info');
+        showToast(`👋 Welcome! You are person #${totalVisitorCount.toLocaleString()} to open MedNexa`, 'info');
         if (visitorBroadcast) {
             visitorBroadcast.postMessage({ type: 'NEW_VISITOR', total: totalVisitorCount, active: currentActiveUsers });
         }
@@ -685,7 +685,7 @@ function onRealtimeCountUpdated(newTotal, newActive, fromBroadcast = false) {
         }
 
         // Live notification banner
-        showToast(`🟢 Live Update: A new person just opened MediFinder! (${newTotal.toLocaleString()} total)`, 'info');
+        showToast(`🟢 Live Update: A new person just opened MedNexa! (${newTotal.toLocaleString()} total)`, 'info');
 
         if (!fromBroadcast && visitorBroadcast) {
             visitorBroadcast.postMessage({ type: 'NEW_VISITOR', total: newTotal, active: currentActiveUsers });
@@ -721,7 +721,7 @@ function animateCounterRollUp(element, start, end, duration = 1000) {
 
 function showVisitorInfoToast() {
     const formatted = totalVisitorCount.toLocaleString();
-    showToast(`🟢 Real-Time Counter: ${formatted} persons have opened MediFinder (${currentActiveUsers} active online right now).`, 'success');
+    showToast(`🟢 Real-Time Counter: ${formatted} persons have opened MedNexa (${currentActiveUsers} active online right now).`, 'success');
 }
 
 function focusOnMap(lat, lng) {
@@ -941,7 +941,7 @@ function exportDatabase() {
     const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(allPharmacies, null, 2));
     const dlAnchor = document.createElement('a');
     dlAnchor.setAttribute("href", dataStr);
-    dlAnchor.setAttribute("download", `medifinder_pharmacies_${Date.now()}.json`);
+    dlAnchor.setAttribute("download", `mednexa_pharmacies_${Date.now()}.json`);
     dlAnchor.click();
     showToast("Downloaded database JSON backup!", "success");
 }
@@ -1197,7 +1197,7 @@ async function initSecureUsers() {
             seedUsers.push({
                 id: 'usr_default',
                 fullName: 'Snehal',
-                email: 'user@medifinder.com',
+                email: 'user@mednexa.com',
                 saltHex: userSalt,
                 passwordHash: userHash,
                 createdAt: new Date().toISOString()
@@ -1291,12 +1291,12 @@ function switchAuthTab(tab) {
         if (signInForm) signInForm.style.display = 'block';
         if (signUpForm) signUpForm.style.display = 'none';
         if (modalTitle) modalTitle.innerText = 'User Login';
-        if (modalSubtitle) modalSubtitle.innerText = 'Enter your credentials to access MediFinder';
+        if (modalSubtitle) modalSubtitle.innerText = 'Enter your credentials to access MedNexa';
     } else {
         if (signInForm) signInForm.style.display = 'none';
         if (signUpForm) signUpForm.style.display = 'block';
         if (modalTitle) modalTitle.innerText = 'Create Account';
-        if (modalSubtitle) modalSubtitle.innerText = 'Sign up to access all MediFinder features';
+        if (modalSubtitle) modalSubtitle.innerText = 'Sign up to access all MedNexa features';
     }
 }
 

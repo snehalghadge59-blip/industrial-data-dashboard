@@ -3,8 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MediFinder — Website QR Scanner &amp; Mobile Access Standee</title>
-    <meta name="description" content="Scan this QR code with your phone camera to instantly open MediFinder on your mobile device. Find 24x7 pharmacies, Jan Aushadhi generic stores, and medicine availability.">
+    <title>MedNexa — Website QR Scanner &amp; Mobile Access Standee</title>
+    <meta name="description" content="Scan this QR code with your phone camera to instantly open MedNexa on your mobile device. Find 24x7 pharmacies, Jan Aushadhi generic stores, and medicine availability.">
     
     <!-- Favicon -->
     <link rel="icon" type="image/svg+xml" href="favicon.svg">
@@ -575,7 +575,7 @@
                 <i class="fas fa-plus"></i>
             </div>
             <div class="brand-title">
-                Medi<span>Finder</span>
+                Med<span>Nexa</span>
             </div>
         </a>
         <div style="display:flex; align-items:center; gap:10px;">
@@ -596,7 +596,7 @@
                 <i class="fas fa-qrcode"></i> Official Mobile Scanner
             </div>
 
-            <h1 class="standee-title">Scan to Open MediFinder</h1>
+            <h1 class="standee-title">Scan to Open MedNexa</h1>
             <p class="standee-subtitle">
                 Point your phone camera at this QR code to access 24x7 emergency pharmacies, Jan Aushadhi generic medicines, and stock availability instantly.
             </p>
@@ -676,7 +676,7 @@
                     <i class="fas fa-sliders"></i> Scanner Destination
                 </h2>
                 <p class="panel-card-desc">
-                    Customize which section of MediFinder opens when someone scans this code.
+                    Customize which section of MedNexa opens when someone scans this code.
                 </p>
 
                 <div class="form-group">
@@ -697,7 +697,7 @@
                 <div class="form-group">
                     <label class="form-label">Pre-filtered Target Section:</label>
                     <select id="targetSelector" class="form-select" onchange="onTargetSelectChange()">
-                        <option value="home">🏠 Full MediFinder Homepage</option>
+                        <option value="home">🏠 Full MedNexa Homepage</option>
                         <option value="generic">💊 Jan Aushadhi &amp; Generic Stores Only</option>
                         <option value="24h">🚨 24x7 Emergency Pharmacies Only</option>
                         <option value="student">🎓 PCCOE Student Verified Stores</option>
@@ -744,7 +744,7 @@
                     </li>
                     <li class="step-item">
                         <span class="step-num">3</span>
-                        <div><strong>Tap Link:</strong> Tap the yellow URL pop-up banner to launch MediFinder directly on your phone!</div>
+                        <div><strong>Tap Link:</strong> Tap the yellow URL pop-up banner to launch MedNexa directly on your phone!</div>
                     </li>
                 </ul>
             </div>
@@ -894,7 +894,7 @@
 
             if (navigator.clipboard && navigator.clipboard.writeText) {
                 navigator.clipboard.writeText(textToCopy).then(() => {
-                    showToast("Website link copied! Anyone scanning or clicking will open MediFinder.");
+                    showToast("Website link copied! Anyone scanning or clicking will open MedNexa.");
                 });
             } else {
                 if (input) {
@@ -944,7 +944,7 @@
             ctx.fillStyle = '#ffffff';
             ctx.font = 'bold 38px "Plus Jakarta Sans", sans-serif';
             ctx.textAlign = 'center';
-            ctx.fillText('MediFinder Mobile Access', 350, 75);
+            ctx.fillText('MedNexa Mobile Access', 350, 75);
 
             ctx.fillStyle = '#bae6fd';
             ctx.font = '20px "Plus Jakarta Sans", sans-serif';
@@ -984,11 +984,11 @@
 
                 // Download link
                 const link = document.createElement('a');
-                link.download = 'medifinder-website-scanner.png';
+                link.download = 'mednexa-website-scanner.png';
                 link.href = exportCanvas.toDataURL('image/png');
                 link.click();
 
-                showToast("MediFinder Scanner image downloaded!");
+                showToast("MedNexa Scanner image downloaded!");
             };
             qrImg.src = dataUrl;
         }
