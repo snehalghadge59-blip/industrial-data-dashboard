@@ -1,0 +1,9 @@
+*.zip
+_backup*/
+index/
+kestra/
+medifinder-website-latest/
+plugin-airtable/
+plugin-grafana/
+favicon/
+

@@ -1,0 +1,32 @@
+[
+  {
+    "id": "fb-101",
+    "name": "Aaditya Patil",
+    "role": "PCCOE Akurdi Student (CSE)",
+    "rating": 5,
+    "category": "Generic Medicine Pricing",
+    "message": "The Jan Aushadhi generic salt price comparison saved me over ₹200 on fever & cold medicines! Very helpful for hostel students staying around Akurdi.",
+    "date": "28 Oct 2026, 14:20",
+    "timestamp": 1793177400000
+  },
+  {
+    "id": "fb-102",
+    "name": "Dr. Smita Deshmukh",
+    "role": "Local Practitioner, Nigdi",
+    "rating": 5,
+    "category": "Real-Time Distance & Wishlist",
+    "message": "The real-time walking and driving distance calculation from PCCOE campus to midnight 24x7 pharmacies is remarkably accurate.",
+    "date": "29 Oct 2026, 09:15",
+    "timestamp": 1793245500000
+  },
+  {
+    "id": "fb-103",
+    "name": "Neha Kulkarni",
+    "role": "PCCOE Student",
+    "rating": 5,
+    "category": "Real-Time Distance & Wishlist",
+    "message": "I love the green Wishlist feature! I can save all my regular medical shops near college and see walking time before stepping out.",
+    "date": "29 Oct 2026, 17:40",
+    "timestamp": 1793275800000
+  }
+]

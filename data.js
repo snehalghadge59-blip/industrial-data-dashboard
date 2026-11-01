@@ -42,7 +42,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.7,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Matoshri+Medical+Chinchwad+Pune"
     },
     {
@@ -59,7 +59,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.7,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Tulsi+Medical+Chinchwad+Gaon+Pune"
     },
     {
@@ -110,7 +110,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Bharat+Medical+Chinchwad+Pune"
     },
     {
@@ -146,7 +146,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.7,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Shri+Ganesh+Medical+Sant+Eknath+Nagar+Vallabh+Nagar+Pimpri+Pune"
     },
     {
@@ -163,7 +163,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=2M+Medico+Sant+Eknath+Nagar+Vallabh+Nagar+Pune"
     },
     {
@@ -180,7 +180,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 85,
         rating: 4.9,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Swast+Aushadhi+Sant+Eknath+Nagar+Vallabh+Nagar+Pune"
     },
     {
@@ -197,7 +197,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Balaji+Medico+Sant+Eknath+Nagar+Vallabh+Nagar+Pune"
     },
     {
@@ -248,7 +248,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.7,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Omkar+Medical+Sant+Eknath+Nagar+Vallabh+Nagar+Pune"
     },
 
@@ -267,7 +267,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.8,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Healthcare+Medico+Akurdi+Station+Pune"
     },
     {
@@ -284,7 +284,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.7,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Shree+Medical+Akurdi+Station+Pune"
     },
     {
@@ -301,7 +301,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.8,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Sanjivan+Medical+Akurdi+Station+Pune"
     },
     {
@@ -352,7 +352,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 85,
         rating: 4.9,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Genericart+Akurdi+Station+Pune"
     },
     {
@@ -369,7 +369,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Sanjay+Medical+Akurdi+Station+Pune"
     },
     {
@@ -405,7 +405,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 85,
         rating: 4.9,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Genericplus+Pharmacy+Chikhali+Pune"
     },
     {
@@ -422,7 +422,7 @@ const INITIAL_PHARMACIES = [
         isStudentVisited: true,
         genericSavingsPct: 15,
         rating: 4.7,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Krishna+Medicals+Chikhali+Pune"
     },
 
@@ -458,7 +458,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 10,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Sanjiwani+Medical+Akurdi+Pune"
     },
     {
@@ -474,7 +474,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 85,
         rating: 4.9,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Generic+Aadhar+Ravet+Walhekarwadi+Pune"
     },
     {
@@ -590,7 +590,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 80,
         rating: 4.9,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Dhanvantari+Generic+Medical+Chikhali+Pradhikaran+Pune"
     },
     {
@@ -606,7 +606,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 85,
         rating: 4.8,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Davaindia+Generic+Pharmacy+Chikhali+Pradhikaran+Pune"
     },
     {
@@ -654,7 +654,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 30,
         rating: 4.7,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Swami+Ayurved+Herbal+Products+Chikhali+Pradhikaran+Pune"
     },
     {
@@ -718,7 +718,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 80,
         rating: 4.8,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Genericart+Medicine+Store+Koyna+Nagar+Chikhali+Pune"
     },
 
@@ -770,7 +770,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 90,
         rating: 4.9,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Attharv+Generic+Medicine+Store+Nigdi+Pune"
     },
     {
@@ -786,7 +786,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 10,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Sheetal+Medical+Nigdi+Pradhikaran+Pune"
     },
     {
@@ -834,7 +834,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 30,
         rating: 4.7,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Asha+Ayurveda+Nigdi+Pune"
     },
     {
@@ -870,7 +870,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 15,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Bhavani+Medical+Ravet+Pune"
     },
     {
@@ -902,7 +902,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 80,
         rating: 4.9,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Life+Care+Chemist+Ravet+Pune"
     },
     {
@@ -950,7 +950,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 88,
         rating: 4.9,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Jan+Aushadhi+Kendra+Walhekarwadi+Pune"
     },
     {
@@ -966,7 +966,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 15,
         rating: 4.5,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Siddhivinayak+Medical+Walhekarwadi+Pune"
     },
 
@@ -1018,7 +1018,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 88,
         rating: 4.9,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Jan+Aushadhi+Kendra+Vallabh+Nagar+Pimpri+Pune"
     },
     {
@@ -1034,7 +1034,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 15,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Poona+Medical+Vallabh+Nagar+Pimpri+Pune"
     },
     {
@@ -1050,7 +1050,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 80,
         rating: 4.7,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Kiran+Medicals+Vallabh+Nagar+Pimpri+Pune"
     },
     {
@@ -1134,7 +1134,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 10,
         rating: 4.5,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Tanaji+Medical+Stores+Tanaji+Nagar+Chinchwad+Pune"
     },
     {
@@ -1218,7 +1218,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 10,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Shagun+Medical+Stores+Shagun+Chowk+Pimpri+Pune"
     },
     {
@@ -1302,7 +1302,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 10,
         rating: 4.5,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Sai+Krupa+Medical+Alandi+Road+Bhosari+Pune"
     },
     {
@@ -1354,7 +1354,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 12,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Moshi+Medical+Sector+4+Moshi+Pradhikaran+Pune"
     },
     {
@@ -1486,7 +1486,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 10,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Pulse+Chemist+Kalat+Nagar+Wakad+Pune"
     },
 
@@ -1506,7 +1506,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 12,
         rating: 4.7,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=JSPM+Campus+Medical+Tathawade+Pune"
     },
     {
@@ -1554,7 +1554,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 10,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Balaji+Medical+Punawale+Pune"
     },
 
@@ -1622,7 +1622,7 @@ const INITIAL_PHARMACIES = [
         isVerified: true,
         genericSavingsPct: 10,
         rating: 4.6,
-        delivery: true,
+        delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Sangvi+Medical+Stores+Old+Sangvi+Pune"
     },
     {
@@ -1640,6 +1640,414 @@ const INITIAL_PHARMACIES = [
         rating: 4.8,
         delivery: false,
         mapUrl: "https://www.google.com/maps/search/?api=1&query=Om+Ayurvedic+Bhandar+Pimple+Gurav+Pune"
+    },
+
+    // ==========================================
+    // EXTENDED PCMC NETWORK (ADDITIONAL EXPANSION)
+    // ==========================================
+
+    // --- WAKAD & HINJAWADI BORDER ---
+    {
+        id: "wak-6",
+        name: "MedPlus Pharmacy Datta Mandir",
+        type: "Allopathy",
+        area: "Wakad",
+        address: "Shop 3, Opp. Datta Mandir, Datta Mandir Road, Wakad, Pune - 411057",
+        phone: "020-27402233",
+        lat: 18.6012,
+        lng: 73.7625,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 20,
+        rating: 4.7,
+        delivery: true,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=MedPlus+Pharmacy+Datta+Mandir+Wakad+Pune"
+    },
+    {
+        id: "wak-7",
+        name: "Genericart Medicine Store Wakad",
+        type: "Generic",
+        area: "Wakad",
+        address: "Near Shankar Kalat Nagar Chowk, Wakad, Pune - 411057",
+        phone: "020-27404455",
+        lat: 18.6062,
+        lng: 73.7680,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 80,
+        rating: 4.9,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Genericart+Medicine+Wakad+Pune"
+    },
+    {
+        id: "wak-8",
+        name: "Shree Samarth Homeopathic Pharmacy",
+        type: "Homeopathy",
+        area: "Wakad",
+        address: "Kaspate Vasti Link Road, Near Chatrapati Chowk, Wakad, Pune - 411057",
+        phone: "020-27406677",
+        lat: 18.5985,
+        lng: 73.7690,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 25,
+        rating: 4.8,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Samarth+Homeopathic+Pharmacy+Wakad+Pune"
+    },
+
+    // --- PUNAWALE & TATHAWADE ---
+    {
+        id: "pun-5",
+        name: "PMBJP Pradhan Mantri Jan Aushadhi Kendra Tathawade",
+        type: "Generic",
+        area: "Punawale",
+        address: "Survey No. 42, Near JSPM Gate No. 2, Tathawade, Pune - 411033",
+        phone: "020-22938899",
+        lat: 18.6172,
+        lng: 73.7465,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 85,
+        rating: 4.9,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Jan+Aushadhi+Kendra+JSPM+Tathawade+Pune"
+    },
+    {
+        id: "pun-6",
+        name: "Wellness Forever 24x7 Chemist Punawale",
+        type: "Allopathy",
+        area: "Punawale",
+        address: "Near Kate Wasti Chowk, Punawale Main Road, Pune - 411033",
+        phone: "020-22939911",
+        lat: 18.6270,
+        lng: 73.7395,
+        is24Hours: true,
+        isVerified: true,
+        genericSavingsPct: 15,
+        rating: 4.8,
+        delivery: true,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Wellness+Forever+Punawale+Pune"
+    },
+    {
+        id: "pun-7",
+        name: "Ayurshakti Herbal & Ayurvedic Dispensary",
+        type: "Ayurvedic",
+        area: "Punawale",
+        address: "Near 18 Latitude Mall, Koyte Vasti, Punawale, Pune - 411033",
+        phone: "020-22934422",
+        lat: 18.6300,
+        lng: 73.7360,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 30,
+        rating: 4.7,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Ayurshakti+Herbal+Punawale+Pune"
+    },
+
+    // --- MOSHI & BORHADEWADI ---
+    {
+        id: "mos-5",
+        name: "Pradhan Mantri Jan Aushadhi Kendra Moshi",
+        type: "Generic",
+        area: "Moshi",
+        address: "Shop 7, Borhadewadi Chowk, Moshi-Alandi Road, Moshi, Pune - 412105",
+        phone: "020-27182255",
+        lat: 18.6775,
+        lng: 73.8390,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 85,
+        rating: 4.9,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Jan+Aushadhi+Kendra+Borhadewadi+Moshi+Pune"
+    },
+    {
+        id: "mos-6",
+        name: "Apollo Pharmacy 24x7 Moshi Pradhikaran",
+        type: "Allopathy",
+        area: "Moshi",
+        address: "Sector 4, Spine Road Extension, Moshi Pradhikaran, Pune - 412105",
+        phone: "020-27184477",
+        lat: 18.6730,
+        lng: 73.8340,
+        is24Hours: true,
+        isVerified: true,
+        genericSavingsPct: 15,
+        rating: 4.8,
+        delivery: true,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Apollo+Pharmacy+Moshi+Pradhikaran+Pune"
+    },
+    {
+        id: "mos-7",
+        name: "Shree Sai Ayurvedic Bhandar Moshi",
+        type: "Ayurvedic",
+        area: "Moshi",
+        address: "Near Moshi High School, Pune-Nashik Highway, Moshi, Pune - 412105",
+        phone: "020-27186699",
+        lat: 18.6810,
+        lng: 73.8430,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 30,
+        rating: 4.6,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Shree+Sai+Ayurvedic+Moshi+Pune"
+    },
+
+    // --- BHOSARI & LANDEWADI ---
+    {
+        id: "bho-6",
+        name: "Generic Aadhar Pharmacy Bhosari",
+        type: "Generic",
+        area: "Bhosari",
+        address: "Near PMT Bus Stop, Pune-Nashik Road, Landewadi, Bhosari, Pune - 411039",
+        phone: "020-27124466",
+        lat: 18.6345,
+        lng: 73.8470,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 80,
+        rating: 4.8,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Generic+Aadhar+Pharmacy+Landewadi+Bhosari+Pune"
+    },
+    {
+        id: "bho-7",
+        name: "Apollo Pharmacy 24x7 Bhosari",
+        type: "Allopathy",
+        area: "Bhosari",
+        address: "Near Dighi Jakat Naka, Bhosari-Alandi Road, Bhosari, Pune - 411039",
+        phone: "020-27126688",
+        lat: 18.6275,
+        lng: 73.8530,
+        is24Hours: true,
+        isVerified: true,
+        genericSavingsPct: 15,
+        rating: 4.7,
+        delivery: true,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Apollo+Pharmacy+Bhosari+Pune"
+    },
+    {
+        id: "bho-8",
+        name: "Shree Dattakrupa Homeopathic Store",
+        type: "Homeopathy",
+        area: "Bhosari",
+        address: "Peace Park Road, Shital Baug, Bhosari, Pune - 411039",
+        phone: "020-27128800",
+        lat: 18.6320,
+        lng: 73.8450,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 25,
+        rating: 4.7,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Dattakrupa+Homeopathic+Bhosari+Pune"
+    },
+
+    // --- PIMPLE SAUDAGAR & SANGVI ---
+    {
+        id: "sau-6",
+        name: "Wellness Forever 24x7 Pimple Saudagar",
+        type: "Allopathy",
+        area: "Pimple Saudagar",
+        address: "Roseland Residency Commercial Wing, Pimple Saudagar, Pune - 411027",
+        phone: "020-27202244",
+        lat: 18.5990,
+        lng: 73.7930,
+        is24Hours: true,
+        isVerified: true,
+        genericSavingsPct: 15,
+        rating: 4.8,
+        delivery: true,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Wellness+Forever+Roseland+Pimple+Saudagar+Pune"
+    },
+    {
+        id: "sau-7",
+        name: "Genericart Medicine Hub Sangvi",
+        type: "Generic",
+        area: "Pimple Saudagar",
+        address: "Near PWD Ground, New Sangvi Main Road, Sangvi, Pune - 411027",
+        phone: "020-27204466",
+        lat: 18.5870,
+        lng: 73.8150,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 80,
+        rating: 4.9,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Genericart+Medicine+New+Sangvi+Pune"
+    },
+    {
+        id: "sau-8",
+        name: "Hahnemann Homeopathic Clinic & Store",
+        type: "Homeopathy",
+        area: "Pimple Saudagar",
+        address: "Near Govind Yashada Chowk, Pimple Saudagar, Pune - 411027",
+        phone: "020-27206688",
+        lat: 18.6020,
+        lng: 73.7970,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 25,
+        rating: 4.8,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Hahnemann+Homeopathic+Pimple+Saudagar+Pune"
+    },
+
+    // --- PIMPRI & CAMP ---
+    {
+        id: "pim-6",
+        name: "Generic Plus Medicine Hub Pimpri",
+        type: "Generic",
+        area: "Pimpri",
+        address: "Near Deluxe Cinema Chowk, Station Road, Pimpri, Pune - 411017",
+        phone: "020-27414433",
+        lat: 18.6250,
+        lng: 73.8055,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 80,
+        rating: 4.8,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Generic+Plus+Medicine+Deluxe+Chowk+Pimpri+Pune"
+    },
+    {
+        id: "pim-7",
+        name: "Patanjali Arogya Kendra Pimpri Camp",
+        type: "Ayurvedic",
+        area: "Pimpri",
+        address: "Main Bazaar Road, Near Sai Mandir, Pimpri Camp, Pune - 411017",
+        phone: "020-27416655",
+        lat: 18.6270,
+        lng: 73.8020,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 30,
+        rating: 4.7,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Patanjali+Arogya+Kendra+Pimpri+Camp+Pune"
+    },
+
+    // --- RAVET & WALHEKARWADI ---
+    {
+        id: "rav-8",
+        name: "MedPlus Pharmacy Ravet Shinde Petrol Pump",
+        type: "Allopathy",
+        area: "Ravet",
+        address: "Opp. Shinde Petrol Pump, BRTS Road, Ravet, Pune - 412101",
+        phone: "020-27485544",
+        lat: 18.6505,
+        lng: 73.7485,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 20,
+        rating: 4.8,
+        delivery: true,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=MedPlus+Pharmacy+Shinde+Petrol+Pump+Ravet+Pune"
+    },
+    {
+        id: "rav-9",
+        name: "Arogyadham Ayurvedic & Herbal Store Ravet",
+        type: "Ayurvedic",
+        area: "Ravet",
+        address: "Near PCCOE Campus, Sector 26, Akurdi / Ravet Pradhikaran, Pune - 412101",
+        phone: "020-27487766",
+        lat: 18.6460,
+        lng: 73.7530,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 35,
+        rating: 4.9,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Arogyadham+Ayurvedic+Store+Ravet+Pune"
+    },
+
+    // --- NIGDI PRADHIKARAN ---
+    {
+        id: "nig-9",
+        name: "Jan Aushadhi Medical Hub Nigdi Sector 26",
+        type: "Generic",
+        area: "Nigdi",
+        address: "Shop 5, Near Lokmanya Hospital, Sector 26, Pradhikaran, Nigdi, Pune - 411044",
+        phone: "020-27653377",
+        lat: 18.6550,
+        lng: 73.7690,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 85,
+        rating: 4.9,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Jan+Aushadhi+Sector+26+Nigdi+Pune"
+    },
+    {
+        id: "nig-10",
+        name: "Lifeline 24x7 Night Chemist Bhel Chowk",
+        type: "Allopathy",
+        area: "Nigdi",
+        address: "Bhel Chowk, Spine Road, Sector 24, Nigdi, Pune - 411044",
+        phone: "020-27655599",
+        lat: 18.6610,
+        lng: 73.7780,
+        is24Hours: true,
+        isVerified: true,
+        genericSavingsPct: 15,
+        rating: 4.8,
+        delivery: true,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Lifeline+Chemist+Bhel+Chowk+Nigdi+Pune"
+    },
+
+    // --- AKURDI ---
+    {
+        id: "aku-10",
+        name: "Apollo Pharmacy 24x7 Akurdi Gaon",
+        type: "Allopathy",
+        area: "Akurdi",
+        address: "Near Khandoba Mandir, Akurdi Gaonthan Road, Akurdi, Pune - 411035",
+        phone: "020-27643322",
+        lat: 18.6450,
+        lng: 73.7760,
+        is24Hours: true,
+        isVerified: true,
+        genericSavingsPct: 15,
+        rating: 4.7,
+        delivery: true,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Apollo+Pharmacy+Akurdi+Gaon+Pune"
+    },
+    {
+        id: "aku-11",
+        name: "PMBJP Jan Aushadhi Kendra Akurdi Station",
+        type: "Generic",
+        area: "Akurdi",
+        address: "Platform 1 Exit Road, Near Akurdi Railway Station, Akurdi, Pune - 411035",
+        phone: "020-27645544",
+        lat: 18.6480,
+        lng: 73.7710,
+        is24Hours: false,
+        isVerified: true,
+        genericSavingsPct: 85,
+        rating: 4.9,
+        delivery: false,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Jan+Aushadhi+Akurdi+Station+Pune"
+    },
+
+    // --- CHINCHWAD ---
+    {
+        id: "chw-8",
+        name: "Wellness Forever 24x7 Elpro City Square",
+        type: "Allopathy",
+        area: "Chinchwad",
+        address: "Link Road, Near Elpro Mall, Chinchwad, Pune - 411033",
+        phone: "020-27358899",
+        lat: 18.6340,
+        lng: 73.7895,
+        is24Hours: true,
+        isVerified: true,
+        genericSavingsPct: 15,
+        rating: 4.8,
+        delivery: true,
+        mapUrl: "https://www.google.com/maps/search/?api=1&query=Wellness+Forever+Elpro+Mall+Chinchwad+Pune"
     }
 ];
 
@@ -1740,6 +2148,8 @@ const I18N_TRANSLATIONS = {
         statDistance: "Nearest Distance (GPS)",
         statVisitors: "Persons Opened Website",
         navVisitors: "Visitors",
+        btnVoice: "AI Voice Command",
+        voiceHelpText: "Unable to type? Tap here to command with AI Voice (English, मराठी, हिंदी)",
         mapTitle: "Interactive Map of PCMC Pharmacies",
         mapDesc: "Pins color-coded: Green = Jan Aushadhi/Generic | Blue = Allopathy | Pink = Ayurvedic | Amber = Homeopathy",
         locateBtn: "Find Nearest to Me (GPS)",
@@ -1774,6 +2184,8 @@ const I18N_TRANSLATIONS = {
         statDistance: "जवळचे अंतर (GPS)",
         statVisitors: "वेबसाइट उघडलेल्या व्यक्ती",
         navVisitors: "अभ्यागत",
+        btnVoice: "AI व्हॉइस कमांड",
+        voiceHelpText: "टाईप करता येत नाही? AI व्हॉइसने शोधण्यासाठी येथे स्पर्श करा (इंग्रजी, मराठी, हिंदी)",
         mapTitle: "पिंपरी-चिंचवड मेडिकल स्टोअर्सचा थेट नकाशा",
         mapDesc: "रंग संकेत: हिरवा = जेनेरिक/जन औषधी | निळा = ॲलोपॅथी | गुलाबी = आयुर्वेदिक | पिवळा = होमिओपॅथी",
         locateBtn: "माझ्या जवळील शोधा (GPS)",
@@ -1808,6 +2220,8 @@ const I18N_TRANSLATIONS = {
         statDistance: "निकटतम दूरी (GPS)",
         statVisitors: "वेबसाइट खोलने वाले लोग",
         navVisitors: "आगंतुक",
+        btnVoice: "AI वॉयस कमांड",
+        voiceHelpText: "टाइप करने में असमर्थ? AI वॉयस से खोजने के लिए यहाँ टैप करें (अंग्रेजी, मराठी, हिंदी)",
         mapTitle: "पीसीएमसी मेडिकल स्टोर्स का लाइव मानचित्र",
         mapDesc: "रंग संकेत: हरा = जेनेरिक/जन औषधि | नीला = एलोपैथी | गुलाबी = आयुर्वेदिक | पीला = होम्योपैथी",
         locateBtn: "मेरे नजदीकी खोजें (GPS)",

@@ -3,7 +3,10 @@
 
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+    <meta name="theme-color" content="#0a3663">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
     <title>MedNexa — PCCOE Student Innovation | Healthcare Technology</title>
 
     <meta name="description"
@@ -50,6 +53,16 @@
                 </div>
             </a>
 
+            <!-- Mobile Header Actions (SOS Button & Hamburger Toggle) -->
+            <div class="mobile-header-actions">
+                <button type="button" class="btn-mob-sos" onclick="openSosModal()" title="24x7 Critical Emergency Medicine & SOS Finder">
+                    <i class="fas fa-truck-medical"></i> <span>SOS</span>
+                </button>
+                <button type="button" class="btn-mob-hamburger" id="mobileMenuBtn" onclick="toggleMobileMenu()" aria-label="Open Navigation Menu" aria-expanded="false">
+                    <i class="fas fa-bars" id="mobMenuIcon"></i>
+                </button>
+            </div>
+
             <div class="nav-actions">
                 <!-- Language Switcher -->
                 <div class="lang-switcher">
@@ -66,10 +79,18 @@
                     <span class="visitor-count-text">
                         <strong id="navVisitorCount">1</strong> <span id="navVisitorSubtext">Visitors</span>
                     </span>
-                    <span class="live-active-tag" id="liveActiveBadge" title="People active on website right now">
-                        <span class="live-dot-mini"></span><span id="activeCountText">1 active</span>
-                    </span>
                 </div>
+
+                <!-- AI Voice Command Assistant -->
+                <!-- 24x7 Emergency Critical SOS Finder -->
+                <button class="btn-nav btn-sos-nav" onclick="openSosModal()" title="24x7 Critical Emergency Medicine & SOS Finder">
+                    <i class="fas fa-truck-medical"></i> <span>24x7 SOS Emergency</span>
+                </button>
+
+                <button class="btn-nav btn-voice" onclick="openVoiceAssistantModal()" title="AI Voice Command Assistant">
+                    <i class="fas fa-microphone-lines"></i> <span id="btnVoiceText">AI Voice Command</span>
+                    <span class="voice-nav-live-dot"></span>
+                </button>
 
                 <!-- Website Features & Options Guide -->
                 <button class="btn-nav btn-guide" onclick="openModal('guideModal')" title="Features & Options Guide">
@@ -81,10 +102,10 @@
                     <i class="fas fa-camera"></i> <span id="btnScannerText">AI Prescription Matcher</span>
                 </button>
 
-                <!-- Admin Review Portal -->
-                <button class="btn-nav btn-admin" onclick="openModal('adminModal')">
-                    <i class="fas fa-user-shield" style="color: var(--primary);"></i> <span id="btnAdminText">Admin
-                        Portal</span>
+                <!-- Private Admin Review Portal (Password Protected) -->
+                <button class="btn-nav btn-admin" onclick="openAdminPortal()" title="Secure Administrator Portal (Password Protected)">
+                    <i class="fas fa-shield-halved" style="color: var(--primary);"></i> <span id="btnAdminText">Admin Portal</span>
+                    <span class="admin-pending-badge" id="navAdminPendingBadge" style="display:none;">0</span>
                 </button>
 
                 <!-- Generic Savings Matrix -->
@@ -99,9 +120,15 @@
                     <span class="visited-count-badge">24</span>
                 </button>
 
-                <button class="btn-nav btn-nav-ghost" onclick="openModal('consentModal')">
-                    <i class="fas fa-file-signature" style="color: var(--accent-teal);"></i> <span
-                        id="btnConsentText">Consent</span>
+                <!-- Saved Medical Stores (Wishlist) -->
+                <button class="btn-nav btn-wishlist-nav" id="btnWishlistNav" onclick="openWishlistModal()" title="View Your Saved Medical Stores">
+                    <i class="fas fa-heart"></i> <span id="btnWishlistText">Saved Stores</span>
+                    <span class="wishlist-count-badge" id="navWishlistCount">0</span>
+                </button>
+
+                <!-- Feedback & Suggestions -->
+                <button class="btn-nav btn-feedback-nav" id="btnFeedbackNav" onclick="openFeedbackModal()" title="Send Feedback & Suggestions">
+                    <i class="fas fa-comment-dots"></i> <span id="btnFeedbackText">Feedback</span>
                 </button>
 
                 <button class="btn-nav btn-nav-primary" onclick="openModal('addStoreModal')">
@@ -116,6 +143,150 @@
                 </div>
             </div>
         </nav>
+
+        <!-- Mobile Slide-Out Navigation Drawer & Backdrop -->
+        <div class="mobile-nav-backdrop" id="mobileNavBackdrop" onclick="closeMobileMenu()"></div>
+        <aside class="mobile-nav-drawer" id="mobileNavDrawer" aria-label="Mobile Navigation Menu">
+            <div class="mob-drawer-header">
+                <div class="brand">
+                    <div class="brand-icon" style="width:38px; height:38px; font-size:1.1rem;">
+                        <i class="fas fa-hand-holding-medical"></i>
+                    </div>
+                    <div class="brand-text">
+                        <h2 style="font-size:1.15rem; font-weight:800; margin:0; line-height:1.2;">MedNexa</h2>
+                        <span style="font-size:0.65rem; color:var(--text-muted); font-weight:700; text-transform:uppercase;">PCCOE Healthcare Tech</span>
+                    </div>
+                </div>
+                <button type="button" class="mob-drawer-close" onclick="closeMobileMenu()" aria-label="Close menu">
+                    <i class="fas fa-times"></i>
+                </button>
+            </div>
+
+            <div class="mob-drawer-body">
+                <!-- Language Selector in Drawer -->
+                <div class="mob-drawer-section">
+                    <span class="mob-section-label"><i class="fas fa-language"></i> Language / भाषा</span>
+                    <div class="lang-switcher mob-lang-switcher">
+                        <button class="lang-btn active" data-lang="en" onclick="setLanguage('en')">EN</button>
+                        <button class="lang-btn" data-lang="mr" onclick="setLanguage('mr')">मराठी</button>
+                        <button class="lang-btn" data-lang="hi" onclick="setLanguage('hi')">हिंदी</button>
+                    </div>
+                </div>
+
+                <!-- Live Visitors Pill in Drawer -->
+                <div class="mob-drawer-section">
+                    <div class="nav-visitor-pill mob-visitor-pill" onclick="showVisitorInfoToast(); closeMobileMenu();" title="Live Visitor Counter">
+                        <span class="pulse-dot-green"></span>
+                        <i class="fas fa-users-viewfinder"></i>
+                        <span class="visitor-count-text">
+                            <strong id="mobNavVisitorCount">1</strong> <span>Visitors</span>
+                        </span>
+                    </div>
+                </div>
+
+                <!-- Emergency & Healthcare Tools -->
+                <div class="mob-drawer-section">
+                    <span class="mob-section-label"><i class="fas fa-kit-medical"></i> Emergency & Healthcare Tools</span>
+                    <div class="mob-drawer-links">
+                        <button type="button" class="mob-link-btn mob-link-sos" onclick="closeMobileMenu(); openSosModal();">
+                            <div class="mob-link-icon-circle red"><i class="fas fa-truck-medical"></i></div>
+                            <div class="mob-link-text">
+                                <strong>24x7 SOS Emergency Finder</strong>
+                                <span>Cold-chain insulin, cardiac &amp; urgent drugs</span>
+                            </div>
+                        </button>
+                        <button type="button" class="mob-link-btn mob-link-voice" onclick="closeMobileMenu(); openVoiceAssistantModal();">
+                            <div class="mob-link-icon-circle purple"><i class="fas fa-microphone-lines"></i></div>
+                            <div class="mob-link-text">
+                                <strong>AI Voice Command</strong>
+                                <span>Speak in English, Marathi, or Hindi</span>
+                            </div>
+                        </button>
+                        <button type="button" class="mob-link-btn mob-link-scanner" onclick="closeMobileMenu(); openModal('scannerModal');">
+                            <div class="mob-link-icon-circle violet"><i class="fas fa-camera"></i></div>
+                            <div class="mob-link-text">
+                                <strong>AI Prescription Matcher</strong>
+                                <span>Scan prescription for 85% generic savings</span>
+                            </div>
+                        </button>
+                        <button type="button" class="mob-link-btn mob-link-savings" onclick="closeMobileMenu(); openModal('savingsModal');">
+                            <div class="mob-link-icon-circle green"><i class="fas fa-tags"></i></div>
+                            <div class="mob-link-text">
+                                <strong>Generic Price Matcher</strong>
+                                <span>Branded vs Jan Aushadhi price matrix</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Pharmacy Directories & Wishlist -->
+                <div class="mob-drawer-section">
+                    <span class="mob-section-label"><i class="fas fa-store"></i> Pharmacies &amp; Saved Stores</span>
+                    <div class="mob-drawer-links">
+                        <button type="button" class="mob-link-btn" onclick="closeMobileMenu(); filterStudentVisitedStores();">
+                            <div class="mob-link-icon-circle amber"><i class="fas fa-user-graduate"></i></div>
+                            <div class="mob-link-text">
+                                <strong>Stores Visited by Students</strong>
+                                <span>24 verified PCCOE survey pharmacies</span>
+                            </div>
+                            <span class="visited-count-badge">24</span>
+                        </button>
+                        <button type="button" class="mob-link-btn" onclick="closeMobileMenu(); openWishlistModal();">
+                            <div class="mob-link-icon-circle teal"><i class="fas fa-heart"></i></div>
+                            <div class="mob-link-text">
+                                <strong>My Saved Stores</strong>
+                                <span>Care wishlist for quick access</span>
+                            </div>
+                            <span class="wishlist-count-badge" id="mobWishlistCount">0</span>
+                        </button>
+                        <button type="button" class="mob-link-btn" onclick="closeMobileMenu(); openModal('addStoreModal');">
+                            <div class="mob-link-icon-circle blue"><i class="fas fa-plus-circle"></i></div>
+                            <div class="mob-link-text">
+                                <strong>Add Medical Store</strong>
+                                <span>Submit pharmacy for admin verification</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Portal & Support -->
+                <div class="mob-drawer-section">
+                    <span class="mob-section-label"><i class="fas fa-gear"></i> Portal &amp; Support</span>
+                    <div class="mob-drawer-links">
+                        <button type="button" class="mob-link-btn" onclick="closeMobileMenu(); openModal('guideModal');">
+                            <div class="mob-link-icon-circle orange"><i class="fas fa-book-open"></i></div>
+                            <div class="mob-link-text">
+                                <strong>Website Features Guide</strong>
+                                <span>Manual for all options &amp; databases</span>
+                            </div>
+                        </button>
+                        <button type="button" class="mob-link-btn" onclick="closeMobileMenu(); openAdminPortal();">
+                            <div class="mob-link-icon-circle slate"><i class="fas fa-shield-halved"></i></div>
+                            <div class="mob-link-text">
+                                <strong>Admin Review Portal</strong>
+                                <span>Private verification &amp; regulatory console</span>
+                            </div>
+                        </button>
+                        <button type="button" class="mob-link-btn" onclick="closeMobileMenu(); openFeedbackModal();">
+                            <div class="mob-link-icon-circle emerald"><i class="fas fa-comment-dots"></i></div>
+                            <div class="mob-link-text">
+                                <strong>Feedback &amp; Suggestions</strong>
+                                <span>Send ideas &amp; rate the platform</span>
+                            </div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- User Account in Drawer -->
+                <div class="mob-drawer-section mob-drawer-user-section">
+                    <div id="mobNavAuthContainer">
+                        <button type="button" class="mob-btn-auth" onclick="closeMobileMenu(); openAuthModal('signin');">
+                            <i class="fas fa-user-circle"></i> <span>Log In / Create Account</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </aside>
 
         <!-- ============================================================ -->
         <!-- 2. HERO BANNER -->
@@ -142,6 +313,20 @@
                         Options</span></div>
                 <div class="hero-pill"><i class="fas fa-moon"></i> <span id="pillEmergency">24x7 Night Emergency
                         Chemists</span></div>
+            </div>
+
+            <!-- Emergency Critical Medicine Banner (SIH High-Impact Life Saving Feature) -->
+            <div class="hero-sos-banner">
+                <div class="hero-sos-text">
+                    <span class="sos-pulse-icon"><i class="fas fa-heart-pulse"></i></span>
+                    <div>
+                        <strong>24x7 Critical Care &amp; Emergency SOS Medicine Finder</strong>
+                        <p>Need Insulin (Cold-Chain), Cardiac Emergencies (Sorbitrate), Nebulizers, or Pediatric drugs right now?</p>
+                    </div>
+                </div>
+                <button type="button" class="btn-hero-sos" onclick="openSosModal()">
+                    <i class="fas fa-truck-medical"></i> <span>1-Tap Emergency SOS</span>
+                </button>
             </div>
         </section>
 
@@ -219,6 +404,8 @@
             </div>
 
             <div id="map"></div>
+            <!-- Dynamic Real-Time Live Route HUD Overlay -->
+            <div id="mapRouteHud" class="map-route-hud" style="display:none;"></div>
         </section>
 
         <!-- ============================================================ -->
@@ -229,7 +416,32 @@
                 <i class="fas fa-magnifying-glass search-icon"></i>
                 <input type="text" id="searchInput" class="search-input"
                     placeholder="Search by Pharmacy Name, Area, Street, or Medicine Name..." />
-                <button id="searchClear" class="search-clear"><i class="fas fa-times-circle"></i></button>
+                <div class="search-right-actions">
+                    <button id="searchClear" class="search-clear" title="Clear Search"><i class="fas fa-times-circle"></i></button>
+                    <button id="voiceSearchBtn" class="voice-search-btn" type="button" onclick="startInlineVoiceSearch(event)" title="AI Voice Command — Speak to Search">
+                        <i class="fas fa-microphone"></i>
+                        <span class="voice-search-label">AI Voice</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Accessibility Voice Command Bar for Users Unable to Type or Search -->
+            <div class="voice-help-bar" id="voiceHelpBar">
+                <div class="voice-help-content" onclick="openVoiceAssistantModal()" role="button" tabindex="0" title="Click to speak using AI Voice">
+                    <span class="voice-pulse-badge">
+                        <i class="fas fa-microphone-lines"></i> AI Voice
+                    </span>
+                    <span class="voice-help-text" id="voiceHelpText">
+                        Unable to type? <strong>Tap here to command with AI Voice</strong> (English, मराठी, हिंदी)
+                    </span>
+                    <span class="voice-help-cta">Speak Now <i class="fas fa-chevron-right"></i></span>
+                </div>
+                <div class="voice-quick-chips">
+                    <span class="voice-chip-label"><i class="fas fa-bolt"></i> Quick Voice Commands:</span>
+                    <button type="button" class="voice-chip" onclick="executeVoiceCommandQuick('All stores near Aakurdi')"><i class="fas fa-map-pin"></i> "All stores near Aakurdi"</button>
+                    <button type="button" class="voice-chip" onclick="executeVoiceCommandQuick('Jan Aushadhi in Akurdi')"><i class="fas fa-capsules"></i> "Jan Aushadhi"</button>
+                    <button type="button" class="voice-chip" onclick="executeVoiceCommandQuick('24 hours emergency medical')"><i class="fas fa-clock"></i> "24x7 Night"</button>
+                </div>
             </div>
 
             <!-- Ministry of Ayush (ayush.gov.in) Official Link Bar -->
@@ -270,6 +482,9 @@
                     <button class="filter-pill" data-filter="ayurvedic">
                         <i class="fas fa-leaf"></i> <span>Ayurvedic</span>
                     </button>
+                    <button class="filter-pill filter-wishlist" data-filter="wishlist" id="pillWishlist">
+                        <i class="fas fa-heart" style="color: #059669;"></i> <span>My Saved Stores (<span id="pillWishlistCount">0</span>)</span>
+                    </button>
                     <button class="filter-pill" data-filter="homeopathy">
                         <i class="fas fa-flask"></i> <span>Homeopathy</span>
                     </button>
@@ -296,10 +511,59 @@
         </section>
 
         <!-- ============================================================ -->
+        <!-- REAL-TIME DYNAMIC LOCATION & MULTI-MODAL TRANSIT HUB -->
+        <!-- ============================================================ -->
+        <section class="realtime-transit-bar" id="realtimeTransitBar">
+            <div class="transit-bar-top">
+                <div class="transit-origin-indicator">
+                    <span class="live-gps-radar-dot"></span>
+                    <div class="transit-origin-info">
+                        <span class="origin-tag-label"><i class="fas fa-satellite-dish"></i> REAL-TIME DYNAMIC ORIGIN:</span>
+                        <strong id="liveOriginName">PCCOE Campus Gate</strong>
+                        <span class="live-coords-chip" id="liveCoordsChip">18.6517° N, 73.7629° E</span>
+                    </div>
+                </div>
+                <div class="transit-actions">
+                    <button type="button" class="btn-transit-action" id="btnLiveDeviceGps" onclick="locateUser(true)">
+                        <i class="fas fa-crosshairs"></i> <span>My Real GPS</span>
+                    </button>
+                    <button type="button" class="btn-transit-action" id="btnSimulateMotion" onclick="toggleSimulateMovement()">
+                        <i class="fas fa-person-walking-arrow-right"></i> <span id="simulateMotionLabel">Simulate Live Motion</span>
+                    </button>
+                    <button type="button" class="btn-transit-action" id="btnPickOnMap" onclick="enableMapPickOrigin()">
+                        <i class="fas fa-map-pin"></i> <span>Pick On Map</span>
+                    </button>
+                </div>
+            </div>
+
+            <div class="transit-quick-locations">
+                <span class="quick-loc-label"><i class="fas fa-location-dot"></i> Switch Origin:</span>
+                <button type="button" class="origin-chip active" id="chip-pccoe" onclick="setOriginLocation('pccoe')"><i class="fas fa-graduation-cap"></i> PCCOE Campus</button>
+                <button type="button" class="origin-chip" id="chip-akurdi-stn" onclick="setOriginLocation('akurdi-stn')"><i class="fas fa-train"></i> Akurdi Stn</button>
+                <button type="button" class="origin-chip" id="chip-dypatil" onclick="setOriginLocation('dypatil')"><i class="fas fa-building-columns"></i> PCCOE Akurdi</button>
+                <button type="button" class="origin-chip" id="chip-chinchwad-stn" onclick="setOriginLocation('chinchwad-stn')"><i class="fas fa-building"></i> Chinchwad Stn</button>
+                <button type="button" class="origin-chip" id="chip-hinjawadi" onclick="setOriginLocation('hinjawadi')"><i class="fas fa-laptop-code"></i> Hinjawadi Ph-1</button>
+                <button type="button" class="origin-chip" id="chip-wakad" onclick="setOriginLocation('wakad')"><i class="fas fa-road"></i> Wakad Chowk</button>
+                <button type="button" class="origin-chip" id="chip-nigdi" onclick="setOriginLocation('nigdi')"><i class="fas fa-tree"></i> Nigdi Sec-25</button>
+            </div>
+
+            <div class="transit-distance-filter-row">
+                <span class="distance-filter-label"><i class="fas fa-route"></i> Distance Radius:</span>
+                <div class="distance-filter-pills">
+                    <button type="button" class="dist-pill active" id="dist-pill-0" onclick="setDistanceRadiusFilter(0)">All Distances</button>
+                    <button type="button" class="dist-pill" id="dist-pill-1" onclick="setDistanceRadiusFilter(1.0)"><i class="fas fa-person-walking"></i> &lt; 1 km (Walking)</button>
+                    <button type="button" class="dist-pill" id="dist-pill-2-5" onclick="setDistanceRadiusFilter(2.5)"><i class="fas fa-motorcycle"></i> &lt; 2.5 km (5-Min Bike)</button>
+                    <button type="button" class="dist-pill" id="dist-pill-5" onclick="setDistanceRadiusFilter(5.0)"><i class="fas fa-car"></i> &lt; 5 km (10-Min Car)</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- ============================================================ -->
         <!-- 6. PHARMACY CARDS DIRECTORY -->
         <!-- ============================================================ -->
         <div class="results-header">
             <div class="results-count" id="resultsCount">Showing <span>31</span> Verified Medical Stores</div>
+            <div id="activeDiscountBanner" class="active-discount-banner" style="display:none;"></div>
         </div>
 
         <div class="cards-grid" id="cardsGrid">
@@ -343,12 +607,23 @@
                 <button class="modal-close" onclick="closeModal('addStoreModal')">&times;</button>
             </div>
             <form id="addStoreForm">
-                <div class="modal-body">
+                    <div style="background:#f0f9ff; border:1px solid #bae6fd; color:#0369a1; padding:12px 14px; border-radius:8px; font-size:0.82rem; margin-bottom:14px; display:flex; align-items:flex-start; gap:10px;">
+                        <i class="fas fa-shield-halved" style="font-size:1.2rem; margin-top:2px; color:#0284c7;"></i>
+                        <div>
+                            <strong>Private Verification Protocol:</strong> All submitted store details are stored in the <strong>Private Administrator Verification Database</strong>. An authorized admin with the master password must review and approve the store before public listing.
+                        </div>
+                    </div>
                     <div class="form-grid">
                         <div>
                             <div class="form-group">
-                                <label for="storeName">Shop Name *</label>
+                                <label for="storeName">Shop / Pharmacy Name *</label>
                                 <input type="text" id="storeName" placeholder="e.g. Sanjeevani Medical" required>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="storeOwner">Owner / Pharmacist Name *</label>
+                                <input type="text" id="storeOwner" placeholder="e.g. Rahul Patil" required>
                             </div>
                         </div>
                         <div>
@@ -383,13 +658,19 @@
                         </div>
                         <div>
                             <div class="form-group">
-                                <label for="storePhone">Contact Phone Number</label>
-                                <input type="tel" id="storePhone" placeholder="e.g. 020-27495511">
+                                <label for="storePhone">Contact Phone Number *</label>
+                                <input type="tel" id="storePhone" placeholder="e.g. 9822012345" required>
+                            </div>
+                        </div>
+                        <div>
+                            <div class="form-group">
+                                <label for="storeLicense">State FDA Drug License No. (Optional)</label>
+                                <input type="text" id="storeLicense" placeholder="e.g. MH-PZ1-209841">
                             </div>
                         </div>
                         <div class="full-col">
                             <div class="form-group">
-                                <label for="storeAddress">Complete Address *</label>
+                                <label for="storeAddress">Complete Street Address *</label>
                                 <input type="text" id="storeAddress"
                                     placeholder="e.g. Shop No. 12, Sector 19, Spine Road, Pune" required>
                             </div>
@@ -412,85 +693,84 @@
                                 <span><strong>Is this pharmacy open 24 hours (24x7 Night Emergency)?</strong></span>
                             </label>
                         </div>
+                        <div class="full-col">
+                            <label class="checkbox-label">
+                                <input type="checkbox" id="storeDelivery">
+                                <span><strong>Does this medical store provide Home Delivery?</strong></span>
+                            </label>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn-secondary" onclick="closeModal('addStoreModal')">Cancel</button>
-                    <button type="submit" class="btn-primary"><i class="fas fa-check"></i> Save Store to
-                        Database</button>
+                    <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Submit Store for Admin Verification</button>
                 </div>
             </form>
         </div>
     </div>
 
     <!-- ============================================================ -->
-    <!-- MODAL: SHOPKEEPER CONSENT & VERIFICATION -->
+    <!-- MODAL: MY SAVED MEDICAL STORES (CARE WISHLIST) -->
     <!-- ============================================================ -->
-    <div class="modal-overlay" id="consentModal">
-        <div class="modal-window">
+    <div class="modal-overlay" id="wishlistModal">
+        <div class="modal-window" style="max-width: 780px;">
             <div class="modal-header">
-                <h3><i class="fas fa-file-signature" style="color: var(--accent-teal);"></i> Shopkeeper Consent Form
-                </h3>
-                <button class="modal-close" onclick="closeModal('consentModal')">&times;</button>
+                <h3><i class="fas fa-heart" style="color: #059669;"></i> My Saved Medical Stores (Care Wishlist)</h3>
+                <button class="modal-close" onclick="closeModal('wishlistModal')">&times;</button>
             </div>
-            <form id="consentForm">
-                <div class="modal-body">
-                    <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:16px;">
-                        Register your independent medical store for listing and verification on MedNexa. Verified
-                        stores get higher priority during user searches.
-                    </p>
-                    <div class="form-grid">
-                        <div>
-                            <div class="form-group">
-                                <label for="consentShopName">Pharmacy Name *</label>
-                                <input type="text" id="consentShopName" placeholder="e.g. Hi-Care Chemist" required>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="form-group">
-                                <label for="consentOwnerName">Owner / Pharmacist Name *</label>
-                                <input type="text" id="consentOwnerName" placeholder="e.g. Rajesh Patil" required>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="form-group">
-                                <label for="consentShopType">Pharmacy Category *</label>
-                                <select id="consentShopType" required>
-                                    <option value="Allopathy">Allopathy</option>
-                                    <option value="Generic">Generic (Jan Aushadhi)</option>
-                                    <option value="Ayurvedic">Ayurvedic</option>
-                                    <option value="Homeopathy">Homeopathy</option>
-                                </select>
-                            </div>
-                        </div>
-                        <div>
-                            <div class="form-group">
-                                <label for="consentPhone">Official Contact Phone *</label>
-                                <input type="tel" id="consentPhone" placeholder="e.g. 9876543210" required>
-                            </div>
-                        </div>
-                        <div class="full-col">
-                            <div class="form-group">
-                                <label for="consentAddress">Pharmacy Full Address *</label>
-                                <input type="text" id="consentAddress"
-                                    placeholder="e.g. Sector 26, Near PCCOE Campus, Akurdi" required>
-                            </div>
-                        </div>
-                        <div class="full-col">
-                            <label class="checkbox-label">
-                                <input type="checkbox" id="consentAgreement" required>
-                                <span>I confirm that this is an independent pharmacy (not attached to a private
-                                    hospital) and I consent to display our contact and opening hours on
-                                    MedNexa.</span>
-                            </label>
-                        </div>
+            <div class="modal-body">
+                <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:12px;">
+                    Your personal emergency and favorite pharmacy list. Quick-dial, WhatsApp stock inquiries, or get live routes in 1 tap.
+                </p>
+                <div id="wishlistContainer">
+                    <!-- Populated dynamically by app.js -->
+                </div>
+            </div>
+            <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.8rem; color:var(--text-muted);" id="wishlistFooterCount">0 Stores Saved</span>
+                <button type="button" class="btn-secondary" onclick="closeModal('wishlistModal')">Close Wishlist</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL: SECURE ADMINISTRATOR AUTHENTICATION GATE -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="adminGateModal">
+        <div class="modal-window admin-gate-window">
+            <div class="modal-header" style="justify-content: flex-end; padding-bottom: 0;">
+                <button class="modal-close" onclick="closeModal('adminGateModal')">&times;</button>
+            </div>
+            <div class="modal-body" style="padding-top: 0;">
+                <div class="admin-gate-icon">
+                    <i class="fas fa-user-shield"></i>
+                </div>
+                <h3 style="margin: 0 0 6px 0; color: #0f172a; font-size: 1.25rem;">Administrator Access Gate</h3>
+                <p class="admin-gate-desc">
+                    Private portal restricted to authorized MedNexa staff. Contains sensitive store license records, compliance checks, and merchant approval queues.
+                </p>
+
+                <form id="adminGateForm" onsubmit="handleAdminGateSubmit(event)">
+                    <div class="pass-input-wrapper">
+                        <label for="adminMasterPassword"><i class="fas fa-key"></i> Enter Administrator Master Password</label>
+                        <input type="password" id="adminMasterPassword" class="pass-input-field" placeholder="Enter Admin Password..." required autocomplete="current-password" />
+                        <button type="button" class="btn-toggle-eye" onclick="toggleAdminPassVisibility()" title="Show/Hide Password">
+                            <i class="fas fa-eye" id="adminPassEyeIcon"></i>
+                        </button>
                     </div>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn-secondary" onclick="closeModal('consentModal')">Cancel</button>
-                    <button type="submit" class="btn-primary"><i class="fas fa-paper-plane"></i> Submit Consent</button>
-                </div>
-            </form>
+
+                    <div id="adminGateError" style="display:none; color:#dc2626; background:#fee2e2; border:1px solid #fecaca; border-radius:6px; padding:8px 12px; font-size:0.8rem; margin-bottom:14px; text-align:left;">
+                        <i class="fas fa-circle-exclamation"></i> Incorrect password. Access denied.
+                    </div>
+
+                    <div style="display: flex; gap: 10px;">
+                        <button type="button" class="btn-secondary" style="flex:1;" onclick="closeModal('adminGateModal')">Cancel</button>
+                        <button type="submit" class="btn-primary" style="flex:2;">
+                            <i class="fas fa-lock-open"></i> Unlock Admin Console
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
@@ -516,6 +796,7 @@
                             <th>Generic Substitute</th>
                             <th>Price (Brand vs Generic)</th>
                             <th>Savings</th>
+                            <th>Jan Aushadhi Slip</th>
                         </tr>
                     </thead>
                     <tbody id="medicineTableBody">
@@ -688,38 +969,119 @@
     </div>
 
     <!-- ============================================================ -->
-    <!-- MODAL: ADMIN / FDA VERIFICATION PORTAL -->
+    <!-- MODAL: ADMIN / FDA VERIFICATION PORTAL (PASSWORD PROTECTED) -->
     <!-- ============================================================ -->
     <div class="modal-overlay" id="adminModal">
-        <div class="modal-window" style="max-width: 850px;">
+        <div class="modal-window" style="max-width: 920px;">
             <div class="modal-header">
-                <h3><i class="fas fa-user-shield" style="color: var(--primary);"></i> Pharmacist &amp; Store
-                    Verification Dashboard</h3>
-                <button class="modal-close" onclick="closeModal('adminModal')">&times;</button>
+                <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+                    <h3 style="margin:0;"><i class="fas fa-shield-halved" style="color: var(--primary);"></i> MedNexa Admin Console</h3>
+                    <span class="crypto-active-badge"><i class="fas fa-key"></i> Authenticated Session</span>
+                </div>
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <button type="button" class="btn-admin-logout" onclick="logoutAdmin()" title="Revoke admin session and lock portal">
+                        <i class="fas fa-lock"></i> Lock &amp; Log Out
+                    </button>
+                    <button class="modal-close" onclick="closeModal('adminModal')">&times;</button>
+                </div>
             </div>
             <div class="modal-body">
-                <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:12px;">
-                    Official SIH Evaluator &amp; Drug Inspector Portal. Verify store authenticity using state FDA drug
-                    license records before granting public listing approval.
-                </p>
+                <div class="admin-tabs-nav">
+                    <button type="button" class="admin-tab-btn active" id="adminTabSubmissionsBtn" onclick="switchAdminPortalTab('submissions')">
+                        <i class="fas fa-inbox"></i> Pending Store Applications <span class="admin-pending-badge" id="adminTabPendingCount">0</span>
+                    </button>
+                    <button type="button" class="admin-tab-btn" id="adminTabLiveStoresBtn" onclick="switchAdminPortalTab('liveStores')">
+                        <i class="fas fa-hospital"></i> Live Verified Directory (<span id="adminLiveStoresCount">121</span>)
+                    </button>
+                    <button type="button" class="admin-tab-btn" id="adminTabFeedbackBtn" onclick="switchAdminPortalTab('feedback')">
+                        <i class="fas fa-comments"></i> User Feedback (<span id="adminFeedbackCount">0</span>)
+                    </button>
+                </div>
 
-                <table class="admin-table">
-                    <thead>
-                        <tr>
-                            <th>Medical Store &amp; Address</th>
-                            <th>Pharmacist Contact</th>
-                            <th>Drug License No.</th>
-                            <th>Status</th>
-                            <th>Actions</th>
-                        </tr>
-                    </thead>
-                    <tbody id="adminTableBody">
+                <!-- TAB 1: PENDING STORE SUBMISSIONS QUEUE -->
+                <div id="adminSubmissionsView">
+                    <p style="font-size:0.86rem; color:var(--text-muted); margin-bottom:12px;">
+                        Confidential merchant submissions queue. Only authenticated administrators with the master password can inspect license records and approve public listing.
+                    </p>
+
+                    <div style="overflow-x:auto;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Store &amp; Locality</th>
+                                    <th>Owner &amp; Phone</th>
+                                    <th>FDA License</th>
+                                    <th>Services</th>
+                                    <th>Submitted</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminSubmissionsTableBody">
+                                <!-- Populated dynamically by app.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 2: LIVE VERIFIED DIRECTORY -->
+                <div id="adminLiveStoresView" style="display:none;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px;">
+                        <p style="font-size:0.86rem; color:var(--text-muted); margin:0;">
+                            Live directory of all verified standalone pharmacies and Jan Aushadhi hubs across PCMC.
+                        </p>
+                        <div style="display:flex; gap:8px;">
+                            <input type="text" id="adminLiveSearchInput" class="search-input" style="padding:6px 12px; font-size:0.82rem; width:220px;" placeholder="Search live stores..." oninput="filterAdminLiveStores(this.value)" />
+                            <button type="button" class="btn-secondary" style="padding:6px 12px; font-size:0.82rem;" onclick="exportDatabase()"><i class="fas fa-download"></i> Export JSON</button>
+                        </div>
+                    </div>
+
+                    <div style="overflow-x:auto; max-height:400px;">
+                        <table class="admin-table">
+                            <thead>
+                                <tr>
+                                    <th>Pharmacy Name &amp; Area</th>
+                                    <th>Category</th>
+                                    <th>Phone</th>
+                                    <th>24x7 / Delivery</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="adminLiveTableBody">
+                                <!-- Populated dynamically by app.js -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- TAB 3: USER FEEDBACK & RATINGS -->
+                <div id="adminFeedbackView" style="display:none;">
+                    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px; flex-wrap:wrap; gap:10px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:10px; padding:10px 14px;">
+                        <div>
+                            <p style="font-size:0.86rem; color:var(--text-main); font-weight:600; margin:0;">
+                                Verified Public Submissions &amp; Ratings Feed
+                            </p>
+                            <div id="adminFeedbackSyncStatus" style="font-size:0.75rem; margin-top:3px; font-weight:600;">
+                                <i class="fas fa-circle-check" style="color:#16a34a;"></i> <span style="color:#16a34a;">Live Server Database Connected</span>
+                            </div>
+                        </div>
+                        <div style="display:flex; gap:8px; align-items:center;">
+                            <button type="button" class="btn-secondary" style="padding:6px 12px; font-size:0.8rem;" onclick="syncFeedbacksFromBackend(true)" title="Fetch newest feedbacks from live server">
+                                <i class="fas fa-rotate"></i> Refresh Feedback
+                            </button>
+                            <button type="button" class="btn-secondary" style="padding:6px 12px; font-size:0.8rem; color:#ef4444; border-color:#fca5a5;" onclick="clearAllFeedbacks()" title="Clear all feedback records">
+                                <i class="fas fa-trash-can"></i> Clear All
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="adminFeedbackList" style="max-height:460px; overflow-y:auto; padding-right:4px;">
                         <!-- Populated dynamically by app.js -->
-                    </tbody>
-                </table>
+                    </div>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn-secondary" onclick="closeModal('adminModal')">Close Portal</button>
+            <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+                <span style="font-size:0.78rem; color:#64748b;"><i class="fas fa-shield"></i> MedNexa Secure Access Control Protocol</span>
+                <button type="button" class="btn-secondary" onclick="closeModal('adminModal')">Close Console</button>
             </div>
         </div>
     </div>
@@ -741,6 +1103,28 @@
                 </p>
 
                 <div class="guide-grid">
+                    <!-- 0. AI Voice Command & Search Assistant -->
+                    <div class="guide-card" style="border-top: 3px solid #7c3aed; background: linear-gradient(180deg, #faf5ff 0%, #ffffff 100%);">
+                        <div class="guide-card-top">
+                            <div class="guide-icon purple" style="background:#f3e8ff; color:#7c3aed;">
+                                <i class="fas fa-microphone-lines"></i>
+                            </div>
+                            <div class="guide-title-box">
+                                <h4>AI Voice Command Search</h4>
+                                <span class="guide-badge" style="background:#f3e8ff; color:#6d28d9;">Accessibility &amp; Hands-Free</span>
+                            </div>
+                        </div>
+                        <p class="guide-desc">
+                            Designed for patients and citizens who cannot type, read easily, or know medicine spellings. Speak in <strong>English, Marathi (मराठी), or Hindi (हिंदी)</strong> to automatically filter 24/7 night chemists, Jan Aushadhi hubs, or find medicines.
+                        </p>
+                        <div class="guide-footer-action">
+                            <button type="button" class="btn-guide-action" style="background:#7c3aed; color:white;"
+                                onclick="closeModal('guideModal'); openVoiceAssistantModal();">
+                                <i class="fas fa-microphone"></i> Launch AI Voice Assistant
+                            </button>
+                        </div>
+                    </div>
+
                     <!-- 1. Medical Stores Visited by Students -->
                     <div class="guide-card" style="border-top: 3px solid #0284c7;">
                         <div class="guide-card-top">
@@ -814,25 +1198,24 @@
                         </div>
                     </div>
 
-                    <!-- 4. Shopkeeper Consent Form -->
+                    <!-- 4. Saved Medical Stores (Care Wishlist) -->
                     <div class="guide-card">
                         <div class="guide-card-top">
-                            <div class="guide-icon teal">
-                                <i class="fas fa-file-signature"></i>
+                            <div class="guide-icon" style="background:#fff1f2; color:#e11d48;">
+                                <i class="fas fa-heart"></i>
                             </div>
                             <div class="guide-title-box">
-                                <h4>Consent Option</h4>
-                                <span class="guide-badge">ABDM Pharmacist Portal</span>
+                                <h4>Care Wishlist</h4>
+                                <span class="guide-badge" style="background:#fee2e2; color:#9f1239;">Saved Stores</span>
                             </div>
                         </div>
                         <p class="guide-desc">
-                            Official registration gateway for independent retail pharmacists to submit store details and
-                            give formal consent for public listing under the Ayushman Bharat Digital Mission (ABDM).
+                            Personal pharmacy bookmarking feature. Tap the heart on any pharmacy card to save your favorite medical stores for instant emergency access, stock inquiries, and live transit times.
                         </p>
                         <div class="guide-footer-action">
                             <button type="button" class="btn-guide-action"
-                                onclick="closeModal('guideModal'); openModal('consentModal');">
-                                <i class="fas fa-pen-nib"></i> Try: Open Consent Form
+                                onclick="closeModal('guideModal'); openWishlistModal();">
+                                <i class="fas fa-heart"></i> Try: Open Care Wishlist
                             </button>
                         </div>
                     </div>
@@ -845,13 +1228,11 @@
                             </div>
                             <div class="guide-title-box">
                                 <h4>Add Store Option</h4>
-                                <span class="guide-badge">GIS Crowdsourcing</span>
+                                <span class="guide-badge">Secure Submissions</span>
                             </div>
                         </div>
                         <p class="guide-desc">
-                            Community &amp; volunteer registration tool allowing users or pharmacists to register a new
-                            medical store. Features a map coordinate picker where clicking anywhere on the map
-                            auto-fills exact latitude/longitude.
+                            Merchant registration gateway. Submitted store information is stored securely in the private Admin Database and published upon license verification.
                         </p>
                         <div class="guide-footer-action">
                             <button type="button" class="btn-guide-action"
@@ -865,22 +1246,20 @@
                     <div class="guide-card">
                         <div class="guide-card-top">
                             <div class="guide-icon red">
-                                <i class="fas fa-user-shield"></i>
+                                <i class="fas fa-shield-halved"></i>
                             </div>
                             <div class="guide-title-box">
                                 <h4>Admin Portal</h4>
-                                <span class="guide-badge">FDA Drug Inspector</span>
+                                <span class="guide-badge">Password Protected</span>
                             </div>
                         </div>
                         <p class="guide-desc">
-                            Evaluator &amp; regulatory dashboard simulating government drug inspector workflow to verify
-                            state FDA drug licenses and approve or reject independent store applications before public
-                            display.
+                            Private Evaluator &amp; Regulatory Console. Protected by master password authentication. Review merchant applications, verify FDA licenses, and publish verified stores.
                         </p>
                         <div class="guide-footer-action">
                             <button type="button" class="btn-guide-action"
-                                onclick="closeModal('guideModal'); openModal('adminModal');">
-                                <i class="fas fa-shield-halved"></i> Try: Open Admin Portal
+                                onclick="closeModal('guideModal'); openAdminPortal();">
+                                <i class="fas fa-key"></i> Try: Open Admin Portal
                             </button>
                         </div>
                     </div>
@@ -1087,6 +1466,473 @@
             </div>
         </div>
     </div>
+
+    <!-- ============================================================ -->
+    <!-- FLOATING AI VOICE ASSISTANT ACTION BUTTON -->
+    <!-- ============================================================ -->
+    <div class="floating-voice-widget" id="floatingVoiceWidget" onclick="openVoiceAssistantModal()" title="Command with AI Voice Assistant" aria-label="AI Voice Command Assistant">
+        <div class="floating-voice-waves">
+            <span></span><span></span><span></span>
+        </div>
+        <div class="floating-voice-circle">
+            <i class="fas fa-microphone"></i>
+        </div>
+        <div class="floating-voice-tooltip">
+            <strong>AI Voice Search</strong>
+            <span>Tap &amp; Speak Command</span>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL: AI VOICE ASSISTANT & COMMAND CENTER -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="voiceModal">
+        <div class="modal-window voice-modal-window">
+            <div class="modal-header voice-modal-header">
+                <div class="voice-header-left">
+                    <div class="voice-logo-icon">
+                        <i class="fas fa-wand-magic-sparkles"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin:0; font-size:1.15rem; color:var(--text-main); display:flex; align-items:center; gap:8px;">
+                            <span>MedNexa AI Voice Assistant</span>
+                            <span class="voice-live-badge"><span class="voice-live-dot"></span> LIVE</span>
+                        </h3>
+                        <p style="margin:0; font-size:0.78rem; color:var(--text-muted);" id="voiceSubheadText">
+                            Speak naturally in English, Marathi, or Hindi to find pharmacies &amp; medicines
+                        </p>
+                    </div>
+                </div>
+                <div style="display:flex; align-items:center; gap:8px;">
+                    <button type="button" class="voice-tts-toggle active" id="voiceTtsToggle" onclick="toggleVoiceSpeechFeedback()" title="Toggle Voice Response Readout">
+                        <i class="fas fa-volume-high" id="voiceTtsIcon"></i>
+                        <span class="tts-label">Voice Audio: ON</span>
+                    </button>
+                    <button class="modal-close" onclick="closeVoiceAssistantModal()">&times;</button>
+                </div>
+            </div>
+
+            <div class="modal-body voice-modal-body">
+                <!-- Voice Language Selection Bar -->
+                <div class="voice-lang-bar">
+                    <span class="voice-lang-label"><i class="fas fa-language"></i> Recognition Language:</span>
+                    <div class="voice-lang-options">
+                        <button type="button" class="voice-lang-btn active" data-voice-lang="en-IN" onclick="setVoiceRecognitionLang('en-IN')">
+                            <span class="lang-flag">🇮🇳</span> English (India)
+                        </button>
+                        <button type="button" class="voice-lang-btn" data-voice-lang="mr-IN" onclick="setVoiceRecognitionLang('mr-IN')">
+                            <span class="lang-flag">🚩</span> मराठी (Marathi)
+                        </button>
+                        <button type="button" class="voice-lang-btn" data-voice-lang="hi-IN" onclick="setVoiceRecognitionLang('hi-IN')">
+                            <span class="lang-flag">🇮🇳</span> हिंदी (Hindi)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Visualizer & Microphone Section -->
+                <div class="voice-visualizer-container" id="voiceVisualizerContainer">
+                    <div class="sound-waves" id="soundWaves">
+                        <span class="wave-bar"></span>
+                        <span class="wave-bar"></span>
+                        <span class="wave-bar"></span>
+                        <span class="wave-bar"></span>
+                        <span class="wave-bar"></span>
+                        <span class="wave-bar"></span>
+                        <span class="wave-bar"></span>
+                        <span class="wave-bar"></span>
+                        <span class="wave-bar"></span>
+                    </div>
+
+                    <button type="button" class="voice-big-mic-btn" id="voiceBigMicBtn" onclick="toggleVoiceRecording()" title="Click to Speak">
+                        <i class="fas fa-microphone" id="voiceBigMicIcon"></i>
+                        <span class="voice-pulse-ring"></span>
+                    </button>
+
+                    <div class="voice-status-pill" id="voiceStatusPill">
+                        <span class="voice-status-dot"></span>
+                        <span id="voiceStatusText">Tap microphone to speak</span>
+                    </div>
+                </div>
+
+                <!-- Live Spoken Transcript Card -->
+                <div class="voice-transcript-card" id="voiceTranscriptCard">
+                    <div class="voice-transcript-header">
+                        <div class="voice-transcript-label">
+                            <i class="fas fa-quote-left"></i> <span id="voiceTranscriptLabelText">Spoken Voice Command:</span>
+                        </div>
+                        <span class="voice-transcript-time" id="voiceTranscriptTime">Live Speech-to-Text</span>
+                    </div>
+                    <div class="voice-transcript-text" id="voiceTranscriptText">
+                        "Tap the microphone and say: 'Jan Aushadhi in Akurdi' or 'Open 24 hours medical'"
+                    </div>
+                </div>
+
+                <!-- AI Interpretation & Execution Result Card -->
+                <div class="voice-ai-feedback-card" id="voiceAiFeedbackCard" style="display:none;">
+                    <div class="voice-feedback-header">
+                        <div class="voice-ai-badge"><i class="fas fa-bolt"></i> AI Action Executed</div>
+                        <span class="voice-intent-tag" id="voiceIntentTag">Jan Aushadhi Hubs</span>
+                    </div>
+                    <div class="voice-feedback-message" id="voiceFeedbackMessage">
+                        Found 10 Jan Aushadhi generic stores. Saved up to 85% on medicine!
+                    </div>
+                    <div class="voice-action-meta" id="voiceActionMeta">
+                        <!-- Rendered dynamically -->
+                    </div>
+                </div>
+
+                <!-- Voice Suggestions & Examples -->
+                <div class="voice-suggestions-box">
+                    <div class="voice-sugg-title">
+                        <i class="fas fa-lightbulb" style="color: #f59e0b;"></i>
+                        <span>Try commanding these phrases:</span>
+                    </div>
+                    <div class="voice-suggestion-chips">
+                        <button type="button" class="sugg-chip" onclick="executeVoiceCommandQuick('All stores near Aakurdi')">
+                            <i class="fas fa-map-pin"></i> "All stores near Aakurdi"
+                        </button>
+                        <button type="button" class="sugg-chip" onclick="executeVoiceCommandQuick('Jan Aushadhi in Akurdi')">
+                            <i class="fas fa-capsules"></i> "Jan Aushadhi in Akurdi"
+                        </button>
+                        <button type="button" class="sugg-chip" onclick="executeVoiceCommandQuick('24 hours emergency medical')">
+                            <i class="fas fa-clock"></i> "24 hours emergency medical"
+                        </button>
+                        <button type="button" class="sugg-chip" onclick="executeVoiceCommandQuick('Find nearest pharmacy to me')">
+                            <i class="fas fa-location-crosshairs"></i> "Find nearest pharmacy"
+                        </button>
+                        <button type="button" class="sugg-chip" onclick="executeVoiceCommandQuick('Stores visited by PCCOE students')">
+                            <i class="fas fa-user-graduate"></i> "Stores visited by students"
+                        </button>
+                        <button type="button" class="sugg-chip" onclick="executeVoiceCommandQuick('Show all medical stores')">
+                            <i class="fas fa-rotate-left"></i> "Show all medical stores"
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Text Fallback for users with microphone disabled -->
+                <div class="voice-text-fallback">
+                    <span style="font-size:0.78rem; color:var(--text-muted);"><i class="fas fa-keyboard"></i> Or type a command:</span>
+                    <div class="voice-fallback-input-row">
+                        <input type="text" id="voiceTextInput" placeholder="e.g. 24 hour medical near Nigdi, Jan Aushadhi in Ravet..." onkeydown="if(event.key==='Enter') executeVoiceTextCommand()" />
+                        <button type="button" class="btn-voice-send" onclick="executeVoiceTextCommand()">
+                            <i class="fas fa-paper-plane"></i> Run
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <div class="modal-footer voice-modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeVoiceAssistantModal()">Close</button>
+                <button type="button" class="btn-primary" onclick="closeVoiceAssistantModal(); window.scrollTo({top: document.querySelector('.controls-bar').offsetTop - 20, behavior:'smooth'});">
+                    <i class="fas fa-eye"></i> View Results on Page
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL: EMERGENCY 24x7 SOS & CRITICAL MEDICINE FINDER -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="sosModal">
+        <div class="modal-window" style="max-width: 680px; border-top: 4px solid #ef4444;">
+            <div class="modal-header">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div style="width:38px; height:38px; border-radius:50%; background:#fee2e2; color:#dc2626; display:flex; align-items:center; justify-content:center; font-size:1.2rem;">
+                        <i class="fas fa-truck-medical"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin:0; font-size:1.15rem; color:#991b1b;">24x7 Critical Emergency Medicine &amp; SOS Finder</h3>
+                        <p style="margin:2px 0 0 0; font-size:0.78rem; color:#64748b;">Instant GPS match with verified 24/7 cold-chain &amp; critical care pharmacies</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('sosModal')">&times;</button>
+            </div>
+            <div class="modal-body" style="padding:18px 22px;">
+                <p style="font-size:0.86rem; color:#475569; margin-bottom:12px;">
+                    Select the medical emergency type below to automatically filter the closest 24-hour open chemist stocking critical emergency supplies:
+                </p>
+
+                <div class="sos-category-grid">
+                    <div class="sos-card" onclick="filterEmergencySos('insulin')">
+                        <div class="sos-card-icon" style="color:#0284c7;"><i class="fas fa-syringe"></i></div>
+                        <strong>Insulin &amp; Cold-Chain</strong>
+                        <span>Huminsulin, Glargine, Biocon (2°C-8°C verified)</span>
+                    </div>
+                    <div class="sos-card" onclick="filterEmergencySos('cardiac')">
+                        <div class="sos-card-icon" style="color:#dc2626;"><i class="fas fa-heart-pulse"></i></div>
+                        <strong>Cardiac Emergency</strong>
+                        <span>Sorbitrate, Ecosprin, Clopidogrel, BP crisis</span>
+                    </div>
+                    <div class="sos-card" onclick="filterEmergencySos('respiratory')">
+                        <div class="sos-card-icon" style="color:#059669;"><i class="fas fa-lungs"></i></div>
+                        <strong>Asthma &amp; Respiratory</strong>
+                        <span>Asthalin Respules, Budecort, Nebulizer kits</span>
+                    </div>
+                    <div class="sos-card" onclick="filterEmergencySos('pediatric')">
+                        <div class="sos-card-icon" style="color:#f59e0b;"><i class="fas fa-baby"></i></div>
+                        <strong>Pediatric &amp; Fever</strong>
+                        <span>Infant Drops, Paracetamol IV, Anti-emetics</span>
+                    </div>
+                </div>
+
+                <div class="sos-highlight-box">
+                    <div style="display:flex; justify-content:space-between; align-items:center;">
+                        <div>
+                            <strong style="color:#991b1b; font-size:0.92rem;"><i class="fas fa-clock"></i> 24x7 Verified Open Night Chemists</strong>
+                            <p style="margin:3px 0 0 0; font-size:0.78rem; color:#7f1d1d;">There are <strong>24 verified open night emergency pharmacies</strong> across PCMC.</p>
+                        </div>
+                        <button type="button" class="btn-primary" style="background:#dc2626; border:none; padding:8px 14px; font-size:0.82rem;" onclick="closeModal('sosModal'); activeFilter='24h'; updateFilterPillsUi('24h'); applyFilters(); window.scrollTo({top: document.querySelector('.controls-bar').offsetTop - 20, behavior:'smooth'});">
+                            <i class="fas fa-location-crosshairs"></i> View All 24/7 Stores
+                        </button>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('sosModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL: LIVE STORE MEDICINE STOCK & INVENTORY DRAWER -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="stockModal">
+        <div class="modal-window" style="max-width: 780px;">
+            <div class="modal-header">
+                <div style="display:flex; align-items:center; gap:10px;">
+                    <div style="width:38px; height:38px; border-radius:50%; background:#dcfce7; color:#15803d; display:flex; align-items:center; justify-content:center; font-size:1.15rem;">
+                        <i class="fas fa-boxes-stacked"></i>
+                    </div>
+                    <div>
+                        <h3 id="stockStoreName" style="margin:0; font-size:1.12rem; color:var(--text-main);">Store Live Inventory &amp; Stock Availability</h3>
+                        <p id="stockStoreAddress" style="margin:2px 0 0 0; font-size:0.78rem; color:var(--text-muted);">Real-time FDA synchronized generic &amp; branded stock</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('stockModal')">&times;</button>
+            </div>
+            <div class="modal-body" style="padding:16px 20px;">
+                <div style="display:flex; justify-content:space-between; align-items:center; gap:10px; margin-bottom:14px; flex-wrap:wrap;">
+                    <input type="text" id="stockFilterInput" class="search-input" style="padding:8px 14px; font-size:0.85rem; max-width:320px;" placeholder="Filter medicines in this store..." oninput="filterStoreInventory(this.value)" />
+                    <div id="stockActionButtons" style="display:flex; gap:8px;">
+                        <!-- WhatsApp & Call prefilled dynamically -->
+                    </div>
+                </div>
+
+                <div style="max-height: 380px; overflow-y:auto; border:1px solid #e2e8f0; border-radius:8px;">
+                    <table class="med-table" style="margin:0;">
+                        <thead>
+                            <tr>
+                                <th>Medicine &amp; Formulation</th>
+                                <th>Category</th>
+                                <th>Price (MRP vs Subsidized)</th>
+                                <th>Live Stock Status</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody id="stockTableBody">
+                            <!-- Populated dynamically by app.js -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeModal('stockModal')">Close</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL: PRINTABLE JAN AUSHADHI PATIENT SAVINGS PRESCRIPTION SLIP -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="savingsSlipModal">
+        <div class="modal-window" style="max-width: 660px;">
+            <div class="modal-header">
+                <h3><i class="fas fa-file-invoice-dollar" style="color: #059669;"></i> Patient Jan Aushadhi Savings Slip (Rx)</h3>
+                <button class="modal-close" onclick="closeModal('savingsSlipModal')">&times;</button>
+            </div>
+            <div class="modal-body" style="padding:16px 22px;">
+                <div class="savings-slip-paper" id="savingsSlipPaper">
+                    <div class="slip-header-emblem">
+                        <div class="slip-title">
+                            <h4>PRADHAN MANTRI BHARTIYA JANAUSHADHI PARIYOJANA (PMBJP)</h4>
+                            <p>Department of Pharmaceuticals, Govt of India • MedNexa PCCOE Innovation</p>
+                        </div>
+                        <div class="slip-rx-symbol">&#8478;</div>
+                    </div>
+
+                    <div class="slip-meta-grid">
+                        <div>
+                            <strong>Patient Ref:</strong> <span id="slipPatientId">MED-2026-PCMC</span><br>
+                            <strong>Date &amp; Time:</strong> <span id="slipDateTime">October 2026</span>
+                        </div>
+                        <div>
+                            <strong>Prescription Form:</strong> Salt Equivalence Voucher<br>
+                            <strong>Validation:</strong> PCMC Jan Aushadhi Verified
+                        </div>
+                    </div>
+
+                    <table class="slip-comparison-table">
+                        <thead>
+                            <tr>
+                                <th>Prescribed Brand Name</th>
+                                <th>Active Chemical Salt (API)</th>
+                                <th>Branded MRP</th>
+                                <th>Jan Aushadhi Price</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong id="slipBrandName">Crocin 650</strong></td>
+                                <td><strong id="slipGenericName" style="color:#0284c7;">Paracetamol 650mg</strong></td>
+                                <td><span style="text-decoration:line-through; color:#dc2626;" id="slipBrandPrice">₹32</span></td>
+                                <td><span style="color:#059669; font-weight:800;" id="slipGenericPrice">₹6</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="slip-total-savings">
+                        <div>
+                            <span style="font-size:0.8rem; color:#065f46; font-weight:600; text-transform:uppercase;">Direct Patient Savings:</span><br>
+                            <span style="font-size:0.88rem; color:#047857;">Affordable, certified high-standard generic salt</span>
+                        </div>
+                        <strong id="slipSavingsValue">Save ₹26 (81% OFF)</strong>
+                    </div>
+
+                    <div class="slip-qr-box">
+                        <div class="slip-qr-code" id="slipQrCodeBox">
+                            <i class="fas fa-qrcode" style="font-size:2.8rem; color:#0284c7;"></i>
+                        </div>
+                        <div class="slip-kendra-info">
+                            <strong>Nearest Dispensing Hub:</strong><br>
+                            <span id="slipKendraAddress">PMBJP Jan Aushadhi Kendra, Near Akurdi Station, Pune</span><br>
+                            <span style="font-size:0.75rem; color:#64748b;">Show this digital slip or hardcopy printout to any Jan Aushadhi pharmacist.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer" style="display:flex; justify-content:space-between; align-items:center;">
+                <div style="font-size:0.78rem; color:#64748b;">
+                    <i class="fas fa-circle-check" style="color:#10b981;"></i> Standard Pharmacological Generic Bioequivalent
+                </div>
+                <div style="display:flex; gap:10px;">
+                    <button type="button" class="btn-secondary" onclick="closeModal('savingsSlipModal')">Close</button>
+                    <button type="button" class="btn-primary" onclick="printPatientSavingsSlip()">
+                        <i class="fas fa-print"></i> Print / Save PDF Slip
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!-- MODAL: USER FEEDBACK & SUGGESTIONS -->
+    <!-- ============================================================ -->
+    <div class="modal-overlay" id="feedbackModal">
+        <div class="modal-window" style="max-width: 520px;">
+            <div class="modal-header" style="background: linear-gradient(135deg, #f0fdfa 0%, #ccfbf1 100%); border-bottom: 1.5px solid #99f6e4;">
+                <div style="display:flex; align-items:center; gap:12px;">
+                    <div style="width:40px; height:40px; border-radius:12px; background:linear-gradient(135deg, #0f766e 0%, #0d9488 100%); color:#fff; display:flex; align-items:center; justify-content:center; font-size:1.15rem; box-shadow:0 3px 10px rgba(13,148,136,0.25);">
+                        <i class="fas fa-comment-dots"></i>
+                    </div>
+                    <div>
+                        <h3 style="margin:0; color:#0f766e; font-size:1.15rem;">Share Your Feedback</h3>
+                        <p style="margin:2px 0 0; font-size:0.78rem; color:#115e59;">Help us improve MedNexa for PCCOE students & PCMC citizens</p>
+                    </div>
+                </div>
+                <button class="modal-close" onclick="closeModal('feedbackModal')">&times;</button>
+            </div>
+            <div class="modal-body" style="padding: 22px;">
+                <form id="feedbackForm" onsubmit="handleFeedbackSubmit(event)">
+                    <div style="margin-bottom: 16px; background:#f8fafc; border:1px solid #e2e8f0; border-radius:12px; padding:12px 14px;">
+                        <label style="display:block; font-weight:700; font-size:0.86rem; margin-bottom:4px; color:var(--text-main);">
+                            Rate Your Experience <span style="color:#ef4444;">*</span>
+                        </label>
+                        <div class="feedback-star-row" id="feedbackStarRow">
+                            <button type="button" class="star-rating-btn active" onclick="setFeedbackRating(1)" data-star="1" title="1 Star - Poor"><i class="fas fa-star"></i></button>
+                            <button type="button" class="star-rating-btn active" onclick="setFeedbackRating(2)" data-star="2" title="2 Stars - Fair"><i class="fas fa-star"></i></button>
+                            <button type="button" class="star-rating-btn active" onclick="setFeedbackRating(3)" data-star="3" title="3 Stars - Good"><i class="fas fa-star"></i></button>
+                            <button type="button" class="star-rating-btn active" onclick="setFeedbackRating(4)" data-star="4" title="4 Stars - Very Good"><i class="fas fa-star"></i></button>
+                            <button type="button" class="star-rating-btn active" onclick="setFeedbackRating(5)" data-star="5" title="5 Stars - Excellent"><i class="fas fa-star"></i></button>
+                        </div>
+                        <input type="hidden" id="feedbackRatingInput" value="5">
+                        <span id="feedbackRatingLabel" style="font-size:0.82rem; font-weight:700; color:#0d9488;">5 Stars - Outstanding Experience!</span>
+                    </div>
+
+                    <div style="display:grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-bottom: 14px;">
+                        <div>
+                            <label style="display:block; font-weight:700; font-size:0.84rem; margin-bottom:5px; color:var(--text-main);">
+                                Your Name <span style="color:#ef4444;">*</span>
+                            </label>
+                            <input type="text" id="feedbackName" class="form-input" placeholder="e.g. Rahul Sharma" style="width:100%;" required>
+                        </div>
+                        <div>
+                            <label style="display:block; font-weight:700; font-size:0.84rem; margin-bottom:5px; color:var(--text-main);">Role / College</label>
+                            <input type="text" id="feedbackRole" class="form-input" placeholder="e.g. PCCOE Student / Local Citizen" style="width:100%;">
+                        </div>
+                    </div>
+
+                    <div style="margin-bottom: 14px;">
+                        <label style="display:block; font-weight:700; font-size:0.84rem; margin-bottom:5px; color:var(--text-main);">Feedback Topic</label>
+                        <select id="feedbackCategory" class="form-input" style="width:100%;">
+                            <option value="General Experience">🌟 General Experience &amp; Design</option>
+                            <option value="New Store Request">🏥 Suggest a Medical Store to Add</option>
+                            <option value="Generic Medicine Pricing">💊 Generic Price Matcher / PMBJP</option>
+                            <option value="Real-Time Distance & Wishlist">📍 Real-time Distance &amp; Saved Stores</option>
+                            <option value="Feature Request">💡 Suggest a New Feature</option>
+                            <option value="Bug / Correction">⚠️ Report a Mistake or Bug</option>
+                        </select>
+                    </div>
+
+                    <div style="margin-bottom: 18px;">
+                        <label style="display:block; font-weight:700; font-size:0.84rem; margin-bottom:5px; color:var(--text-main);">
+                            Your Message / Suggestions <span style="color:#ef4444;">*</span>
+                        </label>
+                        <textarea id="feedbackMessage" class="form-input" rows="4" style="width:100%; resize:vertical;" placeholder="Write your thoughts, suggestions, or feedback here..." required></textarea>
+                    </div>
+
+                    <div style="display:flex; justify-content:flex-end; gap:10px;">
+                        <button type="button" class="btn-secondary" onclick="closeModal('feedbackModal')">Cancel</button>
+                        <button type="submit" class="btn-primary" id="btnSubmitFeedback" style="background: linear-gradient(135deg, #0f766e 0%, #0d9488 100%); border-color: #0d9488; box-shadow: 0 4px 12px rgba(13, 148, 136, 0.25);">
+                            <i class="fas fa-paper-plane"></i> Submit Feedback
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Quick Feedback Launcher -->
+    <button type="button" class="floating-feedback-btn" onclick="openFeedbackModal()" title="Share Feedback or Suggestions">
+        <i class="fas fa-comment-dots"></i> Feedback
+    </button>
+
+    <!-- ============================================================ -->
+    <!-- MOBILE APP-STYLE BOTTOM NAVIGATION BAR -->
+    <!-- ============================================================ -->
+    <nav class="mobile-bottom-nav" id="mobileBottomNav" aria-label="Mobile Bottom Navigation">
+        <button type="button" class="mob-bottom-item active" id="mobBottomHome" onclick="handleMobileNavClick('stores', event)">
+            <i class="fas fa-store"></i>
+            <span>Stores</span>
+        </button>
+        <button type="button" class="mob-bottom-item" id="mobBottomMap" onclick="handleMobileNavClick('map', event)">
+            <i class="fas fa-map-location-dot"></i>
+            <span>Map</span>
+        </button>
+        <button type="button" class="mob-bottom-item mob-bottom-sos" onclick="openSosModal()" title="24x7 Emergency SOS Finder">
+            <div class="mob-sos-circle">
+                <i class="fas fa-truck-medical"></i>
+            </div>
+            <span>24/7 SOS</span>
+        </button>
+        <button type="button" class="mob-bottom-item" id="mobBottomSearch" onclick="handleMobileNavClick('search', event)">
+            <i class="fas fa-magnifying-glass"></i>
+            <span>Search</span>
+        </button>
+        <button type="button" class="mob-bottom-item" id="mobBottomMenu" onclick="toggleMobileMenu()">
+            <i class="fas fa-bars"></i>
+            <span>Menu</span>
+        </button>
+    </nav>
 
     <!-- TOAST CONTAINER -->
     <div class="toast-container" id="toastContainer"></div>
